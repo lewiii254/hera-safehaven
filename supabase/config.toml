@@ -1,1 +1,4 @@
 project_id = "ndeqfxqsndxtliqxjiqw"
+
+[functions.detect-toxicity]
+verify_jwt = false

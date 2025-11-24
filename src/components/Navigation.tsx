@@ -1,17 +1,20 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Shield, Menu, X, BookOpen, AlertCircle, Heart } from "lucide-react";
+import { Shield, Menu, X, BookOpen, AlertCircle, Heart, Lock, LogOut, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/hooks/useAuth";
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
+  const { user, signOut } = useAuth();
 
   const navItems = [
     { path: "/", label: "Home", icon: Shield },
     { path: "/learn", label: "Learn", icon: BookOpen },
     { path: "/detect", label: "AI Detector", icon: AlertCircle },
     { path: "/support", label: "Support", icon: Heart },
+    { path: "/evidence", label: "Evidence Locker", icon: Lock, authRequired: true },
   ];
 
   const isActive = (path: string) => location.pathname === path;
@@ -31,20 +34,36 @@ const Navigation = () => {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-2">
-            {navItems.map((item) => {
-              const Icon = item.icon;
-              return (
-                <Link key={item.path} to={item.path}>
-                  <Button
-                    variant={isActive(item.path) ? "default" : "ghost"}
-                    className="gap-2"
-                  >
-                    <Icon className="h-4 w-4" />
-                    {item.label}
-                  </Button>
-                </Link>
-              );
-            })}
+            {navItems
+              .filter(item => !item.authRequired || user)
+              .map((item) => {
+                const Icon = item.icon;
+                return (
+                  <Link key={item.path} to={item.path}>
+                    <Button
+                      variant={isActive(item.path) ? "default" : "ghost"}
+                      className="gap-2"
+                    >
+                      <Icon className="h-4 w-4" />
+                      {item.label}
+                    </Button>
+                  </Link>
+                );
+              })}
+            
+            {user ? (
+              <Button variant="ghost" onClick={signOut} className="gap-2">
+                <LogOut className="h-4 w-4" />
+                Logout
+              </Button>
+            ) : (
+              <Link to="/auth">
+                <Button variant="default" className="gap-2">
+                  <User className="h-4 w-4" />
+                  Login
+                </Button>
+              </Link>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -61,20 +80,36 @@ const Navigation = () => {
         {/* Mobile Navigation */}
         {isOpen && (
           <div className="md:hidden py-4 space-y-2 animate-in slide-in-from-top">
-            {navItems.map((item) => {
-              const Icon = item.icon;
-              return (
-                <Link key={item.path} to={item.path} onClick={() => setIsOpen(false)}>
-                  <Button
-                    variant={isActive(item.path) ? "default" : "ghost"}
-                    className="w-full justify-start gap-2"
-                  >
-                    <Icon className="h-4 w-4" />
-                    {item.label}
-                  </Button>
-                </Link>
-              );
-            })}
+            {navItems
+              .filter(item => !item.authRequired || user)
+              .map((item) => {
+                const Icon = item.icon;
+                return (
+                  <Link key={item.path} to={item.path} onClick={() => setIsOpen(false)}>
+                    <Button
+                      variant={isActive(item.path) ? "default" : "ghost"}
+                      className="w-full justify-start gap-2"
+                    >
+                      <Icon className="h-4 w-4" />
+                      {item.label}
+                    </Button>
+                  </Link>
+                );
+              })}
+            
+            {user ? (
+              <Button variant="ghost" onClick={() => { signOut(); setIsOpen(false); }} className="w-full justify-start gap-2">
+                <LogOut className="h-4 w-4" />
+                Logout
+              </Button>
+            ) : (
+              <Link to="/auth" onClick={() => setIsOpen(false)}>
+                <Button variant="default" className="w-full justify-start gap-2">
+                  <User className="h-4 w-4" />
+                  Login
+                </Button>
+              </Link>
+            )}
           </div>
         )}
       </div>

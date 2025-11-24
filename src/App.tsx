@@ -7,26 +7,39 @@ import Index from "./pages/Index";
 import Learn from "./pages/Learn";
 import Detect from "./pages/Detect";
 import Support from "./pages/Support";
+import Auth from "./pages/Auth";
+import EvidenceLocker from "./pages/EvidenceLocker";
 import NotFound from "./pages/NotFound";
+import { useState } from "react";
+import { DecoyScreen } from "./components/DecoyScreen";
+import { SOSButton } from "./components/SOSButton";
 
 const queryClient = new QueryClient();
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/learn" element={<Learn />} />
-          <Route path="/detect" element={<Detect />} />
-          <Route path="/support" element={<Support />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+const App = () => {
+  const [sosActive, setSosActive] = useState(false);
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        {sosActive && <DecoyScreen onExit={() => setSosActive(false)} />}
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/learn" element={<Learn />} />
+            <Route path="/detect" element={<Detect />} />
+            <Route path="/support" element={<Support />} />
+            <Route path="/auth" element={<Auth />} />
+            <Route path="/evidence" element={<EvidenceLocker />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+          <SOSButton onActivate={() => setSosActive(true)} />
+        </BrowserRouter>
+      </TooltipProvider>
+    </QueryClientProvider>
+  );
+};
 
 export default App;
