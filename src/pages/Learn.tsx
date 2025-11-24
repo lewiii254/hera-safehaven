@@ -1,10 +1,14 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { BookOpen, Award, TrendingUp, Lock, Eye, Shield, UserX, AlertTriangle, CheckCircle2 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import Navigation from "@/components/Navigation";
+import { useAuth } from "@/hooks/useAuth";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
 interface Lesson {
   id: string;
@@ -17,7 +21,75 @@ interface Lesson {
 }
 
 const Learn = () => {
+  const { user, loading } = useAuth();
+  const navigate = useNavigate();
   const [completedLessons, setCompletedLessons] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (!loading && !user) {
+      toast.error("Please log in to track your progress");
+      navigate("/auth");
+    }
+  }, [user, loading, navigate]);
+
+  useEffect(() => {
+    if (user) {
+      fetchProgress();
+    }
+  }, [user]);
+
+  const fetchProgress = async () => {
+    const { data, error } = await supabase
+      .from("lesson_progress")
+      .select("lesson_id")
+      .eq("completed", true);
+
+    if (error) {
+      console.error("Failed to fetch progress:", error);
+    } else {
+      setCompletedLessons(data?.map(p => p.lesson_id) || []);
+    }
+  };
+
+  const handleLessonClick = async (lessonId: string) => {
+    if (!user || completedLessons.includes(lessonId)) return;
+
+    const { error } = await supabase.from("lesson_progress").upsert({
+      user_id: user.id,
+      lesson_id: lessonId,
+      completed: true,
+      completed_at: new Date().toISOString(),
+    });
+
+    if (error) {
+      toast.error("Failed to save progress");
+    } else {
+      setCompletedLessons([...completedLessons, lessonId]);
+      
+      // Award badges
+      const newCount = completedLessons.length + 1;
+      if (newCount === 1) {
+        await awardBadge("First Steps");
+      } else if (newCount === 3) {
+        await awardBadge("Safety Scholar");
+      } else if (newCount === 5) {
+        await awardBadge("Digital Guardian");
+      }
+    }
+  };
+
+  const awardBadge = async (badgeName: string) => {
+    if (!user) return;
+    
+    const { error } = await supabase.from("user_badges").upsert({
+      user_id: user.id,
+      badge_name: badgeName,
+    });
+
+    if (!error) {
+      toast.success(`🎉 Badge earned: ${badgeName}!`);
+    }
+  };
 
   const lessons: Lesson[] = [
     {
@@ -70,11 +142,7 @@ const Learn = () => {
   const totalLessons = lessons.length;
   const progress = (completedLessons.length / totalLessons) * 100;
 
-  const handleLessonClick = (lessonId: string) => {
-    if (!completedLessons.includes(lessonId)) {
-      setCompletedLessons([...completedLessons, lessonId]);
-    }
-  };
+  if (loading) return null;
 
   const badges = [
     { name: "First Steps", icon: "🌱", earned: completedLessons.length >= 1 },

@@ -1,9 +1,66 @@
-import { AlertCircle, Brain, Shield, Zap } from "lucide-react";
+import { useState } from "react";
+import { AlertCircle, Brain, Shield, Zap, Send, AlertTriangle } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { Badge } from "@/components/ui/badge";
 import Navigation from "@/components/Navigation";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+
+interface DetectionResult {
+  is_safe: boolean;
+  categories: string[];
+  severity: "low" | "medium" | "high" | "critical";
+  confidence: number;
+  explanation: string;
+}
 
 const Detect = () => {
+  const [text, setText] = useState("");
+  const [analyzing, setAnalyzing] = useState(false);
+  const [result, setResult] = useState<DetectionResult | null>(null);
+
+  const analyzeText = async () => {
+    if (!text.trim()) {
+      toast.error("Please enter text to analyze");
+      return;
+    }
+
+    setAnalyzing(true);
+    setResult(null);
+
+    try {
+      const { data, error } = await supabase.functions.invoke("detect-toxicity", {
+        body: { text },
+      });
+
+      if (error) throw error;
+
+      setResult(data);
+      
+      if (!data.is_safe) {
+        toast.warning(`Potentially harmful content detected: ${data.severity} severity`);
+      } else {
+        toast.success("Text appears safe");
+      }
+    } catch (error: any) {
+      toast.error(error.message || "Failed to analyze text");
+    } finally {
+      setAnalyzing(false);
+    }
+  };
+
+  const getSeverityColor = (severity: string) => {
+    switch (severity) {
+      case "critical": return "bg-destructive text-destructive-foreground";
+      case "high": return "bg-destructive/70 text-white";
+      case "medium": return "bg-orange-500 text-white";
+      case "low": return "bg-yellow-500 text-black";
+      default: return "bg-muted";
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-muted/20">
       <Navigation />
@@ -53,7 +110,79 @@ const Detect = () => {
           </Card>
         </div>
 
-        <Card className="p-8 md:p-12 text-center shadow-strong animate-in fade-in slide-in-from-bottom duration-700 delay-400">
+        <Card className="p-8 md:p-12 shadow-strong animate-in fade-in slide-in-from-bottom duration-700 delay-400 mb-12">
+          <h2 className="text-2xl md:text-3xl font-bold mb-6 text-center">
+            Try AI Detection
+          </h2>
+          
+          <div className="max-w-2xl mx-auto space-y-4">
+            <Textarea
+              placeholder="Enter text to analyze for toxicity, threats, or harassment..."
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              rows={5}
+              maxLength={2000}
+              className="resize-none"
+            />
+            
+            <Button onClick={analyzeText} disabled={analyzing} className="w-full gap-2">
+              {analyzing ? (
+                <>
+                  <Brain className="h-5 w-5 animate-pulse" />
+                  Analyzing...
+                </>
+              ) : (
+                <>
+                  <Send className="h-5 w-5" />
+                  Analyze Text
+                </>
+              )}
+            </Button>
+
+            {result && (
+              <Card className={`p-6 ${result.is_safe ? 'border-green-500' : 'border-destructive'}`}>
+                <div className="flex items-start justify-between mb-4">
+                  <div>
+                    <h3 className="font-semibold text-lg mb-2">
+                      {result.is_safe ? "✓ Text Appears Safe" : "⚠ Potentially Harmful Content"}
+                    </h3>
+                    <p className="text-sm text-muted-foreground">{result.explanation}</p>
+                  </div>
+                  {!result.is_safe && (
+                    <AlertTriangle className="h-6 w-6 text-destructive flex-shrink-0" />
+                  )}
+                </div>
+
+                {!result.is_safe && result.categories.length > 0 && (
+                  <div className="mb-4">
+                    <p className="text-sm font-medium mb-2">Detected Issues:</p>
+                    <div className="flex flex-wrap gap-2">
+                      {result.categories.map((category) => (
+                        <Badge key={category} variant="destructive">
+                          {category}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                <div className="flex items-center justify-between text-sm">
+                  <span>Severity:</span>
+                  <Badge className={getSeverityColor(result.severity)}>
+                    {result.severity.toUpperCase()}
+                  </Badge>
+                </div>
+
+                <div className="mt-2 flex items-center justify-between text-sm">
+                  <span>Confidence:</span>
+                  <span className="font-medium">{(result.confidence * 100).toFixed(0)}%</span>
+                </div>
+              </Card>
+            )}
+          </div>
+        </Card>
+
+        <Card className="p-8 md:p-12 text-center shadow-strong animate-in fade-in slide-in-from-bottom duration-700 delay-500">
           <div className="max-w-2xl mx-auto">
             <h2 className="text-2xl md:text-3xl font-bold mb-4">
               Coming Soon: Browser Extension
@@ -78,7 +207,7 @@ const Detect = () => {
         </Card>
 
         <div className="mt-12 grid md:grid-cols-2 gap-8">
-          <div className="animate-in fade-in slide-in-from-left duration-700 delay-500">
+          <div className="animate-in fade-in slide-in-from-left duration-700 delay-600">
             <h3 className="text-xl font-semibold mb-4">How It Works</h3>
             <div className="space-y-4">
               <div className="flex gap-4">
@@ -117,7 +246,7 @@ const Detect = () => {
             </div>
           </div>
 
-          <div className="animate-in fade-in slide-in-from-right duration-700 delay-500">
+          <div className="animate-in fade-in slide-in-from-right duration-700 delay-600">
             <h3 className="text-xl font-semibold mb-4">What We Detect</h3>
             <div className="space-y-3">
               {[
