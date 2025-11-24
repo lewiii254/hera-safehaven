@@ -14,6 +14,33 @@ export type Database = {
   }
   public: {
     Tables: {
+      conversations: {
+        Row: {
+          created_at: string
+          id: string
+          is_anonymous: boolean
+          participant_1_id: string
+          participant_2_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_anonymous?: boolean
+          participant_1_id: string
+          participant_2_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_anonymous?: boolean
+          participant_1_id?: string
+          participant_2_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       evidence_files: {
         Row: {
           created_at: string
@@ -130,6 +157,48 @@ export type Database = {
         }
         Relationships: []
       }
+      forum_reactions: {
+        Row: {
+          comment_id: string | null
+          created_at: string
+          id: string
+          post_id: string | null
+          reaction_type: string
+          user_id: string
+        }
+        Insert: {
+          comment_id?: string | null
+          created_at?: string
+          id?: string
+          post_id?: string | null
+          reaction_type: string
+          user_id: string
+        }
+        Update: {
+          comment_id?: string | null
+          created_at?: string
+          id?: string
+          post_id?: string | null
+          reaction_type?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "forum_reactions_comment_id_fkey"
+            columns: ["comment_id"]
+            isOneToOne: false
+            referencedRelation: "forum_comments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "forum_reactions_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "forum_posts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       lesson_progress: {
         Row: {
           completed: boolean | null
@@ -156,6 +225,41 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      private_messages: {
+        Row: {
+          content: string
+          conversation_id: string
+          created_at: string
+          id: string
+          is_read: boolean
+          sender_id: string
+        }
+        Insert: {
+          content: string
+          conversation_id: string
+          created_at?: string
+          id?: string
+          is_read?: boolean
+          sender_id: string
+        }
+        Update: {
+          content?: string
+          conversation_id?: string
+          created_at?: string
+          id?: string
+          is_read?: boolean
+          sender_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "private_messages_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "conversations"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       profiles: {
         Row: {
@@ -261,6 +365,36 @@ export type Database = {
           badge_name?: string
           earned_at?: string
           id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_reputation: {
+        Row: {
+          comments_count: number
+          helpful_reactions_received: number
+          id: string
+          posts_count: number
+          total_points: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          comments_count?: number
+          helpful_reactions_received?: number
+          id?: string
+          posts_count?: number
+          total_points?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          comments_count?: number
+          helpful_reactions_received?: number
+          id?: string
+          posts_count?: number
+          total_points?: number
+          updated_at?: string
           user_id?: string
         }
         Relationships: []
