@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
+import { useReputation } from "@/hooks/useReputation";
 import Navigation from "@/components/Navigation";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -11,7 +12,7 @@ import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
-import { MessageCircle, Plus, Send, Flag, UserCircle } from "lucide-react";
+import { MessageCircle, Plus, Send, Flag, UserCircle, Heart, Lightbulb, Award, Mail } from "lucide-react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 
 interface ForumPost {
@@ -31,14 +32,22 @@ interface Comment {
   user_id: string;
 }
 
+interface Reaction {
+  id: string;
+  user_id: string;
+  reaction_type: string;
+}
+
 const CommunityForum = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { reputation, badges, updateReputation, addReaction, removeReaction } = useReputation(user?.id);
   
   const [posts, setPosts] = useState<ForumPost[]>([]);
   const [selectedPost, setSelectedPost] = useState<ForumPost | null>(null);
   const [comments, setComments] = useState<Comment[]>([]);
+  const [postReactions, setPostReactions] = useState<Record<string, Reaction[]>>({});
   const [loading, setLoading] = useState(true);
   
   const [newPostTitle, setNewPostTitle] = useState("");
@@ -75,8 +84,26 @@ const CommunityForum = () => {
       });
     } else {
       setPosts(data || []);
+      await loadReactions(data || []);
     }
     setLoading(false);
+  };
+
+  const loadReactions = async (posts: ForumPost[]) => {
+    const reactionsData: Record<string, Reaction[]> = {};
+    
+    for (const post of posts) {
+      const { data } = await supabase
+        .from("forum_reactions")
+        .select("*")
+        .eq("post_id", post.id);
+      
+      if (data) {
+        reactionsData[post.id] = data;
+      }
+    }
+    
+    setPostReactions(reactionsData);
   };
 
   const loadComments = async (postId: string) => {
@@ -133,6 +160,13 @@ const CommunityForum = () => {
       description: "Post created successfully",
     });
 
+    // Update reputation
+    if (reputation) {
+      await updateReputation({
+        posts_count: reputation.posts_count + 1,
+      });
+    }
+
     setNewPostTitle("");
     setNewPostContent("");
     setIsCreateDialogOpen(false);
@@ -170,8 +204,80 @@ const CommunityForum = () => {
       return;
     }
 
+    // Update reputation
+    if (reputation) {
+      await updateReputation({
+        comments_count: reputation.comments_count + 1,
+      });
+    }
+
     setNewComment("");
     loadComments(selectedPost.id);
+  };
+
+  const handleReaction = async (postId: string, reactionType: string) => {
+    if (!user) {
+      navigate("/auth");
+      return;
+    }
+
+    const existingReaction = postReactions[postId]?.find(
+      (r) => r.user_id === user.id && r.reaction_type === reactionType
+    );
+
+    if (existingReaction) {
+      await removeReaction(postId, null, reactionType);
+    } else {
+      await addReaction(postId, null, reactionType);
+    }
+
+    loadPosts();
+  };
+
+  const handleStartConversation = async (otherUserId: string) => {
+    if (!user) {
+      navigate("/auth");
+      return;
+    }
+
+    if (otherUserId === user.id) {
+      toast({
+        title: "Error",
+        description: "You cannot message yourself",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Check if conversation already exists
+    const { data: existingConv } = await supabase
+      .from("conversations")
+      .select("*")
+      .or(`and(participant_1_id.eq.${user.id},participant_2_id.eq.${otherUserId}),and(participant_1_id.eq.${otherUserId},participant_2_id.eq.${user.id})`)
+      .maybeSingle();
+
+    if (existingConv) {
+      navigate("/messages");
+      return;
+    }
+
+    // Create new conversation
+    const { error } = await supabase.from("conversations").insert({
+      participant_1_id: user.id,
+      participant_2_id: otherUserId,
+      is_anonymous: true,
+    });
+
+    if (error) {
+      toast({
+        title: "Error",
+        description: "Failed to start conversation",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    navigate("/messages");
   };
 
   const handleFlagPost = async (postId: string) => {
@@ -205,6 +311,14 @@ const CommunityForum = () => {
     loadPosts();
   };
 
+  const getReactionCount = (postId: string, reactionType: string) => {
+    return postReactions[postId]?.filter((r) => r.reaction_type === reactionType).length || 0;
+  };
+
+  const hasUserReacted = (postId: string, reactionType: string) => {
+    return postReactions[postId]?.some((r) => r.user_id === user?.id && r.reaction_type === reactionType) || false;
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
@@ -218,6 +332,15 @@ const CommunityForum = () => {
             <p className="text-muted-foreground">
               Share experiences and support each other in a safe space
             </p>
+            {reputation && (
+              <div className="flex items-center gap-4 mt-4">
+                <Badge variant="outline" className="gap-1">
+                  <Award className="h-3 w-3" />
+                  {reputation.total_points} points
+                </Badge>
+                <Badge variant="secondary">{badges.length} badges earned</Badge>
+              </div>
+            )}
           </div>
           
           <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
@@ -314,6 +437,30 @@ const CommunityForum = () => {
                   <CardContent>
                     <p className="text-sm line-clamp-3">{post.content}</p>
                   </CardContent>
+                  <CardFooter className="flex gap-2">
+                    <Button
+                      variant={hasUserReacted(post.id, "helpful") ? "default" : "outline"}
+                      size="sm"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleReaction(post.id, "helpful");
+                      }}
+                    >
+                      <Lightbulb className="h-4 w-4 mr-1" />
+                      {getReactionCount(post.id, "helpful")}
+                    </Button>
+                    <Button
+                      variant={hasUserReacted(post.id, "supportive") ? "default" : "outline"}
+                      size="sm"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleReaction(post.id, "supportive");
+                      }}
+                    >
+                      <Heart className="h-4 w-4 mr-1" />
+                      {getReactionCount(post.id, "supportive")}
+                    </Button>
+                  </CardFooter>
                 </Card>
               ))}
             </div>
@@ -322,7 +469,19 @@ const CommunityForum = () => {
               {selectedPost ? (
                 <Card>
                   <CardHeader>
-                    <CardTitle>{selectedPost.title}</CardTitle>
+                    <div className="flex items-start justify-between">
+                      <CardTitle>{selectedPost.title}</CardTitle>
+                      {!selectedPost.is_anonymous && selectedPost.user_id !== user?.id && (
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handleStartConversation(selectedPost.user_id)}
+                        >
+                          <Mail className="h-4 w-4 mr-2" />
+                          Message
+                        </Button>
+                      )}
+                    </div>
                     <CardDescription className="flex items-center gap-2">
                       {selectedPost.is_anonymous ? (
                         <>
@@ -344,17 +503,28 @@ const CommunityForum = () => {
                       <div className="space-y-3 max-h-64 overflow-y-auto mb-4">
                         {comments.map((comment) => (
                           <div key={comment.id} className="p-3 bg-muted rounded-lg">
-                            <div className="flex items-center gap-2 mb-2 text-xs text-muted-foreground">
-                              {comment.is_anonymous ? (
-                                <>
-                                  <UserCircle className="h-3 w-3" />
-                                  Anonymous
-                                </>
-                              ) : (
-                                <Badge variant="outline" className="h-5">User</Badge>
+                            <div className="flex items-center justify-between mb-2">
+                              <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                                {comment.is_anonymous ? (
+                                  <>
+                                    <UserCircle className="h-3 w-3" />
+                                    Anonymous
+                                  </>
+                                ) : (
+                                  <Badge variant="outline" className="h-5">User</Badge>
+                                )}
+                                {" • "}
+                                {new Date(comment.created_at).toLocaleDateString()}
+                              </div>
+                              {!comment.is_anonymous && comment.user_id !== user?.id && (
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  onClick={() => handleStartConversation(comment.user_id)}
+                                >
+                                  <Mail className="h-3 w-3" />
+                                </Button>
                               )}
-                              {" • "}
-                              {new Date(comment.created_at).toLocaleDateString()}
                             </div>
                             <p className="text-sm">{comment.content}</p>
                           </div>
