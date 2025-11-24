@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Shield, Menu, X, BookOpen, AlertCircle, Heart, Lock, LogOut, User } from "lucide-react";
+import { Shield, Menu, X, BookOpen, AlertCircle, Heart, Lock, LogOut, User, MessageCircle, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
 
@@ -14,7 +14,9 @@ const Navigation = () => {
     { path: "/learn", label: "Learn", icon: BookOpen },
     { path: "/detect", label: "AI Detector", icon: AlertCircle },
     { path: "/support", label: "Support", icon: Heart },
+    { path: "/forum", label: "Forum", icon: MessageCircle },
     { path: "/evidence", label: "Evidence Locker", icon: Lock, authRequired: true },
+    { path: "/admin", label: "Admin", icon: ShieldCheck, authRequired: true },
   ];
 
   const isActive = (path: string) => location.pathname === path;

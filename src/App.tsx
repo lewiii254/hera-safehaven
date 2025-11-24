@@ -9,6 +9,8 @@ import Detect from "./pages/Detect";
 import Support from "./pages/Support";
 import Auth from "./pages/Auth";
 import EvidenceLocker from "./pages/EvidenceLocker";
+import CommunityForum from "./pages/CommunityForum";
+import AdminDashboard from "./pages/AdminDashboard";
 import NotFound from "./pages/NotFound";
 import { useState } from "react";
 import { DecoyScreen } from "./components/DecoyScreen";
@@ -33,6 +35,8 @@ const App = () => {
             <Route path="/support" element={<Support />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/evidence" element={<EvidenceLocker />} />
+            <Route path="/forum" element={<CommunityForum />} />
+            <Route path="/admin" element={<AdminDashboard />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
           <SOSButton onActivate={() => setSosActive(true)} />
