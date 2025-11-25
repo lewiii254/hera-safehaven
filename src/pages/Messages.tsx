@@ -33,7 +33,7 @@ interface Message {
 }
 
 const Messages = () => {
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -46,13 +46,16 @@ const Messages = () => {
   const [showVideoCall, setShowVideoCall] = useState(false);
 
   useEffect(() => {
+    // Wait for auth to finish loading before checking user
+    if (authLoading) return;
+    
     if (!user) {
       navigate("/auth");
       return;
     }
     loadConversations();
     setupRealtimeSubscription();
-  }, [user]);
+  }, [user, authLoading, navigate]);
 
   useEffect(() => {
     if (selectedConversation) {
@@ -195,7 +198,7 @@ const Messages = () => {
       : conv.participant_1_id;
   };
 
-  if (loading) {
+  if (authLoading || loading) {
     return (
       <div className="min-h-screen bg-background">
         <Navigation />
