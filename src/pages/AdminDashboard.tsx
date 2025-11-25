@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
-import { Shield, Users, FileText, MessageSquare, AlertTriangle } from "lucide-react";
+import { Shield, Users, FileText, MessageSquare, AlertTriangle, BarChart3, TrendingUp } from "lucide-react";
 
 interface User {
   id: string;
@@ -47,6 +47,12 @@ const AdminDashboard = () => {
   const [evidenceFiles, setEvidenceFiles] = useState<EvidenceFile[]>([]);
   const [flaggedPosts, setFlaggedPosts] = useState<ForumPost[]>([]);
   const [loadingData, setLoadingData] = useState(true);
+  const [stats, setStats] = useState({
+    totalUsers: 0,
+    totalPosts: 0,
+    totalEvidence: 0,
+    activeConversations: 0,
+  });
 
   useEffect(() => {
     checkAdminStatus();
@@ -124,6 +130,22 @@ const AdminDashboard = () => {
       setFlaggedPosts(postsData);
     }
 
+    // Load statistics
+    const { count: totalPostsCount } = await supabase
+      .from("forum_posts")
+      .select("*", { count: "exact", head: true });
+
+    const { count: activeConversationsCount } = await supabase
+      .from("conversations")
+      .select("*", { count: "exact", head: true });
+
+    setStats({
+      totalUsers: profilesData?.length || 0,
+      totalPosts: totalPostsCount || 0,
+      totalEvidence: evidenceData?.length || 0,
+      activeConversations: activeConversationsCount || 0,
+    });
+
     setLoadingData(false);
   };
 
@@ -179,6 +201,53 @@ const AdminDashboard = () => {
           <p className="text-muted-foreground">
             Manage users, evidence reports, and moderate content
           </p>
+        </div>
+
+        {/* Statistics Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Total Users</CardTitle>
+              <Users className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{stats.totalUsers}</div>
+              <p className="text-xs text-muted-foreground">Registered accounts</p>
+            </CardContent>
+          </Card>
+          
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Forum Posts</CardTitle>
+              <MessageSquare className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{stats.totalPosts}</div>
+              <p className="text-xs text-muted-foreground">Community discussions</p>
+            </CardContent>
+          </Card>
+          
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Evidence Files</CardTitle>
+              <FileText className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{stats.totalEvidence}</div>
+              <p className="text-xs text-muted-foreground">Secure documents</p>
+            </CardContent>
+          </Card>
+          
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Active Chats</CardTitle>
+              <TrendingUp className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{stats.activeConversations}</div>
+              <p className="text-xs text-muted-foreground">Private conversations</p>
+            </CardContent>
+          </Card>
         </div>
 
         <Tabs defaultValue="users" className="space-y-6">

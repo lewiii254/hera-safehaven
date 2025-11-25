@@ -17,7 +17,6 @@ const Navigation = () => {
     { path: "/forum", label: "Forum", icon: MessageCircle },
     { path: "/messages", label: "Messages", icon: Mail, authRequired: true },
     { path: "/evidence", label: "Evidence Locker", icon: Lock, authRequired: true },
-    { path: "/admin", label: "Admin", icon: ShieldCheck, authRequired: true },
   ];
 
   const isActive = (path: string) => location.pathname === path;

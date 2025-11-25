@@ -10,8 +10,9 @@ import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { MessageCircle, Send, UserCircle, Shield } from "lucide-react";
+import { MessageCircle, Send, UserCircle, Shield, Video } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import VideoCallInterface from "@/components/VideoCallInterface";
 
 interface Conversation {
   id: string;
@@ -42,6 +43,7 @@ const Messages = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState("");
   const [loading, setLoading] = useState(true);
+  const [showVideoCall, setShowVideoCall] = useState(false);
 
   useEffect(() => {
     if (!user) {
@@ -278,15 +280,26 @@ const Messages = () => {
             {selectedConversation ? (
               <>
                 <CardHeader>
-                  <div className="flex items-center gap-2">
-                    {selectedConversation.is_anonymous ? (
-                      <>
-                        <Shield className="h-5 w-5 text-primary" />
-                        <CardTitle>Anonymous Conversation</CardTitle>
-                      </>
-                    ) : (
-                      <CardTitle>Private Conversation</CardTitle>
-                    )}
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      {selectedConversation.is_anonymous ? (
+                        <>
+                          <Shield className="h-5 w-5 text-primary" />
+                          <CardTitle>Anonymous Conversation</CardTitle>
+                        </>
+                      ) : (
+                        <CardTitle>Private Conversation</CardTitle>
+                      )}
+                    </div>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setShowVideoCall(true)}
+                      className="gap-2"
+                    >
+                      <Video className="h-4 w-4" />
+                      Video Call
+                    </Button>
                   </div>
                   <CardDescription>
                     End-to-end privacy • No identifying information shared
@@ -343,6 +356,13 @@ const Messages = () => {
           </Card>
         </div>
       </div>
+      
+      {showVideoCall && selectedConversation && (
+        <VideoCallInterface
+          conversationId={selectedConversation.id}
+          onClose={() => setShowVideoCall(false)}
+        />
+      )}
     </div>
   );
 };
