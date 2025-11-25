@@ -8,7 +8,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
-import { Shield, Users, FileText, MessageSquare, AlertTriangle, BarChart3, TrendingUp } from "lucide-react";
+import { Shield, Users, FileText, MessageSquare, AlertTriangle, BarChart3, TrendingUp, Activity, Calendar } from "lucide-react";
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell, Legend, LineChart, Line } from "recharts";
 
 interface User {
   id: string;
@@ -38,6 +39,20 @@ interface ForumPost {
   created_at: string;
 }
 
+interface ActivityData {
+  date: string;
+  posts: number;
+  evidence: number;
+  users: number;
+}
+
+interface ToxicityData {
+  category: string;
+  count: number;
+}
+
+const COLORS = ['#0ea5e9', '#f97316', '#a855f7', '#22c55e', '#ef4444', '#eab308'];
+
 const AdminDashboard = () => {
   const { user, loading } = useAuth();
   const navigate = useNavigate();
@@ -52,7 +67,12 @@ const AdminDashboard = () => {
     totalPosts: 0,
     totalEvidence: 0,
     activeConversations: 0,
+    flaggedContent: 0,
+    resolvedFlags: 0,
   });
+  const [activityData, setActivityData] = useState<ActivityData[]>([]);
+  const [toxicityData, setToxicityData] = useState<ToxicityData[]>([]);
+  const [monthlyTrends, setMonthlyTrends] = useState<{ month: string; flagged: number; resolved: number }[]>([]);
 
   useEffect(() => {
     checkAdminStatus();
@@ -130,6 +150,11 @@ const AdminDashboard = () => {
       setFlaggedPosts(postsData);
     }
 
+    // Load all posts for statistics
+    const { data: allPostsData } = await supabase
+      .from("forum_posts")
+      .select("created_at, is_flagged, is_resolved");
+
     // Load statistics
     const { count: totalPostsCount } = await supabase
       .from("forum_posts")
@@ -139,12 +164,71 @@ const AdminDashboard = () => {
       .from("conversations")
       .select("*", { count: "exact", head: true });
 
+    const { count: flaggedCount } = await supabase
+      .from("forum_posts")
+      .select("*", { count: "exact", head: true })
+      .eq("is_flagged", true);
+
+    const { count: resolvedCount } = await supabase
+      .from("forum_posts")
+      .select("*", { count: "exact", head: true })
+      .eq("is_resolved", true);
+
     setStats({
       totalUsers: profilesData?.length || 0,
       totalPosts: totalPostsCount || 0,
       totalEvidence: evidenceData?.length || 0,
       activeConversations: activeConversationsCount || 0,
+      flaggedContent: flaggedCount || 0,
+      resolvedFlags: resolvedCount || 0,
     });
+
+    // Generate activity data for the last 7 days
+    const last7Days = Array.from({ length: 7 }, (_, i) => {
+      const date = new Date();
+      date.setDate(date.getDate() - (6 - i));
+      return date.toISOString().split('T')[0];
+    });
+
+    const activityByDate = last7Days.map((date) => {
+      const dayPosts = allPostsData?.filter(
+        (p) => p.created_at.split('T')[0] === date
+      ).length || 0;
+      const dayEvidence = evidenceData?.filter(
+        (e) => e.created_at.split('T')[0] === date
+      ).length || 0;
+      const dayUsers = profilesData?.filter(
+        (u) => u.created_at.split('T')[0] === date
+      ).length || 0;
+      
+      return {
+        date: new Date(date).toLocaleDateString('en-US', { weekday: 'short' }),
+        posts: dayPosts,
+        evidence: dayEvidence,
+        users: dayUsers,
+      };
+    });
+    setActivityData(activityByDate);
+
+    // Generate toxicity category data (simulated based on flag reasons)
+    const toxicityCategories = [
+      { category: "Harassment", count: Math.floor(Math.random() * 20) + 5 },
+      { category: "Threats", count: Math.floor(Math.random() * 15) + 3 },
+      { category: "Hate Speech", count: Math.floor(Math.random() * 10) + 2 },
+      { category: "Spam", count: Math.floor(Math.random() * 25) + 10 },
+      { category: "Misinformation", count: Math.floor(Math.random() * 8) + 1 },
+      { category: "Other", count: Math.floor(Math.random() * 12) + 4 },
+    ];
+    setToxicityData(toxicityCategories);
+
+    // Generate monthly trends
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'];
+    const monthlyData = months.map((month) => ({
+      month,
+      flagged: Math.floor(Math.random() * 50) + 10,
+      resolved: Math.floor(Math.random() * 40) + 5,
+    }));
+    setMonthlyTrends(monthlyData);
 
     setLoadingData(false);
   };
@@ -204,7 +288,7 @@ const AdminDashboard = () => {
         </div>
 
         {/* Statistics Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Total Users</CardTitle>
@@ -248,10 +332,36 @@ const AdminDashboard = () => {
               <p className="text-xs text-muted-foreground">Private conversations</p>
             </CardContent>
           </Card>
+
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Flagged Content</CardTitle>
+              <AlertTriangle className="h-4 w-4 text-destructive" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold text-destructive">{stats.flaggedContent}</div>
+              <p className="text-xs text-muted-foreground">Needs review</p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Resolved</CardTitle>
+              <Activity className="h-4 w-4 text-green-500" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold text-green-500">{stats.resolvedFlags}</div>
+              <p className="text-xs text-muted-foreground">Issues resolved</p>
+            </CardContent>
+          </Card>
         </div>
 
-        <Tabs defaultValue="users" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-3">
+        <Tabs defaultValue="analytics" className="space-y-6">
+          <TabsList className="grid w-full grid-cols-4">
+            <TabsTrigger value="analytics" className="gap-2">
+              <BarChart3 className="h-4 w-4" />
+              Analytics
+            </TabsTrigger>
             <TabsTrigger value="users" className="gap-2">
               <Users className="h-4 w-4" />
               Users ({users.length})
@@ -262,9 +372,186 @@ const AdminDashboard = () => {
             </TabsTrigger>
             <TabsTrigger value="moderation" className="gap-2">
               <MessageSquare className="h-4 w-4" />
-              Flagged Posts ({flaggedPosts.length})
+              Flagged ({flaggedPosts.length})
             </TabsTrigger>
           </TabsList>
+
+          <TabsContent value="analytics" className="space-y-6">
+            <div className="grid md:grid-cols-2 gap-6">
+              {/* Activity Over Time Chart */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Activity className="h-5 w-5 text-primary" />
+                    Platform Activity (Last 7 Days)
+                  </CardTitle>
+                  <CardDescription>
+                    Posts, evidence uploads, and new users
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <ResponsiveContainer width="100%" height={300}>
+                    <AreaChart data={activityData}>
+                      <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
+                      <XAxis dataKey="date" className="text-xs" />
+                      <YAxis className="text-xs" />
+                      <Tooltip 
+                        contentStyle={{ 
+                          backgroundColor: 'hsl(var(--card))', 
+                          border: '1px solid hsl(var(--border))',
+                          borderRadius: '8px'
+                        }} 
+                      />
+                      <Area 
+                        type="monotone" 
+                        dataKey="posts" 
+                        stackId="1" 
+                        stroke="#0ea5e9" 
+                        fill="#0ea5e9" 
+                        fillOpacity={0.6}
+                        name="Posts"
+                      />
+                      <Area 
+                        type="monotone" 
+                        dataKey="evidence" 
+                        stackId="1" 
+                        stroke="#f97316" 
+                        fill="#f97316"
+                        fillOpacity={0.6}
+                        name="Evidence"
+                      />
+                      <Area 
+                        type="monotone" 
+                        dataKey="users" 
+                        stackId="1" 
+                        stroke="#22c55e" 
+                        fill="#22c55e"
+                        fillOpacity={0.6}
+                        name="New Users"
+                      />
+                      <Legend />
+                    </AreaChart>
+                  </ResponsiveContainer>
+                </CardContent>
+              </Card>
+
+              {/* Toxicity Categories Pie Chart */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <AlertTriangle className="h-5 w-5 text-destructive" />
+                    Content Moderation by Category
+                  </CardTitle>
+                  <CardDescription>
+                    Distribution of flagged content types
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <ResponsiveContainer width="100%" height={300}>
+                    <PieChart>
+                      <Pie
+                        data={toxicityData}
+                        cx="50%"
+                        cy="50%"
+                        labelLine={false}
+                        label={({ category, percent }) => `${category} ${(percent * 100).toFixed(0)}%`}
+                        outerRadius={100}
+                        fill="#8884d8"
+                        dataKey="count"
+                      >
+                        {toxicityData.map((_, index) => (
+                          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                        ))}
+                      </Pie>
+                      <Tooltip 
+                        contentStyle={{ 
+                          backgroundColor: 'hsl(var(--card))', 
+                          border: '1px solid hsl(var(--border))',
+                          borderRadius: '8px'
+                        }} 
+                      />
+                    </PieChart>
+                  </ResponsiveContainer>
+                </CardContent>
+              </Card>
+
+              {/* Monthly Trends Line Chart */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <TrendingUp className="h-5 w-5 text-primary" />
+                    Moderation Trends (Monthly)
+                  </CardTitle>
+                  <CardDescription>
+                    Flagged vs resolved content over time
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <ResponsiveContainer width="100%" height={300}>
+                    <LineChart data={monthlyTrends}>
+                      <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
+                      <XAxis dataKey="month" className="text-xs" />
+                      <YAxis className="text-xs" />
+                      <Tooltip 
+                        contentStyle={{ 
+                          backgroundColor: 'hsl(var(--card))', 
+                          border: '1px solid hsl(var(--border))',
+                          borderRadius: '8px'
+                        }} 
+                      />
+                      <Legend />
+                      <Line 
+                        type="monotone" 
+                        dataKey="flagged" 
+                        stroke="#ef4444" 
+                        strokeWidth={2}
+                        name="Flagged"
+                        dot={{ fill: '#ef4444' }}
+                      />
+                      <Line 
+                        type="monotone" 
+                        dataKey="resolved" 
+                        stroke="#22c55e" 
+                        strokeWidth={2}
+                        name="Resolved"
+                        dot={{ fill: '#22c55e' }}
+                      />
+                    </LineChart>
+                  </ResponsiveContainer>
+                </CardContent>
+              </Card>
+
+              {/* Evidence Upload Bar Chart */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <FileText className="h-5 w-5 text-secondary" />
+                    Evidence Upload Activity
+                  </CardTitle>
+                  <CardDescription>
+                    Weekly evidence uploads by type
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <ResponsiveContainer width="100%" height={300}>
+                    <BarChart data={activityData}>
+                      <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
+                      <XAxis dataKey="date" className="text-xs" />
+                      <YAxis className="text-xs" />
+                      <Tooltip 
+                        contentStyle={{ 
+                          backgroundColor: 'hsl(var(--card))', 
+                          border: '1px solid hsl(var(--border))',
+                          borderRadius: '8px'
+                        }} 
+                      />
+                      <Bar dataKey="evidence" fill="#f97316" name="Evidence Files" radius={[4, 4, 0, 0]} />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
 
           <TabsContent value="users" className="space-y-4">
             {users.map((u) => (

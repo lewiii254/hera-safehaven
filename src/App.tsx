@@ -12,6 +12,7 @@ import EvidenceLocker from "./pages/EvidenceLocker";
 import CommunityForum from "./pages/CommunityForum";
 import AdminDashboard from "./pages/AdminDashboard";
 import Messages from "./pages/Messages";
+import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
 import { useState } from "react";
 import { DecoyScreen } from "./components/DecoyScreen";
@@ -38,6 +39,7 @@ const App = () => {
             <Route path="/evidence" element={<EvidenceLocker />} />
             <Route path="/forum" element={<CommunityForum />} />
             <Route path="/messages" element={<Messages />} />
+            <Route path="/settings" element={<Settings />} />
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="*" element={<NotFound />} />
           </Routes>

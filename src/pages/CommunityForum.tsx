@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { useReputation } from "@/hooks/useReputation";
 import Navigation from "@/components/Navigation";
+import ImageUpload from "@/components/ImageUpload";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,7 +13,7 @@ import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
-import { MessageCircle, Plus, Send, Flag, UserCircle, Heart, Lightbulb, Award, Mail } from "lucide-react";
+import { MessageCircle, Plus, Send, Flag, UserCircle, Heart, Lightbulb, Award, Mail, Image } from "lucide-react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 
 interface ForumPost {
@@ -53,11 +54,13 @@ const CommunityForum = () => {
   const [newPostTitle, setNewPostTitle] = useState("");
   const [newPostContent, setNewPostContent] = useState("");
   const [newPostAnonymous, setNewPostAnonymous] = useState(true);
+  const [newPostImage, setNewPostImage] = useState<string | null>(null);
   
   const [newComment, setNewComment] = useState("");
   const [newCommentAnonymous, setNewCommentAnonymous] = useState(true);
   
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
+  const [showImageUpload, setShowImageUpload] = useState(false);
 
   useEffect(() => {
     loadPosts();
@@ -169,8 +172,14 @@ const CommunityForum = () => {
 
     setNewPostTitle("");
     setNewPostContent("");
+    setNewPostImage(null);
+    setShowImageUpload(false);
     setIsCreateDialogOpen(false);
     loadPosts();
+  };
+
+  const handleImageUploaded = (imageUrl: string) => {
+    setNewPostImage(imageUrl);
   };
 
   const handleAddComment = async () => {
@@ -350,11 +359,11 @@ const CommunityForum = () => {
                 New Post
               </Button>
             </DialogTrigger>
-            <DialogContent className="max-w-2xl">
+            <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
               <DialogHeader>
                 <DialogTitle>Create New Post</DialogTitle>
                 <DialogDescription>
-                  Share your thoughts with the community
+                  Share your thoughts with the community. Images are AI-moderated for safety.
                 </DialogDescription>
               </DialogHeader>
               <div className="space-y-4">
@@ -374,9 +383,39 @@ const CommunityForum = () => {
                     placeholder="Share your story..."
                     value={newPostContent}
                     onChange={(e) => setNewPostContent(e.target.value)}
-                    rows={6}
+                    rows={4}
                   />
                 </div>
+                
+                {/* Image Upload Section */}
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <Label>Add Image (Optional)</Label>
+                    <Button 
+                      variant="ghost" 
+                      size="sm"
+                      onClick={() => setShowImageUpload(!showImageUpload)}
+                      className="gap-2"
+                    >
+                      <Image className="h-4 w-4" />
+                      {showImageUpload ? "Hide" : "Add Image"}
+                    </Button>
+                  </div>
+                  {showImageUpload && (
+                    <ImageUpload onImageUploaded={handleImageUploaded} />
+                  )}
+                  {newPostImage && (
+                    <div className="mt-2 relative">
+                      <img 
+                        src={newPostImage} 
+                        alt="Post image" 
+                        className="w-full h-32 object-cover rounded-lg"
+                      />
+                      <p className="text-xs text-muted-foreground mt-1">Image attached</p>
+                    </div>
+                  )}
+                </div>
+
                 <div className="flex items-center space-x-2">
                   <Switch
                     id="anonymous"

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Shield, Menu, X, BookOpen, AlertCircle, Heart, Lock, LogOut, User, MessageCircle, ShieldCheck, Mail } from "lucide-react";
+import { Shield, Menu, X, BookOpen, AlertCircle, Heart, Lock, LogOut, User, MessageCircle, ShieldCheck, Mail, Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
 
@@ -17,6 +17,7 @@ const Navigation = () => {
     { path: "/forum", label: "Forum", icon: MessageCircle },
     { path: "/messages", label: "Messages", icon: Mail, authRequired: true },
     { path: "/evidence", label: "Evidence Locker", icon: Lock, authRequired: true },
+    { path: "/settings", label: "Settings", icon: Settings, authRequired: true },
   ];
 
   const isActive = (path: string) => location.pathname === path;

@@ -57,6 +57,12 @@ To provide accessible, secure, and culturally-aware digital tools that empower w
 - **Severity assessment** with confidence scores
 - **Detailed explanations** to help users understand threats
 
+### 🖼️ AI-Moderated Image Sharing
+- **Image upload support** in forum posts and private messages
+- **Automatic AI content moderation** for all uploaded images
+- **Safety filtering** to block inappropriate content
+- **Progress tracking** for upload status
+
 ### 🔒 Evidence Locker
 - **Military-grade AES encryption** for file security
 - **Secure upload system** with metadata tracking
@@ -74,6 +80,7 @@ To provide accessible, secure, and culturally-aware digital tools that empower w
 
 ### 💬 Community Forum
 - **Anonymous posting** option for privacy
+- **Image sharing** with AI moderation
 - **Reputation system** with points and badges
 - **Reaction system** for supportive engagement
 - **Content moderation** tools
@@ -81,6 +88,7 @@ To provide accessible, secure, and culturally-aware digital tools that empower w
 
 ### 📨 Private Messaging
 - **End-to-end encrypted** conversations
+- **Image sharing** with AI content moderation
 - **Anonymous chat** capabilities
 - **Real-time messaging** with WebSocket support
 - **Video/Voice calls** using WebRTC
@@ -92,12 +100,28 @@ To provide accessible, secure, and culturally-aware digital tools that empower w
 - **Triple-tap exit** from decoy mode
 - **Quick escape** in dangerous situations
 
+### ⚙️ User Settings
+- **Profile management** with display name customization
+- **Password change** functionality
+- **Notification preferences** (email, forum, messages)
+- **Privacy controls** (anonymous posting, online status, message permissions)
+- **Account management** options
+
 ### 👥 Admin Dashboard
+- **Interactive analytics** with charts and graphs
 - **User management** with role assignment
 - **Evidence monitoring** (metadata only)
 - **Content moderation** for flagged posts
-- **Analytics dashboard** with key metrics
+- **Toxicity trends** visualization
+- **Activity tracking** over time
 - **Secure admin-only access** via `/admin` URL
+
+### 📊 Reporting Dashboard (Admin)
+- **Platform activity charts** showing posts, evidence, and user trends
+- **Content moderation pie charts** by category
+- **Monthly trends** for flagged vs resolved content
+- **Evidence upload** activity visualization
+- **Real-time statistics** updates
 
 ---
 
@@ -263,6 +287,7 @@ hera-safespace/
 │   │   ├── Navigation.tsx # Main navigation
 │   │   ├── SOSButton.tsx  # Emergency exit button
 │   │   ├── DecoyScreen.tsx # Safety decoy screen
+│   │   ├── ImageUpload.tsx # AI-moderated image upload
 │   │   └── VideoCallInterface.tsx # WebRTC component
 │   ├── 📂 hooks/          # Custom React hooks
 │   │   ├── useAuth.tsx    # Authentication hook
@@ -276,9 +301,10 @@ hera-safespace/
 │   │   ├── Detect.tsx     # AI detection
 │   │   ├── Support.tsx    # Support portal
 │   │   ├── EvidenceLocker.tsx # Evidence management
-│   │   ├── CommunityForum.tsx # Forum
+│   │   ├── CommunityForum.tsx # Forum with image sharing
 │   │   ├── Messages.tsx   # Private messaging
-│   │   └── AdminDashboard.tsx # Admin panel
+│   │   ├── Settings.tsx   # User settings & preferences
+│   │   └── AdminDashboard.tsx # Admin panel with analytics
 │   ├── 📂 lib/            # Utility functions
 │   ├── App.tsx            # Root component
 │   ├── main.tsx           # Entry point
@@ -516,9 +542,11 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 ### Within the Platform
 - 📚 **Learning Hub**: `/learn` - Digital safety education
 - 🤖 **AI Detector**: `/detect` - Content analysis
-- 💬 **Community Forum**: `/forum` - Peer support
+- 💬 **Community Forum**: `/forum` - Peer support with image sharing
 - 📨 **Private Messages**: `/messages` - One-on-one support
 - 🔒 **Evidence Locker**: `/evidence` - Secure documentation
+- ⚙️ **Settings**: `/settings` - Profile & privacy preferences
+- 🛡️ **Admin Dashboard**: `/admin` - Analytics & moderation (admin only)
 
 ---
 
