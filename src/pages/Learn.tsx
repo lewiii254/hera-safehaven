@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+import type { ComponentType } from "react";
 import { BookOpen, Award, TrendingUp, Lock, Eye, Shield, UserX, AlertTriangle, CheckCircle2, ChevronRight, ChevronLeft, X, Play, Smartphone, Wifi, MessageCircle, Camera, Mail, Globe, Heart, Users, HelpCircle, Lightbulb, Target, Zap } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -19,7 +20,7 @@ interface Lesson {
   id: string;
   title: string;
   description: string;
-  icon: React.ComponentType<{ className?: string }>;
+  icon: ComponentType<{ className?: string }>;
   duration: string;
   completed: boolean;
   category: string;
