@@ -27,9 +27,7 @@ const Navigation = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           <Link to="/" className="flex items-center gap-2 group">
-            <div className="p-2 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-smooth">
-              <Shield className="h-6 w-6 text-primary" />
-            </div>
+            <img src="/favicon.svg" alt="HERA SafeSpace" className="h-8 w-8" />
             <span className="font-bold text-xl hidden sm:block">
               HERA <span className="text-primary">SafeSpace</span>
             </span>

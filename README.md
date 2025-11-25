@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![HERA SafeSpace Banner](https://img.shields.io/badge/HERA-SafeSpace-blueviolet?style=for-the-badge&logo=shield&logoColor=white)
+<img src="public/favicon.svg" alt="HERA SafeSpace Logo" width="120" height="120">
 
 **Empowering women and girls across Africa with AI-powered protection, survivor support, and digital literacy education**
 
@@ -12,7 +12,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.5.3-3178C6?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
 [![Supabase](https://img.shields.io/badge/Supabase-Enabled-3ECF8E?style=flat-square&logo=supabase)](https://supabase.com/)
 
-[Features](#-features) • [Getting Started](#-getting-started) • [Architecture](#-architecture) • [Contributing](#-contributing) • [Support](#-support)
+[Features](#-features) • [Screenshots](#-app-screenshots) • [Why HERA](#-why-hera-safespace) • [Getting Started](#-getting-started) • [Contributing](#-contributing)
 
 </div>
 
@@ -21,6 +21,8 @@
 ## 📖 Table of Contents
 
 - [Overview](#-overview)
+- [App Screenshots](#-app-screenshots)
+- [Why HERA SafeSpace](#-why-hera-safespace)
 - [Features](#-features)
 - [Architecture](#-architecture)
 - [Getting Started](#-getting-started)
@@ -49,6 +51,87 @@ To provide accessible, secure, and culturally-aware digital tools that empower w
 
 ---
 
+## 📸 App Screenshots
+
+### 🏠 Homepage - Your Digital Safety Companion
+<div align="center">
+<img src="https://github.com/user-attachments/assets/ccabb35c-25b3-4fa3-803b-985ebaa6dbc1" alt="HERA SafeSpace Homepage" width="100%">
+</div>
+
+The homepage provides a welcoming overview of the platform with:
+- Clear call-to-action buttons for quick access to features
+- Statistics showcasing AI-powered detection, 24/7 support, and confidentiality
+- Three pillars of protection: AI Detector, Support Portal, and Literacy Hub
+- Testimonials from real users across Africa
+- Emergency contact information for immediate help
+
+### 🤖 AI Digital Violence Detector
+<div align="center">
+<img src="https://github.com/user-attachments/assets/bfefdf8f-022f-41d8-a1dd-d91767f211aa" alt="AI Detector Page" width="100%">
+</div>
+
+Real-time AI protection featuring:
+- Instant text analysis for toxicity, threats, and harassment
+- Smart alerts before sending or reading unsafe messages
+- Safe rewrite suggestions for potentially harmful content
+- Detection of cyberbullying, threats, hate speech, and more
+- Upcoming browser extension for seamless protection across platforms
+
+### 💜 Survivor Support Portal
+<div align="center">
+<img src="https://github.com/user-attachments/assets/b4408d7f-272e-4888-a354-fa373d02a019" alt="Support Portal" width="100%">
+</div>
+
+Comprehensive support resources including:
+- Military-grade encrypted evidence storage
+- Verified emergency contacts for Kenya and Africa
+- Mental health support resources
+- Legal aid and guidance information
+- Culturally-sensitive support designed for African communities
+
+### 💬 Community Forum
+<div align="center">
+<img src="https://github.com/user-attachments/assets/539b3d0f-09b5-4e2b-9dbd-92d570cef5a4" alt="Community Forum" width="100%">
+</div>
+
+Safe community space with:
+- Anonymous posting options for privacy
+- Supportive peer-to-peer connections
+- AI-moderated content for safety
+- Reaction and engagement system
+
+---
+
+## 💪 Why HERA SafeSpace?
+
+### Unlike Other Platforms, HERA Offers:
+
+| Feature | HERA SafeSpace | Other Apps |
+|---------|----------------|------------|
+| 🌍 **Africa-Focused** | Built specifically for African women with local resources | Generic global approach |
+| 🤖 **AI-Powered Detection** | Real-time toxicity analysis with smart alerts | Basic or no AI protection |
+| 🔒 **Military-Grade Encryption** | AES-256 encryption for all evidence | Standard or minimal encryption |
+| 👤 **Anonymous Support** | Full anonymity options throughout the platform | Limited privacy options |
+| 📚 **Interactive Learning** | Gamified lessons with badges and progress tracking | Static resources or none |
+| 🚨 **SOS Emergency Feature** | Quick-exit with decoy screen for dangerous situations | No emergency features |
+| 🌐 **Offline Resources** | Emergency contacts and guides available offline | Online-only access |
+| 💜 **Survivor-Centered Design** | Designed with and for survivors | Designed by developers alone |
+| 🤝 **Community Support** | Anonymous forum with AI moderation | No community features |
+| 📞 **Local Emergency Contacts** | Verified Kenya and Africa emergency numbers | International numbers only |
+
+### Key Benefits
+
+1. **Privacy First**: Your data is encrypted and never shared without consent
+2. **Culturally Aware**: Designed with understanding of African contexts and communities
+3. **Always Accessible**: Emergency resources available 24/7
+4. **Empowering**: Learn to protect yourself through interactive lessons
+5. **Community Driven**: Connect with others who understand your experiences
+6. **Evidence Documentation**: Securely store evidence for legal or support purposes
+7. **Real-Time Protection**: AI monitors and warns about threatening content
+8. **Quick Exit**: SOS button provides instant escape with decoy calculator screen
+
+---
+
 ## ✨ Features
 
 ### 🤖 AI-Powered Detection
@@ -70,13 +153,26 @@ To provide accessible, secure, and culturally-aware digital tools that empower w
 - **Privacy-first design** with user-only access
 
 ### 📚 Digital Literacy Hub
-- **Interactive lessons** on digital safety
-- **Progress tracking** with completion badges
-- **Quiz system** to reinforce learning
-- **Achievement system** with unlockable badges:
-  - 🎓 First Steps (Complete first lesson)
-  - 🏆 Safety Scholar (Complete 3 lessons)
-  - 🛡️ Digital Guardian (Complete all lessons)
+- **9 Comprehensive Lessons** covering all aspects of digital safety:
+  - Recognizing Digital Violence
+  - Protecting Your Digital Identity  
+  - Spotting Impersonation & Catfishing
+  - Social Media Security
+  - Responding to Online Threats
+  - Safe Online Communication
+  - Device Security Essentials
+  - Online Reputation Management
+  - Supporting Others Online
+- **Interactive Learning Experience** with slide-based content navigation
+- **Knowledge Quizzes** after each lesson to reinforce learning
+- **Progress Tracking** with visual indicators
+- **Quick Tips Tab** with daily safety checklist
+- **Resources Tab** with FAQ and external help links
+- **Achievement Badges System**:
+  - 🌱 First Steps (Complete first lesson)
+  - 📚 Safety Scholar (Complete 3 lessons)
+  - 🛡️ Digital Guardian (Complete 6 lessons)
+  - 🏆 Safety Expert (Complete all 9 lessons)
 
 ### 💬 Community Forum
 - **Anonymous posting** option for privacy
