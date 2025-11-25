@@ -17,8 +17,9 @@ const Index = () => {
             <span className="text-sm font-medium text-primary">Your Digital Safety Companion</span>
           </div>
           
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 tracking-tight">
-            HERA <span className="gradient-hero bg-clip-text text-transparent">SafeSpace</span>
+          <h1 className="text-4xl md:text-6xl font-bold mb-6 tracking-tight">
+            <span className="text-foreground">HERA</span>{" "}
+            <span className="gradient-hero bg-clip-text text-transparent">SafeSpace</span>
           </h1>
           
           <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto mb-8 leading-relaxed">

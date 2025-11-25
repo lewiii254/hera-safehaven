@@ -1,4 +1,4 @@
-import { Heart, Lock, FileText, Users, Phone, Shield } from "lucide-react";
+import { Heart, Lock, FileText, Users, Phone, Shield, Globe, MapPin } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Navigation from "@/components/Navigation";
@@ -17,9 +17,24 @@ const Support = () => {
             Survivor Support <span className="text-accent">Portal</span>
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            A safe, confidential space for survivors. Document incidents, access resources, and connect with support.
+            A safe, confidential space for survivors across Africa. Document incidents, access resources, and connect with support.
           </p>
         </div>
+
+        {/* African Context Banner */}
+        <Card className="p-6 mb-8 bg-gradient-to-r from-[hsl(140,60%,35%)]/10 to-[hsl(0,75%,45%)]/10 border-[hsl(45,100%,50%)]/30">
+          <div className="flex items-center gap-4">
+            <div className="p-3 bg-[hsl(45,100%,50%)]/20 rounded-xl">
+              <Globe className="h-6 w-6 text-[hsl(45,100%,50%)]" />
+            </div>
+            <div>
+              <h3 className="font-semibold mb-1">Supporting Communities Across Africa</h3>
+              <p className="text-sm text-muted-foreground">
+                Built with understanding of African contexts, cultures, and community values. Your safety and dignity are our priority.
+              </p>
+            </div>
+          </div>
+        </Card>
 
         <div className="grid md:grid-cols-3 gap-6 mb-12">
           <Card className="p-6 text-center shadow-medium animate-in fade-in slide-in-from-bottom duration-700 delay-100">
@@ -60,7 +75,7 @@ const Support = () => {
             </h2>
             <p className="text-muted-foreground mb-6">
               We're building a comprehensive survivor support system with end-to-end encryption, 
-              evidence documentation, and connections to verified resources and support networks.
+              evidence documentation, and connections to verified resources and support networks across Africa.
             </p>
             <Button size="lg" className="gap-2" disabled>
               <Shield className="h-5 w-5" />
@@ -76,31 +91,65 @@ const Support = () => {
           <h3 className="text-2xl font-semibold text-center mb-8">Emergency Resources</h3>
           
           <div className="grid md:grid-cols-2 gap-6">
-            <Card className="p-6 shadow-medium hover:shadow-strong transition-smooth animate-in fade-in slide-in-from-left duration-700 delay-500">
+            {/* Kenya Resources */}
+            <Card className="p-6 shadow-medium hover:shadow-strong transition-smooth animate-in fade-in slide-in-from-left duration-700 delay-500 border-[hsl(140,60%,35%)]/30">
               <div className="flex items-start gap-4">
-                <div className="p-3 bg-destructive/10 rounded-xl">
-                  <Phone className="h-6 w-6 text-destructive" />
+                <div className="p-3 bg-[hsl(140,60%,35%)]/10 rounded-xl">
+                  <MapPin className="h-6 w-6 text-[hsl(140,60%,35%)]" />
                 </div>
                 <div>
-                  <h4 className="font-semibold mb-2">Crisis Hotlines</h4>
+                  <h4 className="font-semibold mb-2 flex items-center gap-2">
+                    Kenya Resources
+                    <span className="text-xs bg-[hsl(140,60%,35%)]/20 px-2 py-1 rounded">🇰🇪</span>
+                  </h4>
                   <p className="text-sm text-muted-foreground mb-3">
-                    24/7 support for immediate help
+                    24/7 support services in Kenya
                   </p>
                   <div className="space-y-2 text-sm">
                     <div>
-                      <strong>National Domestic Violence Hotline:</strong>
-                      <p className="text-primary">1-800-799-7233</p>
+                      <strong>Gender Violence Recovery Centre:</strong>
+                      <p className="text-primary">+254 709 400 200</p>
                     </div>
                     <div>
-                      <strong>Crisis Text Line:</strong>
-                      <p className="text-primary">Text HOME to 741741</p>
+                      <strong>COVAW (Coalition on Violence Against Women):</strong>
+                      <p className="text-primary">+254 800 720 553</p>
+                    </div>
+                    <div>
+                      <strong>FIDA Kenya:</strong>
+                      <p className="text-primary">+254 20 387 4938</p>
                     </div>
                   </div>
                 </div>
               </div>
             </Card>
 
+            {/* General Crisis Resources */}
             <Card className="p-6 shadow-medium hover:shadow-strong transition-smooth animate-in fade-in slide-in-from-right duration-700 delay-500">
+              <div className="flex items-start gap-4">
+                <div className="p-3 bg-destructive/10 rounded-xl">
+                  <Phone className="h-6 w-6 text-destructive" />
+                </div>
+                <div>
+                  <h4 className="font-semibold mb-2">International Crisis Lines</h4>
+                  <p className="text-sm text-muted-foreground mb-3">
+                    24/7 support for immediate help
+                  </p>
+                  <div className="space-y-2 text-sm">
+                    <div>
+                      <strong>Emergency Services:</strong>
+                      <p className="text-primary">112 or 999 (Kenya)</p>
+                    </div>
+                    <div>
+                      <strong>Crisis Text Line:</strong>
+                      <p className="text-primary">Text HOME to local number</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Card>
+
+            {/* Mental Health Support */}
+            <Card className="p-6 shadow-medium hover:shadow-strong transition-smooth animate-in fade-in slide-in-from-left duration-700 delay-600">
               <div className="flex items-start gap-4">
                 <div className="p-3 bg-accent/10 rounded-xl">
                   <Heart className="h-6 w-6 text-accent" />
@@ -112,12 +161,37 @@ const Support = () => {
                   </p>
                   <div className="space-y-2 text-sm">
                     <div>
-                      <strong>RAINN (Sexual Assault Hotline):</strong>
-                      <p className="text-primary">1-800-656-4673</p>
+                      <strong>Kenya Red Cross Counseling:</strong>
+                      <p className="text-primary">1199</p>
                     </div>
                     <div>
-                      <strong>National Suicide Prevention:</strong>
-                      <p className="text-primary">988</p>
+                      <strong>Befrienders Kenya:</strong>
+                      <p className="text-primary">+254 722 178 177</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Card>
+
+            {/* Legal Aid */}
+            <Card className="p-6 shadow-medium hover:shadow-strong transition-smooth animate-in fade-in slide-in-from-right duration-700 delay-600">
+              <div className="flex items-start gap-4">
+                <div className="p-3 bg-[hsl(45,100%,50%)]/20 rounded-xl">
+                  <FileText className="h-6 w-6 text-[hsl(45,100%,50%)]" />
+                </div>
+                <div>
+                  <h4 className="font-semibold mb-2">Legal Aid & Support</h4>
+                  <p className="text-sm text-muted-foreground mb-3">
+                    Free legal assistance and guidance
+                  </p>
+                  <div className="space-y-2 text-sm">
+                    <div>
+                      <strong>National Legal Aid Service (Kenya):</strong>
+                      <p className="text-primary">+254 800 720 152</p>
+                    </div>
+                    <div>
+                      <strong>Kituo Cha Sheria:</strong>
+                      <p className="text-primary">+254 20 387 4220</p>
                     </div>
                   </div>
                 </div>
@@ -131,8 +205,9 @@ const Support = () => {
               <div>
                 <h4 className="font-semibold mb-2">Your Safety Is Our Priority</h4>
                 <p className="text-sm text-muted-foreground">
-                  All resources listed are verified organizations. If you're in immediate danger, 
-                  please call emergency services (911 in the US) or your local emergency number.
+                  All resources listed are verified organizations operating in Africa. If you're in immediate danger, 
+                  please call emergency services (112 in Kenya, 999 in many African countries) or your local emergency number.
+                  We respect and honor the diverse cultures and communities across our continent.
                 </p>
               </div>
             </div>
