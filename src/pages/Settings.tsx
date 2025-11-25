@@ -77,8 +77,20 @@ const Settings = () => {
   };
 
   const loadSettings = async () => {
-    // In a real app, these would come from a user_settings table
-    // For now, we'll use localStorage as a simple store
+    // TODO: In production, implement a user_settings table in Supabase:
+    // CREATE TABLE user_settings (
+    //   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    //   user_id UUID REFERENCES auth.users NOT NULL UNIQUE,
+    //   email_notifications BOOLEAN DEFAULT true,
+    //   forum_notifications BOOLEAN DEFAULT true,
+    //   message_notifications BOOLEAN DEFAULT true,
+    //   anonymous_by_default BOOLEAN DEFAULT true,
+    //   show_online_status BOOLEAN DEFAULT false,
+    //   allow_messages BOOLEAN DEFAULT true,
+    //   created_at TIMESTAMP DEFAULT NOW(),
+    //   updated_at TIMESTAMP DEFAULT NOW()
+    // );
+    // For demonstration, using localStorage to persist settings locally
     const savedSettings = localStorage.getItem(`user_settings_${user?.id}`);
     if (savedSettings) {
       setSettings(JSON.parse(savedSettings));

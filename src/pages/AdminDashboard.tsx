@@ -210,23 +210,26 @@ const AdminDashboard = () => {
     });
     setActivityData(activityByDate);
 
-    // Generate toxicity category data (simulated based on flag reasons)
+    // Sample toxicity category data for demonstration
+    // TODO: In production, this should be calculated from actual flagged posts
+    // using their flag_reason field or a dedicated content_moderation table
     const toxicityCategories = [
-      { category: "Harassment", count: Math.floor(Math.random() * 20) + 5 },
-      { category: "Threats", count: Math.floor(Math.random() * 15) + 3 },
-      { category: "Hate Speech", count: Math.floor(Math.random() * 10) + 2 },
-      { category: "Spam", count: Math.floor(Math.random() * 25) + 10 },
-      { category: "Misinformation", count: Math.floor(Math.random() * 8) + 1 },
-      { category: "Other", count: Math.floor(Math.random() * 12) + 4 },
+      { category: "Harassment", count: 15 },
+      { category: "Threats", count: 8 },
+      { category: "Hate Speech", count: 5 },
+      { category: "Spam", count: 20 },
+      { category: "Misinformation", count: 4 },
+      { category: "Other", count: flaggedCount || 3 },
     ];
     setToxicityData(toxicityCategories);
 
-    // Generate monthly trends
+    // Sample monthly trends for demonstration
+    // TODO: In production, aggregate from forum_posts table grouped by month
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'];
-    const monthlyData = months.map((month) => ({
+    const monthlyData = months.map((month, index) => ({
       month,
-      flagged: Math.floor(Math.random() * 50) + 10,
-      resolved: Math.floor(Math.random() * 40) + 5,
+      flagged: 20 + index * 5,
+      resolved: 15 + index * 4,
     }));
     setMonthlyTrends(monthlyData);
 

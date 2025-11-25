@@ -31,16 +31,20 @@ const ImageUpload = ({
   const { toast } = useToast();
 
   const moderateImage = async (imageDataUrl: string): Promise<ModerationResult> => {
-    // Simulated AI content moderation
-    // In production, this would call an actual AI moderation API
+    // Simulated AI content moderation for demonstration
+    // TODO: In production, integrate with a real AI moderation API such as:
+    // - Google Cloud Vision SafeSearch
+    // - AWS Rekognition Content Moderation
+    // - Azure Content Moderator
+    // - OpenAI Moderation API
     return new Promise((resolve) => {
       setTimeout(() => {
-        // Simulate moderation check - in production, use a real AI service
-        const isSafe = Math.random() > 0.1; // 90% pass rate for demo
+        // For demo purposes, all valid images pass moderation
+        // The simulation delay mimics real API response time
         resolve({
-          safe: isSafe,
-          confidence: 0.85 + Math.random() * 0.14,
-          categories: isSafe ? [] : ["potentially_sensitive"],
+          safe: true,
+          confidence: 0.95,
+          categories: [],
         });
       }, 1500);
     });
@@ -129,8 +133,12 @@ const ImageUpload = ({
         });
       }, 200);
 
-      // In production, upload to Supabase storage
-      // For now, we'll use the data URL directly
+      // TODO: In production, implement actual file upload to Supabase Storage:
+      // 1. Generate unique filename with user ID prefix
+      // 2. Upload to supabase.storage.from('images').upload(path, file)
+      // 3. Get public URL or signed URL
+      // 4. Return the storage URL instead of data URL
+      // For demonstration, we pass the data URL which works for preview
       await new Promise((resolve) => setTimeout(resolve, 2000));
       
       clearInterval(progressInterval);

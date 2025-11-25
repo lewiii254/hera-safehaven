@@ -355,7 +355,7 @@ const Index = () => {
               <span className="font-bold">HERA SafeSpace</span>
             </div>
             <p className="text-sm text-muted-foreground text-center">
-              Built with ❤️ for women and girls across Africa • Your safety, your space, your power
+              Built with <span aria-label="love">❤️</span> for women and girls across Africa • Your safety, your space, your power
             </p>
             <div className="flex gap-4">
               <Link to="/support" className="text-sm text-muted-foreground hover:text-primary transition-smooth">
