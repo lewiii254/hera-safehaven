@@ -61,7 +61,7 @@ const Auth = () => {
     } catch (error) {
       if (error instanceof z.ZodError) {
         toast.error(error.errors[0].message);
-      } else if (error instanceof TypeError && error.message.includes("fetch")) {
+      } else if (error instanceof TypeError && (error.message.includes("fetch") || error.message.includes("network") || error.message.includes("Failed to fetch"))) {
         toast.error("Unable to connect to authentication service. Please try again later.");
       } else {
         toast.error("An error occurred during signup");
@@ -101,7 +101,7 @@ const Auth = () => {
     } catch (error) {
       if (error instanceof z.ZodError) {
         toast.error(error.errors[0].message);
-      } else if (error instanceof TypeError && error.message.includes("fetch")) {
+      } else if (error instanceof TypeError && (error.message.includes("fetch") || error.message.includes("network") || error.message.includes("Failed to fetch"))) {
         toast.error("Unable to connect to authentication service. Please try again later.");
       } else {
         toast.error("An error occurred during login");
