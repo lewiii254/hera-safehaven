@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase, isSupabaseConfigured } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -32,6 +32,11 @@ const Auth = () => {
     setLoading(true);
 
     try {
+      if (!isSupabaseConfigured) {
+        toast.error("Authentication service is not configured. Please contact support.");
+        return;
+      }
+
       const validated = signupSchema.parse(signupData);
       
       const { error } = await supabase.auth.signUp({
@@ -56,6 +61,8 @@ const Auth = () => {
     } catch (error) {
       if (error instanceof z.ZodError) {
         toast.error(error.errors[0].message);
+      } else if (error instanceof TypeError && error.message.includes("fetch")) {
+        toast.error("Unable to connect to authentication service. Please try again later.");
       } else {
         toast.error("An error occurred during signup");
       }
@@ -69,6 +76,11 @@ const Auth = () => {
     setLoading(true);
 
     try {
+      if (!isSupabaseConfigured) {
+        toast.error("Authentication service is not configured. Please contact support.");
+        return;
+      }
+
       const validated = loginSchema.parse(loginData);
       
       const { error } = await supabase.auth.signInWithPassword({
@@ -89,6 +101,8 @@ const Auth = () => {
     } catch (error) {
       if (error instanceof z.ZodError) {
         toast.error(error.errors[0].message);
+      } else if (error instanceof TypeError && error.message.includes("fetch")) {
+        toast.error("Unable to connect to authentication service. Please try again later.");
       } else {
         toast.error("An error occurred during login");
       }

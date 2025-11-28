@@ -143,7 +143,14 @@ All colors MUST be HSL.
 
 @layer utilities {
   .gradient-hero {
-    background: var(--gradient-hero);
+    background-image: var(--gradient-hero);
+  }
+  
+  .gradient-hero-text {
+    background-image: var(--gradient-hero);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
   }
   
   .gradient-card {
