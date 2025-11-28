@@ -13,6 +13,7 @@ import CommunityForum from "./pages/CommunityForum";
 import AdminDashboard from "./pages/AdminDashboard";
 import Messages from "./pages/Messages";
 import Settings from "./pages/Settings";
+import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 import { useState } from "react";
 import { DecoyScreen } from "./components/DecoyScreen";
@@ -40,6 +41,7 @@ const App = () => {
             <Route path="/forum" element={<CommunityForum />} />
             <Route path="/messages" element={<Messages />} />
             <Route path="/settings" element={<Settings />} />
+            <Route path="/profile" element={<Profile />} />
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="*" element={<NotFound />} />
           </Routes>

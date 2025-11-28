@@ -1,12 +1,14 @@
 import { useState } from "react";
-import { AlertCircle, Brain, Shield, Zap, Send, AlertTriangle } from "lucide-react";
+import { AlertCircle, Brain, Shield, Zap, Send, AlertTriangle, RefreshCw, Copy, CheckCircle } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Navigation from "@/components/Navigation";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import AIChatAssistant from "@/components/AIChatAssistant";
 
 interface DetectionResult {
   is_safe: boolean;
@@ -16,10 +18,20 @@ interface DetectionResult {
   explanation: string;
 }
 
+interface RewriteResult {
+  original: string;
+  rewritten: string;
+  changes: string[];
+}
+
 const Detect = () => {
   const [text, setText] = useState("");
   const [analyzing, setAnalyzing] = useState(false);
   const [result, setResult] = useState<DetectionResult | null>(null);
+  const [rewriteResult, setRewriteResult] = useState<RewriteResult | null>(null);
+  const [rewriting, setRewriting] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const [activeTab, setActiveTab] = useState("detect");
 
   const analyzeText = async () => {
     if (!text.trim()) {
@@ -29,6 +41,7 @@ const Detect = () => {
 
     setAnalyzing(true);
     setResult(null);
+    setRewriteResult(null);
 
     try {
       const { data, error } = await supabase.functions.invoke("detect-toxicity", {
@@ -51,6 +64,105 @@ const Detect = () => {
     }
   };
 
+  const rewriteText = async () => {
+    if (!text.trim()) {
+      toast.error("Please enter text to rewrite");
+      return;
+    }
+
+    setRewriting(true);
+    setRewriteResult(null);
+
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-chat`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+          },
+          body: JSON.stringify({
+            messages: [
+              {
+                role: "user",
+                content: `Please rewrite the following message to be kinder, more respectful, and constructive while maintaining the core intent. If the message is already appropriate, return it as is. Respond ONLY with JSON in this exact format:
+{
+  "original": "the original text",
+  "rewritten": "the improved version",
+  "changes": ["list of changes made"]
+}
+
+Text to rewrite: "${text}"`,
+              },
+            ],
+            context: "general",
+          }),
+        }
+      );
+
+      if (!response.ok) throw new Error("Failed to rewrite");
+
+      const reader = response.body?.getReader();
+      const decoder = new TextDecoder();
+      let fullContent = "";
+
+      if (reader) {
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+
+          const chunk = decoder.decode(value, { stream: true });
+          const lines = chunk.split("\n");
+
+          for (const line of lines) {
+            if (line.startsWith("data: ") && line !== "data: [DONE]") {
+              try {
+                const json = JSON.parse(line.slice(6));
+                const content = json.choices?.[0]?.delta?.content;
+                if (content) fullContent += content;
+              } catch {}
+            }
+          }
+        }
+      }
+
+      // Parse the JSON from the response
+      const jsonMatch = fullContent.match(/\{[\s\S]*\}/);
+      if (jsonMatch) {
+        const parsed = JSON.parse(jsonMatch[0]);
+        setRewriteResult({
+          original: text,
+          rewritten: parsed.rewritten,
+          changes: parsed.changes || [],
+        });
+        toast.success("Text rewritten successfully!");
+      }
+    } catch (error: any) {
+      toast.error(error.message || "Failed to rewrite text");
+    } finally {
+      setRewriting(false);
+    }
+  };
+
+  const copyRewritten = () => {
+    if (rewriteResult?.rewritten) {
+      navigator.clipboard.writeText(rewriteResult.rewritten);
+      setCopied(true);
+      toast.success("Copied to clipboard!");
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
+
+  const useRewritten = () => {
+    if (rewriteResult?.rewritten) {
+      setText(rewriteResult.rewritten);
+      setRewriteResult(null);
+      setResult(null);
+      toast.success("Using rewritten text");
+    }
+  };
+
   const getSeverityColor = (severity: string) => {
     switch (severity) {
       case "critical": return "bg-destructive text-destructive-foreground";
@@ -60,6 +172,12 @@ const Detect = () => {
       default: return "bg-muted";
     }
   };
+
+  const exampleTexts = [
+    { label: "Threat", text: "I'm going to make you regret this. You'll see what happens when you mess with me." },
+    { label: "Harassment", text: "You're so stupid. Why don't you just go away? Nobody wants you here." },
+    { label: "Safe", text: "I really appreciate your help with this project. Your insights have been valuable." },
+  ];
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-muted/20">
@@ -111,102 +229,194 @@ const Detect = () => {
         </div>
 
         <Card className="p-8 md:p-12 shadow-strong animate-in fade-in slide-in-from-bottom duration-700 delay-400 mb-12">
-          <h2 className="text-2xl md:text-3xl font-bold mb-6 text-center">
-            Try AI Detection
-          </h2>
-          
-          <div className="max-w-2xl mx-auto space-y-4">
-            <Textarea
-              placeholder="Enter text to analyze for toxicity, threats, or harassment..."
-              value={text}
-              onChange={(e) => setText(e.target.value)}
-              rows={5}
-              maxLength={2000}
-              className="resize-none"
-            />
-            
-            <Button onClick={analyzeText} disabled={analyzing} className="w-full gap-2">
-              {analyzing ? (
-                <>
-                  <Brain className="h-5 w-5 animate-pulse" />
-                  Analyzing...
-                </>
-              ) : (
-                <>
-                  <Send className="h-5 w-5" />
-                  Analyze Text
-                </>
-              )}
-            </Button>
+          <Tabs value={activeTab} onValueChange={setActiveTab}>
+            <TabsList className="grid w-full grid-cols-2 mb-6">
+              <TabsTrigger value="detect">Detect Toxicity</TabsTrigger>
+              <TabsTrigger value="rewrite">Safe Rewrite</TabsTrigger>
+            </TabsList>
 
-            {result && (
-              <Card className={`p-6 ${result.is_safe ? 'border-green-500' : 'border-destructive'}`}>
-                <div className="flex items-start justify-between mb-4">
-                  <div>
-                    <h3 className="font-semibold text-lg mb-2">
-                      {result.is_safe ? "✓ Text Appears Safe" : "⚠ Potentially Harmful Content"}
-                    </h3>
-                    <p className="text-sm text-muted-foreground">{result.explanation}</p>
-                  </div>
-                  {!result.is_safe && (
-                    <AlertTriangle className="h-6 w-6 text-destructive flex-shrink-0" />
+            <TabsContent value="detect" className="space-y-4">
+              <div className="max-w-2xl mx-auto space-y-4">
+                <Textarea
+                  placeholder="Enter text to analyze for toxicity, threats, or harassment..."
+                  value={text}
+                  onChange={(e) => setText(e.target.value)}
+                  rows={5}
+                  maxLength={2000}
+                  className="resize-none"
+                />
+                
+                {/* Example texts */}
+                <div className="flex flex-wrap gap-2">
+                  <span className="text-sm text-muted-foreground">Try examples:</span>
+                  {exampleTexts.map((example) => (
+                    <Button
+                      key={example.label}
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setText(example.text)}
+                    >
+                      {example.label}
+                    </Button>
+                  ))}
+                </div>
+                
+                <Button onClick={analyzeText} disabled={analyzing} className="w-full gap-2">
+                  {analyzing ? (
+                    <>
+                      <Brain className="h-5 w-5 animate-pulse" />
+                      Analyzing...
+                    </>
+                  ) : (
+                    <>
+                      <Send className="h-5 w-5" />
+                      Analyze Text
+                    </>
                   )}
-                </div>
+                </Button>
 
-                {!result.is_safe && result.categories.length > 0 && (
-                  <div className="mb-4">
-                    <p className="text-sm font-medium mb-2">Detected Issues:</p>
-                    <div className="flex flex-wrap gap-2">
-                      {result.categories.map((category) => (
-                        <Badge key={category} variant="destructive">
-                          {category}
-                        </Badge>
-                      ))}
+                {result && (
+                  <Card className={`p-6 ${result.is_safe ? 'border-green-500' : 'border-destructive'}`}>
+                    <div className="flex items-start justify-between mb-4">
+                      <div>
+                        <h3 className="font-semibold text-lg mb-2">
+                          {result.is_safe ? "✓ Text Appears Safe" : "⚠ Potentially Harmful Content"}
+                        </h3>
+                        <p className="text-sm text-muted-foreground">{result.explanation}</p>
+                      </div>
+                      {!result.is_safe && (
+                        <AlertTriangle className="h-6 w-6 text-destructive flex-shrink-0" />
+                      )}
                     </div>
-                  </div>
+
+                    {!result.is_safe && result.categories.length > 0 && (
+                      <div className="mb-4">
+                        <p className="text-sm font-medium mb-2">Detected Issues:</p>
+                        <div className="flex flex-wrap gap-2">
+                          {result.categories.map((category) => (
+                            <Badge key={category} variant="destructive">
+                              {category}
+                            </Badge>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    <div className="flex items-center justify-between text-sm">
+                      <span>Severity:</span>
+                      <Badge className={getSeverityColor(result.severity)}>
+                        {result.severity.toUpperCase()}
+                      </Badge>
+                    </div>
+
+                    <div className="mt-2 flex items-center justify-between text-sm">
+                      <span>Confidence:</span>
+                      <span className="font-medium">{(result.confidence * 100).toFixed(0)}%</span>
+                    </div>
+
+                    {!result.is_safe && (
+                      <Button
+                        onClick={() => {
+                          setActiveTab("rewrite");
+                          rewriteText();
+                        }}
+                        variant="outline"
+                        className="w-full mt-4 gap-2"
+                      >
+                        <RefreshCw className="h-4 w-4" />
+                        Get Safe Rewrite Suggestion
+                      </Button>
+                    )}
+                  </Card>
                 )}
+              </div>
+            </TabsContent>
 
-                <div className="flex items-center justify-between text-sm">
-                  <span>Severity:</span>
-                  <Badge className={getSeverityColor(result.severity)}>
-                    {result.severity.toUpperCase()}
-                  </Badge>
-                </div>
+            <TabsContent value="rewrite" className="space-y-4">
+              <div className="max-w-2xl mx-auto space-y-4">
+                <Textarea
+                  placeholder="Enter a message you'd like to make kinder and more respectful..."
+                  value={text}
+                  onChange={(e) => setText(e.target.value)}
+                  rows={5}
+                  maxLength={2000}
+                  className="resize-none"
+                />
+                
+                <Button onClick={rewriteText} disabled={rewriting} className="w-full gap-2">
+                  {rewriting ? (
+                    <>
+                      <RefreshCw className="h-5 w-5 animate-spin" />
+                      Rewriting...
+                    </>
+                  ) : (
+                    <>
+                      <Zap className="h-5 w-5" />
+                      Rewrite Safely
+                    </>
+                  )}
+                </Button>
 
-                <div className="mt-2 flex items-center justify-between text-sm">
-                  <span>Confidence:</span>
-                  <span className="font-medium">{(result.confidence * 100).toFixed(0)}%</span>
-                </div>
-              </Card>
-            )}
-          </div>
+                {rewriteResult && (
+                  <Card className="p-6 border-green-500">
+                    <h3 className="font-semibold text-lg mb-4 flex items-center gap-2">
+                      <CheckCircle className="h-5 w-5 text-green-500" />
+                      Suggested Rewrite
+                    </h3>
+                    
+                    <div className="space-y-4">
+                      <div>
+                        <p className="text-sm font-medium mb-1">Original:</p>
+                        <p className="text-sm text-muted-foreground bg-muted p-3 rounded">
+                          {rewriteResult.original}
+                        </p>
+                      </div>
+                      
+                      <div>
+                        <p className="text-sm font-medium mb-1">Rewritten:</p>
+                        <p className="text-sm bg-green-500/10 p-3 rounded border border-green-500/30">
+                          {rewriteResult.rewritten}
+                        </p>
+                      </div>
+
+                      {rewriteResult.changes.length > 0 && (
+                        <div>
+                          <p className="text-sm font-medium mb-1">Changes Made:</p>
+                          <ul className="text-sm text-muted-foreground list-disc list-inside">
+                            {rewriteResult.changes.map((change, i) => (
+                              <li key={i}>{change}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+
+                      <div className="flex gap-2">
+                        <Button onClick={copyRewritten} variant="outline" className="flex-1 gap-2">
+                          {copied ? (
+                            <>
+                              <CheckCircle className="h-4 w-4" />
+                              Copied!
+                            </>
+                          ) : (
+                            <>
+                              <Copy className="h-4 w-4" />
+                              Copy
+                            </>
+                          )}
+                        </Button>
+                        <Button onClick={useRewritten} className="flex-1 gap-2">
+                          Use This Version
+                        </Button>
+                      </div>
+                    </div>
+                  </Card>
+                )}
+              </div>
+            </TabsContent>
+          </Tabs>
         </Card>
 
-        <Card className="p-8 md:p-12 text-center shadow-strong animate-in fade-in slide-in-from-bottom duration-700 delay-500">
-          <div className="max-w-2xl mx-auto">
-            <h2 className="text-2xl md:text-3xl font-bold mb-4">
-              Coming Soon: Browser Extension
-            </h2>
-            <p className="text-muted-foreground mb-6">
-              Install our Chrome extension to protect yourself across all social media platforms. 
-              The AI detector will work seamlessly in the background, keeping you safe while you browse.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="gap-2" disabled>
-                <Brain className="h-5 w-5" />
-                Install Extension
-              </Button>
-              <Button size="lg" variant="outline">
-                Learn More
-              </Button>
-            </div>
-            <p className="text-sm text-muted-foreground mt-6">
-              Currently in development. Join our waitlist to be notified when it launches.
-            </p>
-          </div>
-        </Card>
-
-        <div className="mt-12 grid md:grid-cols-2 gap-8">
+        <div className="grid md:grid-cols-2 gap-8">
           <div className="animate-in fade-in slide-in-from-left duration-700 delay-600">
             <h3 className="text-xl font-semibold mb-4">How It Works</h3>
             <div className="space-y-4">
@@ -215,9 +425,9 @@ const Detect = () => {
                   1
                 </div>
                 <div>
-                  <h4 className="font-medium mb-1">Install & Activate</h4>
+                  <h4 className="font-medium mb-1">Paste or Type Text</h4>
                   <p className="text-sm text-muted-foreground">
-                    Add the extension to Chrome and enable real-time protection
+                    Enter any message you've received or want to send
                   </p>
                 </div>
               </div>
@@ -226,9 +436,9 @@ const Detect = () => {
                   2
                 </div>
                 <div>
-                  <h4 className="font-medium mb-1">Browse Safely</h4>
+                  <h4 className="font-medium mb-1">AI Analysis</h4>
                   <p className="text-sm text-muted-foreground">
-                    AI monitors messages across all platforms in real-time
+                    Our AI scans for toxicity, threats, harassment, and more
                   </p>
                 </div>
               </div>
@@ -237,9 +447,9 @@ const Detect = () => {
                   3
                 </div>
                 <div>
-                  <h4 className="font-medium mb-1">Get Alerts</h4>
+                  <h4 className="font-medium mb-1">Get Results & Suggestions</h4>
                   <p className="text-sm text-muted-foreground">
-                    Receive instant warnings about harmful content with suggested actions
+                    See detailed analysis and get safer alternatives if needed
                   </p>
                 </div>
               </div>
@@ -266,6 +476,9 @@ const Detect = () => {
           </div>
         </div>
       </main>
+
+      {/* AI Chat Assistant - Detection Context */}
+      <AIChatAssistant context="detect" />
     </div>
   );
 };
