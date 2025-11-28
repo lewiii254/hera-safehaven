@@ -33,6 +33,7 @@
 - [Contributing](#-contributing)
 - [License](#-license)
 - [Support Resources](#-support-resources)
+- [Team Members](#-team-members---group-6)
 
 ---
 
@@ -643,6 +644,18 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 - 🔒 **Evidence Locker**: `/evidence` - Secure documentation
 - ⚙️ **Settings**: `/settings` - Profile & privacy preferences
 - 🛡️ **Admin Dashboard**: `/admin` - Analytics & moderation (admin only)
+
+---
+
+## 👥 Team Members - Group 6
+
+| Name | Email | Phone |
+|------|-------|-------|
+| Margaret Samba | maggiesamba989@gmail.com | +254113371601 |
+| Asha Maina | ashanyamattah@gmail.com | +254782676719 |
+| Eunice Nzilani | eunicenzilani881@gmail.com | +254794846559 |
+| Mercy Wafula | mercywafula99@gmail.com | +254111711713 |
+| MARKLEWIS MUTUGI | ngondimarklewis@gmail.com | +254741303497 |
 
 ---
 

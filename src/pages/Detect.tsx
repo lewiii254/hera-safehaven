@@ -57,8 +57,9 @@ const Detect = () => {
       } else {
         toast.success("Text appears safe");
       }
-    } catch (error: any) {
-      toast.error(error.message || "Failed to analyze text");
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : "Failed to analyze text";
+      toast.error(errorMessage);
     } finally {
       setAnalyzing(false);
     }
@@ -121,7 +122,9 @@ Text to rewrite: "${text}"`,
                 const json = JSON.parse(line.slice(6));
                 const content = json.choices?.[0]?.delta?.content;
                 if (content) fullContent += content;
-              } catch {}
+              } catch {
+                // Ignore JSON parsing errors for incomplete chunks
+              }
             }
           }
         }
@@ -138,8 +141,9 @@ Text to rewrite: "${text}"`,
         });
         toast.success("Text rewritten successfully!");
       }
-    } catch (error: any) {
-      toast.error(error.message || "Failed to rewrite text");
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : "Failed to rewrite text";
+      toast.error(errorMessage);
     } finally {
       setRewriting(false);
     }

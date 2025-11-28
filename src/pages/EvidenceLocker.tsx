@@ -98,8 +98,9 @@ const EvidenceLocker = () => {
       toast.success("Evidence file uploaded securely");
       setUploadData({ file: null, description: "", incident_date: "" });
       fetchEvidenceFiles();
-    } catch (error: any) {
-      toast.error(error.message || "Failed to upload file");
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : "Failed to upload file";
+      toast.error(errorMessage);
     } finally {
       setUploading(false);
     }
@@ -119,7 +120,7 @@ const EvidenceLocker = () => {
       a.download = file.file_name;
       a.click();
       URL.revokeObjectURL(url);
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast.error("Failed to download file");
     }
   };
@@ -143,7 +144,7 @@ const EvidenceLocker = () => {
 
       toast.success("Evidence file deleted");
       fetchEvidenceFiles();
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast.error("Failed to delete file");
     }
   };

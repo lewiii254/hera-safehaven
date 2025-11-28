@@ -115,10 +115,11 @@ const SafetyPlanCreator = () => {
         description: "Safety plan saved securely",
       });
       loadExistingPlan();
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : "Failed to save safety plan";
       toast({
         title: "Error",
-        description: error.message || "Failed to save safety plan",
+        description: errorMessage,
         variant: "destructive",
       });
     } finally {
