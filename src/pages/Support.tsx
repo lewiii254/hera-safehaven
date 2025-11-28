@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Heart, Lock, FileText, Users, Phone, Shield, Globe, MapPin, MessageCircle, Bot, BookOpen, AlertTriangle } from "lucide-react";
+import { Heart, Lock, FileText, Users, Phone, Shield, Globe, MapPin, MessageCircle, Bot, BookOpen, AlertTriangle, ClipboardList, UserCheck, AlertCircle, Building } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -8,6 +8,10 @@ import Navigation from "@/components/Navigation";
 import { useAuth } from "@/hooks/useAuth";
 import SafetyPlanCreator from "@/components/SafetyPlanCreator";
 import AIChatAssistant from "@/components/AIChatAssistant";
+import IncidentReportForm from "@/components/IncidentReportForm";
+import TrustedContacts from "@/components/TrustedContacts";
+import RiskAssessment from "@/components/RiskAssessment";
+import ResourceDirectory from "@/components/ResourceDirectory";
 
 const Support = () => {
   const { user } = useAuth();
@@ -47,7 +51,7 @@ const Support = () => {
         </Card>
 
         {/* Quick Access Cards */}
-        <div className="grid md:grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 mb-8">
           <Card 
             className="p-4 text-center cursor-pointer hover:shadow-lg transition-all hover:border-primary"
             onClick={() => navigate("/evidence")}
@@ -77,9 +81,27 @@ const Support = () => {
           
           <Card 
             className="p-4 text-center cursor-pointer hover:shadow-lg transition-all hover:border-destructive"
+            onClick={() => setActiveTab("report")}
+          >
+            <ClipboardList className="h-6 w-6 mx-auto mb-2 text-destructive" />
+            <h3 className="font-semibold text-sm">Report Incident</h3>
+            <p className="text-xs text-muted-foreground">Document safely</p>
+          </Card>
+
+          <Card 
+            className="p-4 text-center cursor-pointer hover:shadow-lg transition-all hover:border-orange-500"
+            onClick={() => setActiveTab("risk")}
+          >
+            <AlertCircle className="h-6 w-6 mx-auto mb-2 text-orange-500" />
+            <h3 className="font-semibold text-sm">Risk Assessment</h3>
+            <p className="text-xs text-muted-foreground">Check your safety</p>
+          </Card>
+          
+          <Card 
+            className="p-4 text-center cursor-pointer hover:shadow-lg transition-all hover:border-green-500"
             onClick={() => navigate("/learn")}
           >
-            <BookOpen className="h-6 w-6 mx-auto mb-2 text-destructive" />
+            <BookOpen className="h-6 w-6 mx-auto mb-2 text-green-500" />
             <h3 className="font-semibold text-sm">Learn</h3>
             <p className="text-xs text-muted-foreground">Safety education</p>
           </Card>
@@ -87,10 +109,14 @@ const Support = () => {
 
         {/* Main Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="resources">Emergency Resources</TabsTrigger>
-            <TabsTrigger value="safety-plan">Safety Plan</TabsTrigger>
-            <TabsTrigger value="ai-support">AI Support</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-4 lg:grid-cols-7">
+            <TabsTrigger value="resources">Resources</TabsTrigger>
+            <TabsTrigger value="report">Report</TabsTrigger>
+            <TabsTrigger value="contacts">Trusted Contacts</TabsTrigger>
+            <TabsTrigger value="risk">Risk Check</TabsTrigger>
+            <TabsTrigger value="directory" className="hidden lg:flex">Directory</TabsTrigger>
+            <TabsTrigger value="safety-plan" className="hidden lg:flex">Safety Plan</TabsTrigger>
+            <TabsTrigger value="ai-support" className="hidden lg:flex">AI Support</TabsTrigger>
           </TabsList>
 
           <TabsContent value="resources" className="space-y-6">
@@ -296,6 +322,47 @@ const Support = () => {
                 Click the chat button in the bottom right corner to start talking to HERA.
               </p>
             </Card>
+          </TabsContent>
+
+          {/* New Tab Contents */}
+          <TabsContent value="report">
+            <IncidentReportForm />
+          </TabsContent>
+
+          <TabsContent value="contacts">
+            {user ? (
+              <TrustedContacts />
+            ) : (
+              <Card className="p-12 text-center">
+                <UserCheck className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
+                <h3 className="text-xl font-semibold mb-2">Sign In Required</h3>
+                <p className="text-muted-foreground mb-4">
+                  Please sign in to add and manage your trusted contacts.
+                </p>
+                <Button onClick={() => navigate("/auth")}>Sign In to Continue</Button>
+              </Card>
+            )}
+          </TabsContent>
+
+          <TabsContent value="risk">
+            <Card className="p-6">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="p-2 bg-orange-500/10 rounded-lg">
+                  <AlertCircle className="h-6 w-6 text-orange-500" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-lg">Safety Risk Assessment</h3>
+                  <p className="text-sm text-muted-foreground">
+                    Answer a few questions to help understand your situation
+                  </p>
+                </div>
+              </div>
+              <RiskAssessment />
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="directory">
+            <ResourceDirectory />
           </TabsContent>
         </Tabs>
       </main>

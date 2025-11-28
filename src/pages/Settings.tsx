@@ -11,7 +11,9 @@ import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
-import { Settings as SettingsIcon, User, Lock, Bell, Shield, Save, Eye, EyeOff } from "lucide-react";
+import { Settings as SettingsIcon, User, Lock, Bell, Shield, Save, Eye, EyeOff, Users } from "lucide-react";
+import SecuritySettingsComponent from "@/components/SecuritySettings";
+import TrustedContacts from "@/components/TrustedContacts";
 
 interface UserProfile {
   full_name: string | null;
@@ -213,7 +215,7 @@ const Settings = () => {
 
         <div className="max-w-4xl mx-auto">
           <Tabs defaultValue="profile" className="space-y-6">
-            <TabsList className="grid w-full grid-cols-4">
+            <TabsList className="grid w-full grid-cols-5">
               <TabsTrigger value="profile" className="gap-2">
                 <User className="h-4 w-4" />
                 <span className="hidden sm:inline">Profile</span>
@@ -221,6 +223,10 @@ const Settings = () => {
               <TabsTrigger value="security" className="gap-2">
                 <Lock className="h-4 w-4" />
                 <span className="hidden sm:inline">Security</span>
+              </TabsTrigger>
+              <TabsTrigger value="contacts" className="gap-2">
+                <Users className="h-4 w-4" />
+                <span className="hidden sm:inline">Contacts</span>
               </TabsTrigger>
               <TabsTrigger value="notifications" className="gap-2">
                 <Bell className="h-4 w-4" />
@@ -364,6 +370,13 @@ const Settings = () => {
                   </Button>
                 </CardContent>
               </Card>
+
+              {/* Advanced Security Settings */}
+              <SecuritySettingsComponent />
+            </TabsContent>
+
+            <TabsContent value="contacts" className="space-y-6">
+              <TrustedContacts />
             </TabsContent>
 
             <TabsContent value="notifications" className="space-y-6">

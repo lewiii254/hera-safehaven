@@ -18,6 +18,7 @@ import NotFound from "./pages/NotFound";
 import { useState } from "react";
 import { DecoyScreen } from "./components/DecoyScreen";
 import { SOSButton } from "./components/SOSButton";
+import OfflineIndicator from "./components/OfflineIndicator";
 
 const queryClient = new QueryClient();
 
@@ -29,6 +30,7 @@ const App = () => {
       <TooltipProvider>
         <Toaster />
         <Sonner />
+        <OfflineIndicator />
         {sosActive && <DecoyScreen onExit={() => setSosActive(false)} />}
         <BrowserRouter>
           <Routes>
