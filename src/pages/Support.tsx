@@ -1,9 +1,19 @@
-import { Heart, Lock, FileText, Users, Phone, Shield, Globe, MapPin } from "lucide-react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Heart, Lock, FileText, Users, Phone, Shield, Globe, MapPin, MessageCircle, Bot, BookOpen, AlertTriangle } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Navigation from "@/components/Navigation";
+import { useAuth } from "@/hooks/useAuth";
+import SafetyPlanCreator from "@/components/SafetyPlanCreator";
+import AIChatAssistant from "@/components/AIChatAssistant";
 
 const Support = () => {
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState("resources");
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-muted/20">
       <Navigation />
@@ -17,7 +27,7 @@ const Support = () => {
             Survivor Support <span className="text-accent">Portal</span>
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            A safe, confidential space for survivors across Africa. Document incidents, access resources, and connect with support.
+            A safe, confidential space for survivors across Africa. Access resources, create safety plans, and connect with support.
           </p>
         </div>
 
@@ -36,184 +46,262 @@ const Support = () => {
           </div>
         </Card>
 
-        <div className="grid md:grid-cols-3 gap-6 mb-12">
-          <Card className="p-6 text-center shadow-medium animate-in fade-in slide-in-from-bottom duration-700 delay-100">
-            <div className="inline-flex items-center justify-center p-3 bg-primary/10 rounded-xl mb-4">
-              <Lock className="h-6 w-6 text-primary" />
-            </div>
-            <h3 className="font-semibold mb-2">Encrypted Storage</h3>
-            <p className="text-sm text-muted-foreground">
-              Your evidence is protected with military-grade AES encryption
-            </p>
+        {/* Quick Access Cards */}
+        <div className="grid md:grid-cols-4 gap-4 mb-8">
+          <Card 
+            className="p-4 text-center cursor-pointer hover:shadow-lg transition-all hover:border-primary"
+            onClick={() => navigate("/evidence")}
+          >
+            <Lock className="h-6 w-6 mx-auto mb-2 text-primary" />
+            <h3 className="font-semibold text-sm">Evidence Locker</h3>
+            <p className="text-xs text-muted-foreground">Secure storage</p>
           </Card>
-
-          <Card className="p-6 text-center shadow-medium animate-in fade-in slide-in-from-bottom duration-700 delay-200">
-            <div className="inline-flex items-center justify-center p-3 bg-secondary/10 rounded-xl mb-4">
-              <FileText className="h-6 w-6 text-secondary" />
-            </div>
-            <h3 className="font-semibold mb-2">Digital Reports</h3>
-            <p className="text-sm text-muted-foreground">
-              Generate structured reports for legal or support purposes
-            </p>
-          </Card>
-
-          <Card className="p-6 text-center shadow-medium animate-in fade-in slide-in-from-bottom duration-700 delay-300">
-            <div className="inline-flex items-center justify-center p-3 bg-accent/10 rounded-xl mb-4">
-              <Users className="h-6 w-6 text-accent" />
-            </div>
-            <h3 className="font-semibold mb-2">Connect with Help</h3>
-            <p className="text-sm text-muted-foreground">
-              Access verified resources and trained support volunteers
-            </p>
-          </Card>
-        </div>
-
-        <Card className="p-8 md:p-12 text-center shadow-strong animate-in fade-in slide-in-from-bottom duration-700 delay-400">
-          <div className="max-w-2xl mx-auto">
-            <h2 className="text-2xl md:text-3xl font-bold mb-4">
-              Secure Portal Coming Soon
-            </h2>
-            <p className="text-muted-foreground mb-6">
-              We're building a comprehensive survivor support system with end-to-end encryption, 
-              evidence documentation, and connections to verified resources and support networks across Africa.
-            </p>
-            <Button size="lg" className="gap-2" disabled>
-              <Shield className="h-5 w-5" />
-              Access Portal
-            </Button>
-            <p className="text-sm text-muted-foreground mt-6">
-              Currently in development with security and privacy as top priorities.
-            </p>
-          </div>
-        </Card>
-
-        <div className="mt-12 space-y-6">
-          <h3 className="text-2xl font-semibold text-center mb-8">Emergency Resources</h3>
           
-          <div className="grid md:grid-cols-2 gap-6">
-            {/* Kenya Resources */}
-            <Card className="p-6 shadow-medium hover:shadow-strong transition-smooth animate-in fade-in slide-in-from-left duration-700 delay-500 border-[hsl(140,60%,35%)]/30">
-              <div className="flex items-start gap-4">
-                <div className="p-3 bg-[hsl(140,60%,35%)]/10 rounded-xl">
-                  <MapPin className="h-6 w-6 text-[hsl(140,60%,35%)]" />
-                </div>
-                <div>
-                  <h4 className="font-semibold mb-2 flex items-center gap-2">
-                    Kenya Resources
-                    <span className="text-xs bg-[hsl(140,60%,35%)]/20 px-2 py-1 rounded">🇰🇪</span>
-                  </h4>
-                  <p className="text-sm text-muted-foreground mb-3">
-                    24/7 support services in Kenya
-                  </p>
-                  <div className="space-y-2 text-sm">
-                    <div>
-                      <strong>Gender Violence Recovery Centre:</strong>
-                      <p className="text-primary">+254 709 400 200</p>
-                    </div>
-                    <div>
-                      <strong>COVAW (Coalition on Violence Against Women):</strong>
-                      <p className="text-primary">+254 800 720 553</p>
-                    </div>
-                    <div>
-                      <strong>FIDA Kenya:</strong>
-                      <p className="text-primary">+254 20 387 4938</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Card>
-
-            {/* General Crisis Resources */}
-            <Card className="p-6 shadow-medium hover:shadow-strong transition-smooth animate-in fade-in slide-in-from-right duration-700 delay-500">
-              <div className="flex items-start gap-4">
-                <div className="p-3 bg-destructive/10 rounded-xl">
-                  <Phone className="h-6 w-6 text-destructive" />
-                </div>
-                <div>
-                  <h4 className="font-semibold mb-2">International Crisis Lines</h4>
-                  <p className="text-sm text-muted-foreground mb-3">
-                    24/7 support for immediate help
-                  </p>
-                  <div className="space-y-2 text-sm">
-                    <div>
-                      <strong>Emergency Services:</strong>
-                      <p className="text-primary">112 or 999 (Kenya)</p>
-                    </div>
-                    <div>
-                      <strong>Crisis Text Line:</strong>
-                      <p className="text-primary">Text HOME to local number</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Card>
-
-            {/* Mental Health Support */}
-            <Card className="p-6 shadow-medium hover:shadow-strong transition-smooth animate-in fade-in slide-in-from-left duration-700 delay-600">
-              <div className="flex items-start gap-4">
-                <div className="p-3 bg-accent/10 rounded-xl">
-                  <Heart className="h-6 w-6 text-accent" />
-                </div>
-                <div>
-                  <h4 className="font-semibold mb-2">Mental Health Support</h4>
-                  <p className="text-sm text-muted-foreground mb-3">
-                    Professional counseling services
-                  </p>
-                  <div className="space-y-2 text-sm">
-                    <div>
-                      <strong>Kenya Red Cross Counseling:</strong>
-                      <p className="text-primary">1199</p>
-                    </div>
-                    <div>
-                      <strong>Befrienders Kenya:</strong>
-                      <p className="text-primary">+254 722 178 177</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Card>
-
-            {/* Legal Aid */}
-            <Card className="p-6 shadow-medium hover:shadow-strong transition-smooth animate-in fade-in slide-in-from-right duration-700 delay-600">
-              <div className="flex items-start gap-4">
-                <div className="p-3 bg-[hsl(45,100%,50%)]/20 rounded-xl">
-                  <FileText className="h-6 w-6 text-[hsl(45,100%,50%)]" />
-                </div>
-                <div>
-                  <h4 className="font-semibold mb-2">Legal Aid & Support</h4>
-                  <p className="text-sm text-muted-foreground mb-3">
-                    Free legal assistance and guidance
-                  </p>
-                  <div className="space-y-2 text-sm">
-                    <div>
-                      <strong>National Legal Aid Service (Kenya):</strong>
-                      <p className="text-primary">+254 800 720 152</p>
-                    </div>
-                    <div>
-                      <strong>Kituo Cha Sheria:</strong>
-                      <p className="text-primary">+254 20 387 4220</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Card>
-          </div>
-
-          <Card className="p-6 bg-muted/50 border-2 border-primary/20">
-            <div className="flex items-start gap-4">
-              <Shield className="h-6 w-6 text-primary flex-shrink-0 mt-1" />
-              <div>
-                <h4 className="font-semibold mb-2">Your Safety Is Our Priority</h4>
-                <p className="text-sm text-muted-foreground">
-                  All resources listed are verified organizations operating in Africa. If you're in immediate danger, 
-                  please call emergency services (112 in Kenya, 999 in many African countries) or your local emergency number.
-                  We respect and honor the diverse cultures and communities across our continent.
-                </p>
-              </div>
-            </div>
+          <Card 
+            className="p-4 text-center cursor-pointer hover:shadow-lg transition-all hover:border-secondary"
+            onClick={() => navigate("/forum")}
+          >
+            <MessageCircle className="h-6 w-6 mx-auto mb-2 text-secondary" />
+            <h3 className="font-semibold text-sm">Community Forum</h3>
+            <p className="text-xs text-muted-foreground">Share & connect</p>
+          </Card>
+          
+          <Card 
+            className="p-4 text-center cursor-pointer hover:shadow-lg transition-all hover:border-accent"
+            onClick={() => navigate("/messages")}
+          >
+            <Users className="h-6 w-6 mx-auto mb-2 text-accent" />
+            <h3 className="font-semibold text-sm">Private Messages</h3>
+            <p className="text-xs text-muted-foreground">Safe conversations</p>
+          </Card>
+          
+          <Card 
+            className="p-4 text-center cursor-pointer hover:shadow-lg transition-all hover:border-destructive"
+            onClick={() => navigate("/learn")}
+          >
+            <BookOpen className="h-6 w-6 mx-auto mb-2 text-destructive" />
+            <h3 className="font-semibold text-sm">Learn</h3>
+            <p className="text-xs text-muted-foreground">Safety education</p>
           </Card>
         </div>
+
+        {/* Main Tabs */}
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+          <TabsList className="grid w-full grid-cols-3">
+            <TabsTrigger value="resources">Emergency Resources</TabsTrigger>
+            <TabsTrigger value="safety-plan">Safety Plan</TabsTrigger>
+            <TabsTrigger value="ai-support">AI Support</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="resources" className="space-y-6">
+            <div className="grid md:grid-cols-3 gap-6 mb-8">
+              <Card className="p-6 text-center shadow-medium">
+                <div className="inline-flex items-center justify-center p-3 bg-primary/10 rounded-xl mb-4">
+                  <Lock className="h-6 w-6 text-primary" />
+                </div>
+                <h3 className="font-semibold mb-2">Encrypted Storage</h3>
+                <p className="text-sm text-muted-foreground">
+                  Your evidence is protected with military-grade AES encryption
+                </p>
+              </Card>
+
+              <Card className="p-6 text-center shadow-medium">
+                <div className="inline-flex items-center justify-center p-3 bg-secondary/10 rounded-xl mb-4">
+                  <FileText className="h-6 w-6 text-secondary" />
+                </div>
+                <h3 className="font-semibold mb-2">Digital Reports</h3>
+                <p className="text-sm text-muted-foreground">
+                  Generate structured reports for legal or support purposes
+                </p>
+              </Card>
+
+              <Card className="p-6 text-center shadow-medium">
+                <div className="inline-flex items-center justify-center p-3 bg-accent/10 rounded-xl mb-4">
+                  <Users className="h-6 w-6 text-accent" />
+                </div>
+                <h3 className="font-semibold mb-2">Connect with Help</h3>
+                <p className="text-sm text-muted-foreground">
+                  Access verified resources and trained support volunteers
+                </p>
+              </Card>
+            </div>
+
+            <h3 className="text-2xl font-semibold text-center mb-6">Emergency Resources</h3>
+            
+            <div className="grid md:grid-cols-2 gap-6">
+              {/* Kenya Resources */}
+              <Card className="p-6 shadow-medium hover:shadow-strong transition-smooth border-[hsl(140,60%,35%)]/30">
+                <div className="flex items-start gap-4">
+                  <div className="p-3 bg-[hsl(140,60%,35%)]/10 rounded-xl">
+                    <MapPin className="h-6 w-6 text-[hsl(140,60%,35%)]" />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold mb-2 flex items-center gap-2">
+                      Kenya Resources
+                      <span className="text-xs bg-[hsl(140,60%,35%)]/20 px-2 py-1 rounded">🇰🇪</span>
+                    </h4>
+                    <p className="text-sm text-muted-foreground mb-3">
+                      24/7 support services in Kenya
+                    </p>
+                    <div className="space-y-2 text-sm">
+                      <div>
+                        <strong>Gender Violence Recovery Centre:</strong>
+                        <p className="text-primary">+254 709 400 200</p>
+                      </div>
+                      <div>
+                        <strong>COVAW (Coalition on Violence Against Women):</strong>
+                        <p className="text-primary">+254 800 720 553</p>
+                      </div>
+                      <div>
+                        <strong>FIDA Kenya:</strong>
+                        <p className="text-primary">+254 20 387 4938</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </Card>
+
+              {/* General Crisis Resources */}
+              <Card className="p-6 shadow-medium hover:shadow-strong transition-smooth">
+                <div className="flex items-start gap-4">
+                  <div className="p-3 bg-destructive/10 rounded-xl">
+                    <Phone className="h-6 w-6 text-destructive" />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold mb-2">International Crisis Lines</h4>
+                    <p className="text-sm text-muted-foreground mb-3">
+                      24/7 support for immediate help
+                    </p>
+                    <div className="space-y-2 text-sm">
+                      <div>
+                        <strong>Emergency Services:</strong>
+                        <p className="text-primary">112 or 999 (Kenya)</p>
+                      </div>
+                      <div>
+                        <strong>Crisis Text Line:</strong>
+                        <p className="text-primary">Text HOME to local number</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </Card>
+
+              {/* Mental Health Support */}
+              <Card className="p-6 shadow-medium hover:shadow-strong transition-smooth">
+                <div className="flex items-start gap-4">
+                  <div className="p-3 bg-accent/10 rounded-xl">
+                    <Heart className="h-6 w-6 text-accent" />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold mb-2">Mental Health Support</h4>
+                    <p className="text-sm text-muted-foreground mb-3">
+                      Professional counseling services
+                    </p>
+                    <div className="space-y-2 text-sm">
+                      <div>
+                        <strong>Kenya Red Cross Counseling:</strong>
+                        <p className="text-primary">1199</p>
+                      </div>
+                      <div>
+                        <strong>Befrienders Kenya:</strong>
+                        <p className="text-primary">+254 722 178 177</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </Card>
+
+              {/* Legal Aid */}
+              <Card className="p-6 shadow-medium hover:shadow-strong transition-smooth">
+                <div className="flex items-start gap-4">
+                  <div className="p-3 bg-[hsl(45,100%,50%)]/20 rounded-xl">
+                    <FileText className="h-6 w-6 text-[hsl(45,100%,50%)]" />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold mb-2">Legal Aid & Support</h4>
+                    <p className="text-sm text-muted-foreground mb-3">
+                      Free legal assistance and guidance
+                    </p>
+                    <div className="space-y-2 text-sm">
+                      <div>
+                        <strong>National Legal Aid Service (Kenya):</strong>
+                        <p className="text-primary">+254 800 720 152</p>
+                      </div>
+                      <div>
+                        <strong>Kituo Cha Sheria:</strong>
+                        <p className="text-primary">+254 20 387 4220</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </Card>
+            </div>
+
+            <Card className="p-6 bg-muted/50 border-2 border-primary/20">
+              <div className="flex items-start gap-4">
+                <Shield className="h-6 w-6 text-primary flex-shrink-0 mt-1" />
+                <div>
+                  <h4 className="font-semibold mb-2">Your Safety Is Our Priority</h4>
+                  <p className="text-sm text-muted-foreground">
+                    All resources listed are verified organizations operating in Africa. If you're in immediate danger, 
+                    please call emergency services (112 in Kenya, 999 in many African countries) or your local emergency number.
+                    We respect and honor the diverse cultures and communities across our continent.
+                  </p>
+                </div>
+              </div>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="safety-plan">
+            {user ? (
+              <SafetyPlanCreator />
+            ) : (
+              <Card className="p-12 text-center">
+                <AlertTriangle className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
+                <h3 className="text-xl font-semibold mb-2">Sign In Required</h3>
+                <p className="text-muted-foreground mb-4">
+                  Please sign in to create and save your personal safety plan. Your plan will be encrypted and only accessible to you.
+                </p>
+                <Button onClick={() => navigate("/auth")}>Sign In to Continue</Button>
+              </Card>
+            )}
+          </TabsContent>
+
+          <TabsContent value="ai-support">
+            <Card className="p-8 text-center">
+              <Bot className="h-16 w-16 mx-auto mb-4 text-accent" />
+              <h3 className="text-2xl font-semibold mb-4">HERA AI Support Assistant</h3>
+              <p className="text-muted-foreground mb-6 max-w-xl mx-auto">
+                HERA is here to listen and support you. Chat confidentially about your situation, 
+                get information about resources, or simply talk to someone who understands.
+              </p>
+              <div className="grid md:grid-cols-3 gap-4 mb-6">
+                <Card className="p-4">
+                  <Shield className="h-6 w-6 mx-auto mb-2 text-primary" />
+                  <h4 className="font-semibold text-sm">Confidential</h4>
+                  <p className="text-xs text-muted-foreground">Your conversations stay private</p>
+                </Card>
+                <Card className="p-4">
+                  <Heart className="h-6 w-6 mx-auto mb-2 text-accent" />
+                  <h4 className="font-semibold text-sm">Trauma-Informed</h4>
+                  <p className="text-xs text-muted-foreground">Trained to be supportive</p>
+                </Card>
+                <Card className="p-4">
+                  <Globe className="h-6 w-6 mx-auto mb-2 text-secondary" />
+                  <h4 className="font-semibold text-sm">African Context</h4>
+                  <p className="text-xs text-muted-foreground">Understands local resources</p>
+                </Card>
+              </div>
+              <p className="text-sm text-muted-foreground">
+                Click the chat button in the bottom right corner to start talking to HERA.
+              </p>
+            </Card>
+          </TabsContent>
+        </Tabs>
       </main>
+
+      {/* AI Chat Assistant - Support Context */}
+      <AIChatAssistant context="support" />
     </div>
   );
 };

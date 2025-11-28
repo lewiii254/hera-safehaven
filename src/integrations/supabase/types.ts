@@ -14,6 +14,33 @@ export type Database = {
   }
   public: {
     Tables: {
+      ai_chat_history: {
+        Row: {
+          context: string | null
+          created_at: string | null
+          id: string
+          messages: Json
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          context?: string | null
+          created_at?: string | null
+          id?: string
+          messages?: Json
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          context?: string | null
+          created_at?: string | null
+          id?: string
+          messages?: Json
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       conversations: {
         Row: {
           created_at: string
@@ -348,6 +375,48 @@ export type Database = {
         }
         Relationships: []
       }
+      safety_plans: {
+        Row: {
+          coping_strategies: string | null
+          created_at: string | null
+          emergency_contacts: Json | null
+          id: string
+          important_documents: string | null
+          safe_places: Json | null
+          support_network: Json | null
+          title: string
+          updated_at: string | null
+          user_id: string
+          warning_signs: string | null
+        }
+        Insert: {
+          coping_strategies?: string | null
+          created_at?: string | null
+          emergency_contacts?: Json | null
+          id?: string
+          important_documents?: string | null
+          safe_places?: Json | null
+          support_network?: Json | null
+          title: string
+          updated_at?: string | null
+          user_id: string
+          warning_signs?: string | null
+        }
+        Update: {
+          coping_strategies?: string | null
+          created_at?: string | null
+          emergency_contacts?: Json | null
+          id?: string
+          important_documents?: string | null
+          safe_places?: Json | null
+          support_network?: Json | null
+          title?: string
+          updated_at?: string | null
+          user_id?: string
+          warning_signs?: string | null
+        }
+        Relationships: []
+      }
       user_badges: {
         Row: {
           badge_name: string
@@ -416,6 +485,51 @@ export type Database = {
           created_at?: string
           id?: string
           role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_settings: {
+        Row: {
+          allow_messages: boolean | null
+          anonymous_by_default: boolean | null
+          created_at: string | null
+          email_notifications: boolean | null
+          forum_notifications: boolean | null
+          id: string
+          language: string | null
+          message_notifications: boolean | null
+          show_online_status: boolean | null
+          theme: string | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          allow_messages?: boolean | null
+          anonymous_by_default?: boolean | null
+          created_at?: string | null
+          email_notifications?: boolean | null
+          forum_notifications?: boolean | null
+          id?: string
+          language?: string | null
+          message_notifications?: boolean | null
+          show_online_status?: boolean | null
+          theme?: string | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          allow_messages?: boolean | null
+          anonymous_by_default?: boolean | null
+          created_at?: string | null
+          email_notifications?: boolean | null
+          forum_notifications?: boolean | null
+          id?: string
+          language?: string | null
+          message_notifications?: boolean | null
+          show_online_status?: boolean | null
+          theme?: string | null
+          updated_at?: string | null
           user_id?: string
         }
         Relationships: []

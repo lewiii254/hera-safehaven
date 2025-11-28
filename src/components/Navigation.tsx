@@ -17,6 +17,7 @@ const Navigation = () => {
     { path: "/forum", label: "Forum", icon: MessageCircle },
     { path: "/messages", label: "Messages", icon: Mail, authRequired: true },
     { path: "/evidence", label: "Evidence Locker", icon: Lock, authRequired: true },
+    { path: "/profile", label: "Profile", icon: User, authRequired: true },
     { path: "/settings", label: "Settings", icon: Settings, authRequired: true },
   ];
 
