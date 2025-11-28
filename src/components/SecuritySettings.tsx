@@ -131,7 +131,15 @@ const SecuritySettingsComponent = () => {
   };
 
   const handleSignOutAll = async () => {
-    if (!confirm("Sign out from all devices? You will need to log in again.")) return;
+    const confirmMessage = 
+      "Sign out from ALL devices?\n\n" +
+      "This will:\n" +
+      "• End your session on this device\n" +
+      "• End sessions on all other devices (phones, tablets, computers)\n" +
+      "• Require you to log in again everywhere\n\n" +
+      "Continue?";
+    
+    if (!confirm(confirmMessage)) return;
 
     try {
       await supabase.auth.signOut({ scope: "global" });

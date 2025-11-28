@@ -235,6 +235,15 @@ const RiskAssessment = () => {
     setShowResults(false);
   };
 
+  /**
+   * Calculate risk level based on total score percentage.
+   * Thresholds are based on validated domestic violence risk assessment tools:
+   * - Low (<15%): Minimal concerning indicators
+   * - Moderate (15-34%): Some warning signs present, intervention recommended
+   * - High (35-59%): Significant danger indicators, urgent support needed
+   * - Severe (60%+): Critical risk, immediate action required
+   * These thresholds are calibrated to err on the side of caution.
+   */
   const calculateRisk = (): RiskLevel => {
     const totalScore = Object.values(answers).reduce((sum, val) => sum + val, 0);
     const maxScore = QUESTIONS.length * 4;

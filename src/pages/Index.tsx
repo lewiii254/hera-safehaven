@@ -1,4 +1,4 @@
-import { ArrowRight, Shield, Brain, Heart, BookOpen, Sparkles, Lock, Users, MessageSquare, FileCheck, Star, Quote, Globe, Phone } from "lucide-react";
+import { ArrowRight, Shield, Brain, Heart, BookOpen, Sparkles, Lock, Users, MessageSquare, FileCheck, Star, Quote, Globe, Phone, AlertTriangle, ClipboardList, Building, Vibrate } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -277,6 +277,49 @@ const Index = () => {
             <h3 className="font-semibold mb-2">Learning Hub</h3>
             <p className="text-sm text-muted-foreground">
               Build digital literacy through interactive lessons
+            </p>
+          </Card>
+        </div>
+
+        {/* New Features Row */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto mt-6">
+          <Card className="p-6 text-center shadow-soft hover:shadow-medium transition-smooth border-destructive/20 bg-destructive/5">
+            <div className="inline-flex p-3 bg-destructive/10 rounded-xl mb-4">
+              <ClipboardList className="h-6 w-6 text-destructive" />
+            </div>
+            <h3 className="font-semibold mb-2">Incident Reporting</h3>
+            <p className="text-sm text-muted-foreground">
+              Secure, confidential incident documentation
+            </p>
+          </Card>
+          
+          <Card className="p-6 text-center shadow-soft hover:shadow-medium transition-smooth border-orange-500/20 bg-orange-500/5">
+            <div className="inline-flex p-3 bg-orange-500/10 rounded-xl mb-4">
+              <AlertTriangle className="h-6 w-6 text-orange-500" />
+            </div>
+            <h3 className="font-semibold mb-2">Risk Assessment</h3>
+            <p className="text-sm text-muted-foreground">
+              Evaluate your safety level and get guidance
+            </p>
+          </Card>
+          
+          <Card className="p-6 text-center shadow-soft hover:shadow-medium transition-smooth border-green-500/20 bg-green-500/5">
+            <div className="inline-flex p-3 bg-green-500/10 rounded-xl mb-4">
+              <Building className="h-6 w-6 text-green-500" />
+            </div>
+            <h3 className="font-semibold mb-2">Resource Directory</h3>
+            <p className="text-sm text-muted-foreground">
+              Find verified shelters, legal aid, and counseling
+            </p>
+          </Card>
+          
+          <Card className="p-6 text-center shadow-soft hover:shadow-medium transition-smooth border-red-500/20 bg-red-500/5">
+            <div className="inline-flex p-3 bg-red-500/10 rounded-xl mb-4">
+              <Vibrate className="h-6 w-6 text-red-500" />
+            </div>
+            <h3 className="font-semibold mb-2">SOS Emergency</h3>
+            <p className="text-sm text-muted-foreground">
+              Quick exit with shake-to-activate feature
             </p>
           </Card>
         </div>

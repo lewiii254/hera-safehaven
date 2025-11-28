@@ -20,6 +20,7 @@ export const SOSButton = ({ onActivate }: SOSButtonProps) => {
     let lastZ: number | null = null;
     let lastTime = Date.now();
     let shakeCount = 0;
+    let resetTimer: ReturnType<typeof setTimeout> | null = null;
     const SHAKE_THRESHOLD = 15;
     const SHAKE_COUNT_THRESHOLD = 3;
     const SHAKE_TIME_WINDOW = 1000;
@@ -51,6 +52,14 @@ export const SOSButton = ({ onActivate }: SOSButtonProps) => {
               onActivate();
               shakeCount = 0;
             }
+            
+            // Clear existing timer and set new one
+            if (resetTimer) {
+              clearTimeout(resetTimer);
+            }
+            resetTimer = setTimeout(() => {
+              shakeCount = 0;
+            }, SHAKE_TIME_WINDOW);
           }
         }
 
@@ -58,11 +67,6 @@ export const SOSButton = ({ onActivate }: SOSButtonProps) => {
         lastY = y;
         lastZ = z;
         lastTime = currentTime;
-
-        // Reset shake count after time window
-        setTimeout(() => {
-          shakeCount = 0;
-        }, SHAKE_TIME_WINDOW);
       }
     };
 
