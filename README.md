@@ -48,7 +48,7 @@
 
 **HERA SafeSpace** is a comprehensive digital safety platform specifically designed for women and girls across Africa, with special focus on communities in Kenya and surrounding regions. The platform combines cutting-edge AI technology with culturally-sensitive support systems to create a safe space for learning, reporting, and community support.
 
-### 🌍 The Problem We're Solving
+### 🌍 The Problem We are Solving
 
 **Gender-Based Violence (GBV) Statistics in Africa:**
 - 1 in 3 women worldwide experience physical or sexual violence
