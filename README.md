@@ -110,6 +110,8 @@ To provide accessible, secure, and culturally-aware digital tools that empower w
 - **Emergency Resources Grid**: Kenya Resources 🇰🇪, International Crisis Lines, Mental Health Support, Legal Aid
 - **RTL Support**: Full right-to-left layout for Arabic language
 
+<img width="1358" height="731" alt="image" src="https://github.com/user-attachments/assets/a90ad054-eea9-4465-aa25-e978a518aab0" />
+
 ### 💬 Community Forum
 
 **Current Features:**
@@ -119,6 +121,7 @@ To provide accessible, secure, and culturally-aware digital tools that empower w
 - Post detail panel: "Select a post to view details and comments"
 - Anonymous posting options
 - AI-moderated content for safety
+<img width="1364" height="746" alt="image" src="https://github.com/user-attachments/assets/20c79b05-34b9-4204-80af-ccc811ee2ad8" />
 
 ### 🧭 Organized Navigation
 
@@ -132,6 +135,9 @@ To provide accessible, secure, and culturally-aware digital tools that empower w
 - Hamburger menu opening organized sections
 - Main, Community, and Account categories
 - Clear visual hierarchy with icons
+<img width="540" height="1170" alt="image" src="https://github.com/user-attachments/assets/09d4dcd6-4090-42d3-a484-5b470435ba97" />
+<img width="540" height="1170" alt="image" src="https://github.com/user-attachments/assets/f6ce5ae6-75c5-4f32-b1bb-8130506c371b" />
+<img width="540" height="1170" alt="image" src="https://github.com/user-attachments/assets/54734059-3775-4d26-a5c1-05eb2a696de4" />
 
 ### 📚 Learning Hub
 
