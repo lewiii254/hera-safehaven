@@ -2,6 +2,33 @@ import { createContext, useContext, useState, useEffect, ReactNode } from "react
 
 export type Language = "en" | "sw" | "fr" | "ar";
 
+// Browser language to app language mapping
+const browserLangMap: Record<string, Language> = {
+  en: "en",
+  sw: "sw",
+  swh: "sw",
+  fr: "fr",
+  ar: "ar",
+};
+
+// Detect language from browser settings
+const detectBrowserLanguage = (): Language => {
+  // Check navigator.languages (array of preferred languages)
+  const browserLangs = navigator.languages || [navigator.language];
+  
+  for (const lang of browserLangs) {
+    // Get the primary language code (e.g., "en-US" → "en")
+    const primaryLang = lang.split("-")[0].toLowerCase();
+    
+    if (browserLangMap[primaryLang]) {
+      return browserLangMap[primaryLang];
+    }
+  }
+  
+  // Default to English
+  return "en";
+};
+
 interface LanguageContextType {
   language: Language;
   setLanguage: (lang: Language) => void;
@@ -312,9 +339,16 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 
 export const LanguageProvider = ({ children }: { children: ReactNode }) => {
   const [language, setLanguageState] = useState<Language>(() => {
+    // First check localStorage for saved preference
     const saved = localStorage.getItem("hera-language");
-    return (saved as Language) || "en";
+    if (saved && (saved === "en" || saved === "sw" || saved === "fr" || saved === "ar")) {
+      return saved;
+    }
+    // If no saved preference, auto-detect from browser
+    return detectBrowserLanguage();
   });
+
+  const [isFirstVisit] = useState(() => !localStorage.getItem("hera-language"));
 
   const setLanguage = (lang: Language) => {
     setLanguageState(lang);
@@ -327,7 +361,12 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     document.documentElement.dir = language === "ar" ? "rtl" : "ltr";
     document.documentElement.lang = language;
-  }, [language]);
+    
+    // Save the auto-detected language on first visit
+    if (isFirstVisit) {
+      localStorage.setItem("hera-language", language);
+    }
+  }, [language, isFirstVisit]);
 
   const t = (key: string): string => {
     return translations[language][key] || translations.en[key] || key;
