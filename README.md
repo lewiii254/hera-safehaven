@@ -76,12 +76,7 @@ To provide accessible, secure, and culturally-aware digital tools that empower w
 <img src="https://github.com/user-attachments/assets/ccabb35c-25b3-4fa3-803b-985ebaa6dbc1" alt="HERA SafeSpace Homepage" width="100%">
 </div>
 
-The homepage provides a welcoming overview of the platform with:
-- Clear call-to-action buttons for quick access to features
-- Statistics showcasing AI-powered detection, 24/7 support, and confidentiality
-- Three pillars of protection: AI Detector, Support Portal, and Literacy Hub
-- Testimonials from real users across Africa
-- Emergency contact information for immediate help
+> **Note:** Screenshot may show an earlier version. Current homepage features: Clean navigation with organized menu structure, four key statistics (AI Detection, 24/7 Support, Confidentiality, Africa-Focused), three pillars of protection, testimonials, and SOS emergency feature.
 
 ### 🤖 AI Digital Violence Detector
 <div align="center">
@@ -89,23 +84,19 @@ The homepage provides a welcoming overview of the platform with:
 </div>
 
 Real-time AI protection featuring:
+- Dual-mode interface: "Detect Toxicity" and "Safe Rewrite" tabs
 - Instant text analysis for toxicity, threats, and harassment
-- Smart alerts before sending or reading unsafe messages
+- Smart alerts with real-time detection indicators
 - Safe rewrite suggestions for potentially harmful content
+- Example buttons for quick testing (Threat, Harassment, Safe)
 - Detection of cyberbullying, threats, hate speech, and more
-- Upcoming browser extension for seamless protection across platforms
 
 ### 💜 Survivor Support Portal
 <div align="center">
 <img src="https://github.com/user-attachments/assets/b4408d7f-272e-4888-a354-fa373d02a019" alt="Support Portal" width="100%">
 </div>
 
-Comprehensive support resources including:
-- Military-grade encrypted evidence storage
-- Verified emergency contacts for Kenya and Africa
-- Mental health support resources
-- Legal aid and guidance information
-- Culturally-sensitive support designed for African communities
+> **Updated:** Now features an organized sidebar navigation with all support tools (Emergency Resources, Report Incident, Trusted Contacts, Risk Assessment, Resource Directory, Safety Plan, HERA AI Support) and Quick Access links. Mobile-responsive with sheet navigation.
 
 ### 💬 Community Forum
 <div align="center">
