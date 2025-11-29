@@ -762,7 +762,10 @@ HERA SafeSpace directly contributes to the United Nations Sustainable Developmen
 ## 🙏 Acknowledgments
 
 - **African women's rights organizations** for guidance and feedback
-- **Survivors** who shared their stories to improve the platform
+- **Survivors & Advocates**
+The brave women and girls who shared their stories to shape this platform
+African women's rights organizations for invaluable guidance and feedback
+Survivors who trusted us with their experiences to improve HERA SafeSpace
 - **Open source community** for the amazing tools and libraries
 - **Lovable team** for the development platform
 - **Supabase team** for the backend infrastructure
