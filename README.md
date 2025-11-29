@@ -118,6 +118,28 @@ Safe community space with:
 - AI-moderated content for safety
 - Reaction and engagement system
 
+### 🧭 Organized Navigation
+<div align="center">
+<img src="https://github.com/user-attachments/assets/6c094c32-ebaf-4179-8daf-cc4b16705b30" alt="Organized Navigation" width="100%">
+</div>
+
+Clean, intuitive navigation featuring:
+- **Primary Navigation**: Quick access to Home, Learn, AI Detector, and Support
+- **Community Dropdown**: Easy access to Forum and Private Messages
+- **Account Menu**: Profile, Evidence Locker, and Settings in one place
+- Streamlined interface that reduces overwhelm for users
+
+### 📱 Mobile-Friendly Navigation
+<div align="center">
+<img src="https://github.com/user-attachments/assets/4498a73d-9f72-45aa-9039-4e16d4db40fb" alt="Mobile Navigation" width="50%">
+</div>
+
+Mobile-optimized experience with:
+- Organized sections (Main, Community, Account)
+- Clear visual hierarchy
+- Easy-to-tap buttons
+- Responsive design for all screen sizes
+
 ---
 
 ## 💪 Why HERA SafeSpace?
