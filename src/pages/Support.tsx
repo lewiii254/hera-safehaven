@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Heart, Lock, FileText, Users, Phone, Shield, Globe, MapPin, MessageCircle, Bot, BookOpen, AlertTriangle, ClipboardList, UserCheck, AlertCircle, Building } from "lucide-react";
+import { Heart, Lock, FileText, Users, Phone, Shield, Globe, MapPin, MessageCircle, Bot, BookOpen, AlertTriangle, ClipboardList, UserCheck, AlertCircle, Building, ChevronRight } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import Navigation from "@/components/Navigation";
 import { useAuth } from "@/hooks/useAuth";
 import SafetyPlanCreator from "@/components/SafetyPlanCreator";
@@ -13,9 +14,17 @@ import TrustedContacts from "@/components/TrustedContacts";
 import RiskAssessment from "@/components/RiskAssessment";
 import ResourceDirectory from "@/components/ResourceDirectory";
 
+// Section navigation data for better organization
+const sections = [
+  { id: "resources", label: "Emergency Resources", icon: Phone, color: "text-destructive", bgColor: "bg-destructive/10" },
+  { id: "tools", label: "Safety Tools", icon: Shield, color: "text-primary", bgColor: "bg-primary/10" },
+  { id: "connect", label: "Get Help", icon: Heart, color: "text-accent", bgColor: "bg-accent/10" },
+];
+
 const Support = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const [activeSection, setActiveSection] = useState("resources");
   const [activeTab, setActiveTab] = useState("resources");
 
   return (
@@ -23,159 +32,138 @@ const Support = () => {
       <Navigation />
       
       <main className="container mx-auto px-4 pt-24 pb-12">
-        <div className="text-center mb-12 animate-in fade-in slide-in-from-bottom duration-700">
+        {/* Hero Section */}
+        <div className="text-center mb-8 animate-in fade-in slide-in-from-bottom duration-700">
           <div className="inline-flex items-center justify-center p-3 bg-accent/10 rounded-2xl mb-4">
             <Heart className="h-8 w-8 text-accent" />
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
             Survivor Support <span className="text-accent">Portal</span>
           </h1>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto">
             A safe, confidential space for survivors across Africa. Access resources, create safety plans, and connect with support.
           </p>
         </div>
 
-        {/* African Context Banner */}
-        <Card className="p-6 mb-8 bg-gradient-to-r from-[hsl(140,60%,35%)]/10 to-[hsl(0,75%,45%)]/10 border-[hsl(45,100%,50%)]/30">
-          <div className="flex items-center gap-4">
-            <div className="p-3 bg-[hsl(45,100%,50%)]/20 rounded-xl">
-              <Globe className="h-6 w-6 text-[hsl(45,100%,50%)]" />
+        {/* African Context Banner - More compact on mobile */}
+        <Card className="p-4 md:p-6 mb-6 bg-gradient-to-r from-[hsl(140,60%,35%)]/10 to-[hsl(0,75%,45%)]/10 border-[hsl(45,100%,50%)]/30">
+          <div className="flex items-center gap-3 md:gap-4">
+            <div className="p-2 md:p-3 bg-[hsl(45,100%,50%)]/20 rounded-xl flex-shrink-0">
+              <Globe className="h-5 w-5 md:h-6 md:w-6 text-[hsl(45,100%,50%)]" />
             </div>
             <div>
-              <h3 className="font-semibold mb-1">Supporting Communities Across Africa</h3>
-              <p className="text-sm text-muted-foreground">
-                Built with understanding of African contexts, cultures, and community values. Your safety and dignity are our priority.
+              <h3 className="font-semibold text-sm md:text-base mb-0.5 md:mb-1">Supporting Communities Across Africa</h3>
+              <p className="text-xs md:text-sm text-muted-foreground">
+                Built with understanding of African contexts, cultures, and community values.
               </p>
             </div>
           </div>
         </Card>
 
-        {/* Quick Access Cards */}
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 mb-8">
-          <Card 
-            className="p-4 text-center cursor-pointer hover:shadow-lg transition-all hover:border-primary"
-            onClick={() => navigate("/evidence")}
-          >
-            <Lock className="h-6 w-6 mx-auto mb-2 text-primary" />
-            <h3 className="font-semibold text-sm">Evidence Locker</h3>
-            <p className="text-xs text-muted-foreground">Secure storage</p>
-          </Card>
-          
-          <Card 
-            className="p-4 text-center cursor-pointer hover:shadow-lg transition-all hover:border-secondary"
-            onClick={() => navigate("/forum")}
-          >
-            <MessageCircle className="h-6 w-6 mx-auto mb-2 text-secondary" />
-            <h3 className="font-semibold text-sm">Community Forum</h3>
-            <p className="text-xs text-muted-foreground">Share & connect</p>
-          </Card>
-          
-          <Card 
-            className="p-4 text-center cursor-pointer hover:shadow-lg transition-all hover:border-accent"
-            onClick={() => navigate("/messages")}
-          >
-            <Users className="h-6 w-6 mx-auto mb-2 text-accent" />
-            <h3 className="font-semibold text-sm">Private Messages</h3>
-            <p className="text-xs text-muted-foreground">Safe conversations</p>
-          </Card>
-          
-          <Card 
-            className="p-4 text-center cursor-pointer hover:shadow-lg transition-all hover:border-destructive"
-            onClick={() => setActiveTab("report")}
-          >
-            <ClipboardList className="h-6 w-6 mx-auto mb-2 text-destructive" />
-            <h3 className="font-semibold text-sm">Report Incident</h3>
-            <p className="text-xs text-muted-foreground">Document safely</p>
-          </Card>
-
-          <Card 
-            className="p-4 text-center cursor-pointer hover:shadow-lg transition-all hover:border-orange-500"
-            onClick={() => setActiveTab("risk")}
-          >
-            <AlertCircle className="h-6 w-6 mx-auto mb-2 text-orange-500" />
-            <h3 className="font-semibold text-sm">Risk Assessment</h3>
-            <p className="text-xs text-muted-foreground">Check your safety</p>
-          </Card>
-          
-          <Card 
-            className="p-4 text-center cursor-pointer hover:shadow-lg transition-all hover:border-green-500"
-            onClick={() => navigate("/learn")}
-          >
-            <BookOpen className="h-6 w-6 mx-auto mb-2 text-green-500" />
-            <h3 className="font-semibold text-sm">Learn</h3>
-            <p className="text-xs text-muted-foreground">Safety education</p>
-          </Card>
+        {/* Section Navigation - Mobile-friendly cards */}
+        <div className="mb-6">
+          <h2 className="text-lg font-semibold mb-3 md:hidden">Navigate to:</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4">
+            {sections.map((section) => (
+              <Card 
+                key={section.id}
+                className={`p-4 cursor-pointer transition-all hover:shadow-md ${
+                  activeSection === section.id ? 'ring-2 ring-primary shadow-md' : ''
+                }`}
+                onClick={() => setActiveSection(section.id)}
+              >
+                <div className="flex items-center gap-3">
+                  <div className={`p-2 rounded-lg ${section.bgColor}`}>
+                    <section.icon className={`h-5 w-5 ${section.color}`} />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-sm">{section.label}</h3>
+                  </div>
+                  <ChevronRight className={`h-4 w-4 text-muted-foreground transition-transform ${
+                    activeSection === section.id ? 'rotate-90' : ''
+                  }`} />
+                </div>
+              </Card>
+            ))}
+          </div>
         </div>
 
-        {/* Main Tabs */}
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4 lg:grid-cols-7">
-            <TabsTrigger value="resources">Resources</TabsTrigger>
-            <TabsTrigger value="report">Report</TabsTrigger>
-            <TabsTrigger value="contacts">Trusted Contacts</TabsTrigger>
-            <TabsTrigger value="risk">Risk Check</TabsTrigger>
-            <TabsTrigger value="directory" className="hidden lg:flex">Directory</TabsTrigger>
-            <TabsTrigger value="safety-plan" className="hidden lg:flex">Safety Plan</TabsTrigger>
-            <TabsTrigger value="ai-support" className="hidden lg:flex">AI Support</TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="resources" className="space-y-6">
-            <div className="grid md:grid-cols-3 gap-6 mb-8">
-              <Card className="p-6 text-center shadow-medium">
-                <div className="inline-flex items-center justify-center p-3 bg-primary/10 rounded-xl mb-4">
-                  <Lock className="h-6 w-6 text-primary" />
-                </div>
-                <h3 className="font-semibold mb-2">Encrypted Storage</h3>
-                <p className="text-sm text-muted-foreground">
-                  Your evidence is protected with military-grade AES encryption
-                </p>
+        {/* Quick Links - Horizontal scroll on mobile */}
+        <div className="mb-6">
+          <h2 className="text-lg font-semibold mb-3">Quick Access</h2>
+          <ScrollArea className="w-full whitespace-nowrap">
+            <div className="flex gap-3 pb-3">
+              <Card 
+                className="p-3 min-w-[120px] text-center cursor-pointer hover:shadow-lg transition-all hover:border-primary flex-shrink-0"
+                onClick={() => navigate("/evidence")}
+              >
+                <Lock className="h-5 w-5 mx-auto mb-1.5 text-primary" />
+                <h3 className="font-semibold text-xs">Evidence Locker</h3>
+                <p className="text-[10px] text-muted-foreground">Secure storage</p>
               </Card>
-
-              <Card className="p-6 text-center shadow-medium">
-                <div className="inline-flex items-center justify-center p-3 bg-secondary/10 rounded-xl mb-4">
-                  <FileText className="h-6 w-6 text-secondary" />
-                </div>
-                <h3 className="font-semibold mb-2">Digital Reports</h3>
-                <p className="text-sm text-muted-foreground">
-                  Generate structured reports for legal or support purposes
-                </p>
+              
+              <Card 
+                className="p-3 min-w-[120px] text-center cursor-pointer hover:shadow-lg transition-all hover:border-secondary flex-shrink-0"
+                onClick={() => navigate("/forum")}
+              >
+                <MessageCircle className="h-5 w-5 mx-auto mb-1.5 text-secondary" />
+                <h3 className="font-semibold text-xs">Community</h3>
+                <p className="text-[10px] text-muted-foreground">Share & connect</p>
               </Card>
-
-              <Card className="p-6 text-center shadow-medium">
-                <div className="inline-flex items-center justify-center p-3 bg-accent/10 rounded-xl mb-4">
-                  <Users className="h-6 w-6 text-accent" />
-                </div>
-                <h3 className="font-semibold mb-2">Connect with Help</h3>
-                <p className="text-sm text-muted-foreground">
-                  Access verified resources and trained support volunteers
-                </p>
+              
+              <Card 
+                className="p-3 min-w-[120px] text-center cursor-pointer hover:shadow-lg transition-all hover:border-accent flex-shrink-0"
+                onClick={() => navigate("/messages")}
+              >
+                <Users className="h-5 w-5 mx-auto mb-1.5 text-accent" />
+                <h3 className="font-semibold text-xs">Messages</h3>
+                <p className="text-[10px] text-muted-foreground">Safe chats</p>
+              </Card>
+              
+              <Card 
+                className="p-3 min-w-[120px] text-center cursor-pointer hover:shadow-lg transition-all hover:border-green-500 flex-shrink-0"
+                onClick={() => navigate("/learn")}
+              >
+                <BookOpen className="h-5 w-5 mx-auto mb-1.5 text-green-500" />
+                <h3 className="font-semibold text-xs">Learn</h3>
+                <p className="text-[10px] text-muted-foreground">Safety tips</p>
               </Card>
             </div>
+            <ScrollBar orientation="horizontal" />
+          </ScrollArea>
+        </div>
 
-            <h3 className="text-2xl font-semibold text-center mb-6">Emergency Resources</h3>
+        {/* Main Content Area based on Section */}
+        {activeSection === "resources" && (
+          <div className="space-y-6 animate-in fade-in duration-300">
+            <div className="flex items-center gap-2 mb-4">
+              <Phone className="h-5 w-5 text-destructive" />
+              <h2 className="text-xl font-bold">Emergency Resources</h2>
+            </div>
             
-            <div className="grid md:grid-cols-2 gap-6">
+            {/* Emergency Resources Content */}
+            <div className="grid md:grid-cols-2 gap-4">
               {/* Kenya Resources */}
-              <Card className="p-6 shadow-medium hover:shadow-strong transition-smooth border-[hsl(140,60%,35%)]/30">
-                <div className="flex items-start gap-4">
-                  <div className="p-3 bg-[hsl(140,60%,35%)]/10 rounded-xl">
-                    <MapPin className="h-6 w-6 text-[hsl(140,60%,35%)]" />
+              <Card className="p-4 md:p-6 shadow-sm hover:shadow-md transition-smooth border-[hsl(140,60%,35%)]/30">
+                <div className="flex items-start gap-3 md:gap-4">
+                  <div className="p-2 md:p-3 bg-[hsl(140,60%,35%)]/10 rounded-xl flex-shrink-0">
+                    <MapPin className="h-5 w-5 md:h-6 md:w-6 text-[hsl(140,60%,35%)]" />
                   </div>
-                  <div>
-                    <h4 className="font-semibold mb-2 flex items-center gap-2">
+                  <div className="min-w-0">
+                    <h4 className="font-semibold mb-1 md:mb-2 flex items-center gap-2 text-sm md:text-base">
                       Kenya Resources
-                      <span className="text-xs bg-[hsl(140,60%,35%)]/20 px-2 py-1 rounded">🇰🇪</span>
+                      <span className="text-xs bg-[hsl(140,60%,35%)]/20 px-2 py-0.5 rounded">🇰🇪</span>
                     </h4>
-                    <p className="text-sm text-muted-foreground mb-3">
+                    <p className="text-xs md:text-sm text-muted-foreground mb-2 md:mb-3">
                       24/7 support services in Kenya
                     </p>
-                    <div className="space-y-2 text-sm">
+                    <div className="space-y-2 text-xs md:text-sm">
                       <div>
                         <strong>Gender Violence Recovery Centre:</strong>
                         <p className="text-primary">+254 709 400 200</p>
                       </div>
                       <div>
-                        <strong>COVAW (Coalition on Violence Against Women):</strong>
+                        <strong>COVAW:</strong>
                         <p className="text-primary">+254 800 720 553</p>
                       </div>
                       <div>
@@ -187,18 +175,18 @@ const Support = () => {
                 </div>
               </Card>
 
-              {/* General Crisis Resources */}
-              <Card className="p-6 shadow-medium hover:shadow-strong transition-smooth">
-                <div className="flex items-start gap-4">
-                  <div className="p-3 bg-destructive/10 rounded-xl">
-                    <Phone className="h-6 w-6 text-destructive" />
+              {/* Crisis Lines */}
+              <Card className="p-4 md:p-6 shadow-sm hover:shadow-md transition-smooth">
+                <div className="flex items-start gap-3 md:gap-4">
+                  <div className="p-2 md:p-3 bg-destructive/10 rounded-xl flex-shrink-0">
+                    <Phone className="h-5 w-5 md:h-6 md:w-6 text-destructive" />
                   </div>
-                  <div>
-                    <h4 className="font-semibold mb-2">International Crisis Lines</h4>
-                    <p className="text-sm text-muted-foreground mb-3">
+                  <div className="min-w-0">
+                    <h4 className="font-semibold mb-1 md:mb-2 text-sm md:text-base">International Crisis Lines</h4>
+                    <p className="text-xs md:text-sm text-muted-foreground mb-2 md:mb-3">
                       24/7 support for immediate help
                     </p>
-                    <div className="space-y-2 text-sm">
+                    <div className="space-y-2 text-xs md:text-sm">
                       <div>
                         <strong>Emergency Services:</strong>
                         <p className="text-primary">112 or 999 (Kenya)</p>
@@ -212,20 +200,20 @@ const Support = () => {
                 </div>
               </Card>
 
-              {/* Mental Health Support */}
-              <Card className="p-6 shadow-medium hover:shadow-strong transition-smooth">
-                <div className="flex items-start gap-4">
-                  <div className="p-3 bg-accent/10 rounded-xl">
-                    <Heart className="h-6 w-6 text-accent" />
+              {/* Mental Health */}
+              <Card className="p-4 md:p-6 shadow-sm hover:shadow-md transition-smooth">
+                <div className="flex items-start gap-3 md:gap-4">
+                  <div className="p-2 md:p-3 bg-accent/10 rounded-xl flex-shrink-0">
+                    <Heart className="h-5 w-5 md:h-6 md:w-6 text-accent" />
                   </div>
-                  <div>
-                    <h4 className="font-semibold mb-2">Mental Health Support</h4>
-                    <p className="text-sm text-muted-foreground mb-3">
+                  <div className="min-w-0">
+                    <h4 className="font-semibold mb-1 md:mb-2 text-sm md:text-base">Mental Health Support</h4>
+                    <p className="text-xs md:text-sm text-muted-foreground mb-2 md:mb-3">
                       Professional counseling services
                     </p>
-                    <div className="space-y-2 text-sm">
+                    <div className="space-y-2 text-xs md:text-sm">
                       <div>
-                        <strong>Kenya Red Cross Counseling:</strong>
+                        <strong>Kenya Red Cross:</strong>
                         <p className="text-primary">1199</p>
                       </div>
                       <div>
@@ -238,19 +226,19 @@ const Support = () => {
               </Card>
 
               {/* Legal Aid */}
-              <Card className="p-6 shadow-medium hover:shadow-strong transition-smooth">
-                <div className="flex items-start gap-4">
-                  <div className="p-3 bg-[hsl(45,100%,50%)]/20 rounded-xl">
-                    <FileText className="h-6 w-6 text-[hsl(45,100%,50%)]" />
+              <Card className="p-4 md:p-6 shadow-sm hover:shadow-md transition-smooth">
+                <div className="flex items-start gap-3 md:gap-4">
+                  <div className="p-2 md:p-3 bg-[hsl(45,100%,50%)]/20 rounded-xl flex-shrink-0">
+                    <FileText className="h-5 w-5 md:h-6 md:w-6 text-[hsl(45,100%,50%)]" />
                   </div>
-                  <div>
-                    <h4 className="font-semibold mb-2">Legal Aid & Support</h4>
-                    <p className="text-sm text-muted-foreground mb-3">
-                      Free legal assistance and guidance
+                  <div className="min-w-0">
+                    <h4 className="font-semibold mb-1 md:mb-2 text-sm md:text-base">Legal Aid & Support</h4>
+                    <p className="text-xs md:text-sm text-muted-foreground mb-2 md:mb-3">
+                      Free legal assistance
                     </p>
-                    <div className="space-y-2 text-sm">
+                    <div className="space-y-2 text-xs md:text-sm">
                       <div>
-                        <strong>National Legal Aid Service (Kenya):</strong>
+                        <strong>National Legal Aid (Kenya):</strong>
                         <p className="text-primary">+254 800 720 152</p>
                       </div>
                       <div>
@@ -263,108 +251,273 @@ const Support = () => {
               </Card>
             </div>
 
-            <Card className="p-6 bg-muted/50 border-2 border-primary/20">
-              <div className="flex items-start gap-4">
-                <Shield className="h-6 w-6 text-primary flex-shrink-0 mt-1" />
+            {/* Safety Notice */}
+            <Card className="p-4 bg-muted/50 border-2 border-primary/20">
+              <div className="flex items-start gap-3">
+                <Shield className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
                 <div>
-                  <h4 className="font-semibold mb-2">Your Safety Is Our Priority</h4>
-                  <p className="text-sm text-muted-foreground">
-                    All resources listed are verified organizations operating in Africa. If you're in immediate danger, 
-                    please call emergency services (112 in Kenya, 999 in many African countries) or your local emergency number.
-                    We respect and honor the diverse cultures and communities across our continent.
+                  <h4 className="font-semibold text-sm mb-1">Your Safety Is Our Priority</h4>
+                  <p className="text-xs md:text-sm text-muted-foreground">
+                    All resources are verified organizations in Africa. If in immediate danger, call 112 (Kenya) or your local emergency number.
                   </p>
                 </div>
               </div>
             </Card>
-          </TabsContent>
 
-          <TabsContent value="safety-plan">
-            {user ? (
-              <SafetyPlanCreator />
-            ) : (
-              <Card className="p-12 text-center">
-                <AlertTriangle className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
-                <h3 className="text-xl font-semibold mb-2">Sign In Required</h3>
-                <p className="text-muted-foreground mb-4">
-                  Please sign in to create and save your personal safety plan. Your plan will be encrypted and only accessible to you.
-                </p>
-                <Button onClick={() => navigate("/auth")}>Sign In to Continue</Button>
-              </Card>
-            )}
-          </TabsContent>
+            {/* View More Button */}
+            <div className="text-center pt-2">
+              <Button 
+                variant="outline" 
+                onClick={() => setActiveTab("directory")}
+                className="gap-2"
+              >
+                <Building className="h-4 w-4" />
+                View Full Resource Directory
+              </Button>
+            </div>
+          </div>
+        )}
 
-          <TabsContent value="ai-support">
-            <Card className="p-8 text-center">
-              <Bot className="h-16 w-16 mx-auto mb-4 text-accent" />
-              <h3 className="text-2xl font-semibold mb-4">HERA AI Support Assistant</h3>
-              <p className="text-muted-foreground mb-6 max-w-xl mx-auto">
-                HERA is here to listen and support you. Chat confidentially about your situation, 
-                get information about resources, or simply talk to someone who understands.
-              </p>
-              <div className="grid md:grid-cols-3 gap-4 mb-6">
-                <Card className="p-4">
-                  <Shield className="h-6 w-6 mx-auto mb-2 text-primary" />
-                  <h4 className="font-semibold text-sm">Confidential</h4>
-                  <p className="text-xs text-muted-foreground">Your conversations stay private</p>
-                </Card>
-                <Card className="p-4">
-                  <Heart className="h-6 w-6 mx-auto mb-2 text-accent" />
-                  <h4 className="font-semibold text-sm">Trauma-Informed</h4>
-                  <p className="text-xs text-muted-foreground">Trained to be supportive</p>
-                </Card>
-                <Card className="p-4">
-                  <Globe className="h-6 w-6 mx-auto mb-2 text-secondary" />
-                  <h4 className="font-semibold text-sm">African Context</h4>
-                  <p className="text-xs text-muted-foreground">Understands local resources</p>
-                </Card>
-              </div>
-              <p className="text-sm text-muted-foreground">
-                Click the chat button in the bottom right corner to start talking to HERA.
-              </p>
-            </Card>
-          </TabsContent>
-
-          {/* New Tab Contents */}
-          <TabsContent value="report">
-            <IncidentReportForm />
-          </TabsContent>
-
-          <TabsContent value="contacts">
-            {user ? (
-              <TrustedContacts />
-            ) : (
-              <Card className="p-12 text-center">
-                <UserCheck className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
-                <h3 className="text-xl font-semibold mb-2">Sign In Required</h3>
-                <p className="text-muted-foreground mb-4">
-                  Please sign in to add and manage your trusted contacts.
-                </p>
-                <Button onClick={() => navigate("/auth")}>Sign In to Continue</Button>
-              </Card>
-            )}
-          </TabsContent>
-
-          <TabsContent value="risk">
-            <Card className="p-6">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="p-2 bg-orange-500/10 rounded-lg">
-                  <AlertCircle className="h-6 w-6 text-orange-500" />
+        {activeSection === "tools" && (
+          <div className="space-y-6 animate-in fade-in duration-300">
+            <div className="flex items-center gap-2 mb-4">
+              <Shield className="h-5 w-5 text-primary" />
+              <h2 className="text-xl font-bold">Safety Tools</h2>
+            </div>
+            
+            {/* Tool Selection Cards */}
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              <Card 
+                className={`p-4 cursor-pointer transition-all hover:shadow-md ${
+                  activeTab === "report" ? 'ring-2 ring-destructive' : ''
+                }`}
+                onClick={() => setActiveTab("report")}
+              >
+                <div className="flex flex-col items-center text-center">
+                  <div className="p-3 bg-destructive/10 rounded-xl mb-3">
+                    <ClipboardList className="h-6 w-6 text-destructive" />
+                  </div>
+                  <h3 className="font-semibold text-sm mb-1">Report Incident</h3>
+                  <p className="text-xs text-muted-foreground">Document incidents safely</p>
                 </div>
-                <div>
-                  <h3 className="font-semibold text-lg">Safety Risk Assessment</h3>
-                  <p className="text-sm text-muted-foreground">
-                    Answer a few questions to help understand your situation
+              </Card>
+
+              <Card 
+                className={`p-4 cursor-pointer transition-all hover:shadow-md ${
+                  activeTab === "risk" ? 'ring-2 ring-orange-500' : ''
+                }`}
+                onClick={() => setActiveTab("risk")}
+              >
+                <div className="flex flex-col items-center text-center">
+                  <div className="p-3 bg-orange-500/10 rounded-xl mb-3">
+                    <AlertCircle className="h-6 w-6 text-orange-500" />
+                  </div>
+                  <h3 className="font-semibold text-sm mb-1">Risk Assessment</h3>
+                  <p className="text-xs text-muted-foreground">Check your safety level</p>
+                </div>
+              </Card>
+
+              <Card 
+                className={`p-4 cursor-pointer transition-all hover:shadow-md ${
+                  activeTab === "safety-plan" ? 'ring-2 ring-green-500' : ''
+                }`}
+                onClick={() => setActiveTab("safety-plan")}
+              >
+                <div className="flex flex-col items-center text-center">
+                  <div className="p-3 bg-green-500/10 rounded-xl mb-3">
+                    <FileText className="h-6 w-6 text-green-500" />
+                  </div>
+                  <h3 className="font-semibold text-sm mb-1">Safety Plan</h3>
+                  <p className="text-xs text-muted-foreground">Create your safety plan</p>
+                </div>
+              </Card>
+
+              <Card 
+                className={`p-4 cursor-pointer transition-all hover:shadow-md ${
+                  activeTab === "contacts" ? 'ring-2 ring-blue-500' : ''
+                }`}
+                onClick={() => setActiveTab("contacts")}
+              >
+                <div className="flex flex-col items-center text-center">
+                  <div className="p-3 bg-blue-500/10 rounded-xl mb-3">
+                    <UserCheck className="h-6 w-6 text-blue-500" />
+                  </div>
+                  <h3 className="font-semibold text-sm mb-1">Trusted Contacts</h3>
+                  <p className="text-xs text-muted-foreground">Manage your contacts</p>
+                </div>
+              </Card>
+            </div>
+
+            {/* Tool Content Area */}
+            <Card className="p-4 md:p-6">
+              <Tabs value={activeTab} onValueChange={setActiveTab}>
+                <ScrollArea className="w-full">
+                  <TabsList className="inline-flex w-auto min-w-full md:w-full mb-4">
+                    <TabsTrigger value="report" className="flex-1 min-w-[100px]">Report</TabsTrigger>
+                    <TabsTrigger value="risk" className="flex-1 min-w-[100px]">Risk Check</TabsTrigger>
+                    <TabsTrigger value="safety-plan" className="flex-1 min-w-[100px]">Safety Plan</TabsTrigger>
+                    <TabsTrigger value="contacts" className="flex-1 min-w-[100px]">Contacts</TabsTrigger>
+                  </TabsList>
+                  <ScrollBar orientation="horizontal" />
+                </ScrollArea>
+
+                <TabsContent value="report">
+                  <IncidentReportForm />
+                </TabsContent>
+
+                <TabsContent value="risk">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="p-2 bg-orange-500/10 rounded-lg">
+                      <AlertCircle className="h-5 w-5 text-orange-500" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-base">Safety Risk Assessment</h3>
+                      <p className="text-xs text-muted-foreground">
+                        Answer a few questions to understand your situation
+                      </p>
+                    </div>
+                  </div>
+                  <RiskAssessment />
+                </TabsContent>
+
+                <TabsContent value="safety-plan">
+                  {user ? (
+                    <SafetyPlanCreator />
+                  ) : (
+                    <div className="text-center py-8">
+                      <AlertTriangle className="h-10 w-10 mx-auto mb-3 text-muted-foreground" />
+                      <h3 className="text-lg font-semibold mb-2">Sign In Required</h3>
+                      <p className="text-sm text-muted-foreground mb-4">
+                        Sign in to create and save your personal safety plan.
+                      </p>
+                      <Button onClick={() => navigate("/auth")}>Sign In to Continue</Button>
+                    </div>
+                  )}
+                </TabsContent>
+
+                <TabsContent value="contacts">
+                  {user ? (
+                    <TrustedContacts />
+                  ) : (
+                    <div className="text-center py-8">
+                      <UserCheck className="h-10 w-10 mx-auto mb-3 text-muted-foreground" />
+                      <h3 className="text-lg font-semibold mb-2">Sign In Required</h3>
+                      <p className="text-sm text-muted-foreground mb-4">
+                        Sign in to add and manage your trusted contacts.
+                      </p>
+                      <Button onClick={() => navigate("/auth")}>Sign In to Continue</Button>
+                    </div>
+                  )}
+                </TabsContent>
+              </Tabs>
+            </Card>
+          </div>
+        )}
+
+        {activeSection === "connect" && (
+          <div className="space-y-6 animate-in fade-in duration-300">
+            <div className="flex items-center gap-2 mb-4">
+              <Heart className="h-5 w-5 text-accent" />
+              <h2 className="text-xl font-bold">Get Help & Support</h2>
+            </div>
+
+            {/* Support Options */}
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {/* AI Support */}
+              <Card className="p-4 md:p-6 hover:shadow-md transition-all">
+                <div className="text-center">
+                  <div className="p-3 bg-accent/10 rounded-xl inline-flex mb-3">
+                    <Bot className="h-6 w-6 text-accent" />
+                  </div>
+                  <h3 className="font-semibold text-sm md:text-base mb-2">AI Support Assistant</h3>
+                  <p className="text-xs md:text-sm text-muted-foreground mb-4">
+                    Chat confidentially with HERA, our AI assistant trained to support survivors.
+                  </p>
+                  <div className="flex flex-wrap justify-center gap-2 mb-4">
+                    <span className="text-xs bg-primary/10 px-2 py-1 rounded">Confidential</span>
+                    <span className="text-xs bg-accent/10 px-2 py-1 rounded">24/7 Available</span>
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    Click the chat button in the bottom right corner to start.
                   </p>
                 </div>
-              </div>
-              <RiskAssessment />
-            </Card>
-          </TabsContent>
+              </Card>
 
-          <TabsContent value="directory">
-            <ResourceDirectory />
-          </TabsContent>
-        </Tabs>
+              {/* Resource Directory */}
+              <Card 
+                className="p-4 md:p-6 hover:shadow-md transition-all cursor-pointer"
+                onClick={() => setActiveTab("directory")}
+              >
+                <div className="text-center">
+                  <div className="p-3 bg-green-500/10 rounded-xl inline-flex mb-3">
+                    <Building className="h-6 w-6 text-green-500" />
+                  </div>
+                  <h3 className="font-semibold text-sm md:text-base mb-2">Resource Directory</h3>
+                  <p className="text-xs md:text-sm text-muted-foreground mb-4">
+                    Find verified shelters, legal aid, counseling, and more services near you.
+                  </p>
+                  <Button variant="outline" size="sm" className="gap-1">
+                    Browse Directory <ChevronRight className="h-3 w-3" />
+                  </Button>
+                </div>
+              </Card>
+
+              {/* Community Support */}
+              <Card 
+                className="p-4 md:p-6 hover:shadow-md transition-all cursor-pointer sm:col-span-2 lg:col-span-1"
+                onClick={() => navigate("/forum")}
+              >
+                <div className="text-center">
+                  <div className="p-3 bg-secondary/10 rounded-xl inline-flex mb-3">
+                    <MessageCircle className="h-6 w-6 text-secondary" />
+                  </div>
+                  <h3 className="font-semibold text-sm md:text-base mb-2">Community Support</h3>
+                  <p className="text-xs md:text-sm text-muted-foreground mb-4">
+                    Connect with others who understand. Share anonymously and find peer support.
+                  </p>
+                  <Button variant="outline" size="sm" className="gap-1">
+                    Join Community <ChevronRight className="h-3 w-3" />
+                  </Button>
+                </div>
+              </Card>
+            </div>
+
+            {/* Resource Directory Content */}
+            {activeTab === "directory" && (
+              <Card className="p-4 md:p-6 mt-4">
+                <ResourceDirectory />
+              </Card>
+            )}
+
+            {/* What We Offer */}
+            <Card className="p-4 md:p-6 bg-muted/30">
+              <h3 className="font-semibold text-base mb-4 text-center">What We Offer</h3>
+              <div className="grid grid-cols-3 gap-4 text-center">
+                <div>
+                  <div className="p-2 bg-primary/10 rounded-lg inline-flex mb-2">
+                    <Lock className="h-4 w-4 text-primary" />
+                  </div>
+                  <p className="text-xs font-medium">Encrypted Storage</p>
+                  <p className="text-[10px] text-muted-foreground">Military-grade security</p>
+                </div>
+                <div>
+                  <div className="p-2 bg-secondary/10 rounded-lg inline-flex mb-2">
+                    <FileText className="h-4 w-4 text-secondary" />
+                  </div>
+                  <p className="text-xs font-medium">Digital Reports</p>
+                  <p className="text-[10px] text-muted-foreground">For legal purposes</p>
+                </div>
+                <div>
+                  <div className="p-2 bg-accent/10 rounded-lg inline-flex mb-2">
+                    <Users className="h-4 w-4 text-accent" />
+                  </div>
+                  <p className="text-xs font-medium">Connect with Help</p>
+                  <p className="text-[10px] text-muted-foreground">Verified resources</p>
+                </div>
+              </div>
+            </Card>
+          </div>
+        )}
       </main>
 
       {/* AI Chat Assistant - Support Context */}
