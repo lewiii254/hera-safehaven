@@ -71,6 +71,9 @@ To provide accessible, secure, and culturally-aware digital tools that empower w
 
 ## 📸 App Screenshots
 <img width="1356" height="616" alt="image" src="https://github.com/user-attachments/assets/b9f6f277-1e47-457c-8957-61c07122fa5f" />
+<img width="1366" height="730" alt="image" src="https://github.com/user-attachments/assets/571360ee-c8be-4d3a-b45e-48ac49c4b737" />
+<img width="1352" height="730" alt="image" src="https://github.com/user-attachments/assets/919c309e-78bc-41c5-8cf4-063d5b11d10c" />
+
 
 ### 🏠 Homepage - Your Digital Safety Companion
 
