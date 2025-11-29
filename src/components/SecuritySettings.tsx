@@ -57,20 +57,21 @@ const SecuritySettingsComponent = () => {
   const loadSettings = async () => {
     if (!user) return;
 
-    const { data, error } = await supabase
-      .from("user_security_settings")
+    const { data } = await supabase
+      .from("user_security_settings" as any)
       .select("*")
       .eq("user_id", user.id)
       .maybeSingle();
 
     if (data) {
+      const settingsData = data as any;
       setSettings({
-        auto_logout_minutes: data.auto_logout_minutes || 30,
-        two_factor_enabled: data.two_factor_enabled || false,
-        login_notifications: data.login_notifications ?? true,
-        hide_activity: data.hide_activity || false,
-        browser_privacy_mode: data.browser_privacy_mode || false,
-        data_encryption: data.data_encryption ?? true,
+        auto_logout_minutes: settingsData.auto_logout_minutes || 30,
+        two_factor_enabled: settingsData.two_factor_enabled || false,
+        login_notifications: settingsData.login_notifications ?? true,
+        hide_activity: settingsData.hide_activity || false,
+        browser_privacy_mode: settingsData.browser_privacy_mode || false,
+        data_encryption: settingsData.data_encryption ?? true,
       });
     }
   };
@@ -78,15 +79,15 @@ const SecuritySettingsComponent = () => {
   const loadLoginHistory = async () => {
     if (!user) return;
 
-    const { data, error } = await supabase
-      .from("login_history")
+    const { data } = await supabase
+      .from("login_history" as any)
       .select("*")
       .eq("user_id", user.id)
       .order("login_time", { ascending: false })
       .limit(10);
 
     if (data) {
-      setLoginHistory(data);
+      setLoginHistory(data as unknown as LoginHistory[]);
     }
   };
 
@@ -96,7 +97,7 @@ const SecuritySettingsComponent = () => {
     setLoading(true);
     try {
       const { error } = await supabase
-        .from("user_security_settings")
+        .from("user_security_settings" as any)
         .upsert({
           user_id: user.id,
           ...settings,
@@ -119,7 +120,7 @@ const SecuritySettingsComponent = () => {
 
     try {
       await supabase
-        .from("login_history")
+        .from("login_history" as any)
         .delete()
         .eq("user_id", user?.id);
 

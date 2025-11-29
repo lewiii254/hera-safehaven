@@ -85,7 +85,7 @@ const IncidentReportForm = () => {
 
     setLoading(true);
     try {
-      const { error } = await supabase.from("incident_reports").insert({
+      const { error } = await supabase.from("incident_reports" as any).insert({
         user_id: report.is_anonymous ? null : user?.id,
         incident_type: report.incident_type,
         description: report.description,
