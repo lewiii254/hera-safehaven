@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Shield, Menu, X, BookOpen, AlertCircle, Heart, Lock, LogOut, User, MessageCircle, Mail, Settings, ChevronDown, Users } from "lucide-react";
+import { AlertCircle, BookOpen, ChevronDown, Heart, Lock, LogOut, Mail, Menu, MessageCircle, Settings, Shield, User, Users, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
 import {
@@ -11,6 +11,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+
+// Number of primary nav items to show on tablet before "More" menu
+const TABLET_VISIBLE_NAV_ITEMS = 3;
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -53,7 +56,10 @@ const Navigation = () => {
             </span>
           </Link>
 
-          {/* Desktop Navigation */}
+          {/* 
+            Desktop Navigation (lg+): Full navigation with dropdowns
+            Uses lg breakpoint (1024px+) to ensure enough space for all nav items with dropdowns
+          */}
           <div className="hidden lg:flex items-center gap-1">
             {/* Primary Navigation */}
             {primaryNavItems.map((item) => {
@@ -153,9 +159,12 @@ const Navigation = () => {
             )}
           </div>
 
-          {/* Tablet Navigation (md to lg) */}
+          {/* 
+            Tablet Navigation (md to lg): Condensed nav with "More" dropdown
+            Shows first few primary items directly, rest in dropdown
+          */}
           <div className="hidden md:flex lg:hidden items-center gap-1">
-            {primaryNavItems.slice(0, 3).map((item) => {
+            {primaryNavItems.slice(0, TABLET_VISIBLE_NAV_ITEMS).map((item) => {
               const Icon = item.icon;
               return (
                 <Link key={item.path} to={item.path}>
