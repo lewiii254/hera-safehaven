@@ -43,7 +43,7 @@ const TrustedContacts = () => {
     if (!user) return;
 
     const { data, error } = await supabase
-      .from("trusted_contacts")
+      .from("trusted_contacts" as any)
       .select("*")
       .eq("user_id", user.id)
       .order("created_at", { ascending: false });
@@ -51,7 +51,7 @@ const TrustedContacts = () => {
     if (error) {
       console.error("Error loading contacts:", error);
     } else {
-      setContacts(data || []);
+      setContacts((data as unknown as TrustedContact[]) || []);
     }
   };
 
@@ -68,7 +68,7 @@ const TrustedContacts = () => {
 
     setLoading(true);
     try {
-      const { error } = await supabase.from("trusted_contacts").insert({
+      const { error } = await supabase.from("trusted_contacts" as any).insert({
         user_id: user.id,
         name: newContact.name,
         phone: newContact.phone,
@@ -104,7 +104,7 @@ const TrustedContacts = () => {
 
     try {
       const { error } = await supabase
-        .from("trusted_contacts")
+        .from("trusted_contacts" as any)
         .delete()
         .eq("id", contactId);
 
@@ -146,7 +146,7 @@ const TrustedContacts = () => {
 
     // Log the emergency alert
     try {
-      await supabase.from("emergency_alerts").insert({
+      await supabase.from("emergency_alerts" as any).insert({
         user_id: user?.id,
         alert_type: "manual",
         location: locationText,

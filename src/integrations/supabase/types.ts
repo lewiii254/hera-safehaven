@@ -68,6 +68,36 @@ export type Database = {
         }
         Relationships: []
       }
+      emergency_alerts: {
+        Row: {
+          alert_type: string
+          contacts_notified: Json | null
+          created_at: string | null
+          id: string
+          location: string | null
+          message: string | null
+          user_id: string | null
+        }
+        Insert: {
+          alert_type: string
+          contacts_notified?: Json | null
+          created_at?: string | null
+          id?: string
+          location?: string | null
+          message?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          alert_type?: string
+          contacts_notified?: Json | null
+          created_at?: string | null
+          id?: string
+          location?: string | null
+          message?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       evidence_files: {
         Row: {
           created_at: string
@@ -226,6 +256,66 @@ export type Database = {
           },
         ]
       }
+      incident_reports: {
+        Row: {
+          created_at: string | null
+          date_of_incident: string | null
+          description: string
+          id: string
+          incident_type: string
+          injuries_sustained: boolean | null
+          injury_description: string | null
+          is_anonymous: boolean | null
+          location: string | null
+          perpetrator_known: boolean | null
+          perpetrator_relationship: string | null
+          reported_to_authorities: boolean | null
+          status: string | null
+          time_of_incident: string | null
+          updated_at: string | null
+          user_id: string | null
+          witnesses_present: boolean | null
+        }
+        Insert: {
+          created_at?: string | null
+          date_of_incident?: string | null
+          description: string
+          id?: string
+          incident_type: string
+          injuries_sustained?: boolean | null
+          injury_description?: string | null
+          is_anonymous?: boolean | null
+          location?: string | null
+          perpetrator_known?: boolean | null
+          perpetrator_relationship?: string | null
+          reported_to_authorities?: boolean | null
+          status?: string | null
+          time_of_incident?: string | null
+          updated_at?: string | null
+          user_id?: string | null
+          witnesses_present?: boolean | null
+        }
+        Update: {
+          created_at?: string | null
+          date_of_incident?: string | null
+          description?: string
+          id?: string
+          incident_type?: string
+          injuries_sustained?: boolean | null
+          injury_description?: string | null
+          is_anonymous?: boolean | null
+          location?: string | null
+          perpetrator_known?: boolean | null
+          perpetrator_relationship?: string | null
+          reported_to_authorities?: boolean | null
+          status?: string | null
+          time_of_incident?: string | null
+          updated_at?: string | null
+          user_id?: string | null
+          witnesses_present?: boolean | null
+        }
+        Relationships: []
+      }
       lesson_progress: {
         Row: {
           completed: boolean | null
@@ -249,6 +339,39 @@ export type Database = {
           created_at?: string
           id?: string
           lesson_id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      login_history: {
+        Row: {
+          created_at: string | null
+          device_info: string | null
+          id: string
+          ip_address: string | null
+          location: string | null
+          login_time: string | null
+          success: boolean | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          device_info?: string | null
+          id?: string
+          ip_address?: string | null
+          location?: string | null
+          login_time?: string | null
+          success?: boolean | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          device_info?: string | null
+          id?: string
+          ip_address?: string | null
+          location?: string | null
+          login_time?: string | null
+          success?: boolean | null
           user_id?: string
         }
         Relationships: []
@@ -417,6 +540,45 @@ export type Database = {
         }
         Relationships: []
       }
+      trusted_contacts: {
+        Row: {
+          created_at: string | null
+          email: string | null
+          id: string
+          name: string
+          notify_on_emergency: boolean | null
+          phone: string
+          relationship: string | null
+          share_location: boolean | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          email?: string | null
+          id?: string
+          name: string
+          notify_on_emergency?: boolean | null
+          phone: string
+          relationship?: string | null
+          share_location?: boolean | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          email?: string | null
+          id?: string
+          name?: string
+          notify_on_emergency?: boolean | null
+          phone?: string
+          relationship?: string | null
+          share_location?: boolean | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       user_badges: {
         Row: {
           badge_name: string
@@ -485,6 +647,45 @@ export type Database = {
           created_at?: string
           id?: string
           role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_security_settings: {
+        Row: {
+          auto_logout_minutes: number | null
+          browser_privacy_mode: boolean | null
+          created_at: string | null
+          data_encryption: boolean | null
+          hide_activity: boolean | null
+          id: string
+          login_notifications: boolean | null
+          two_factor_enabled: boolean | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          auto_logout_minutes?: number | null
+          browser_privacy_mode?: boolean | null
+          created_at?: string | null
+          data_encryption?: boolean | null
+          hide_activity?: boolean | null
+          id?: string
+          login_notifications?: boolean | null
+          two_factor_enabled?: boolean | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          auto_logout_minutes?: number | null
+          browser_privacy_mode?: boolean | null
+          created_at?: string | null
+          data_encryption?: boolean | null
+          hide_activity?: boolean | null
+          id?: string
+          login_notifications?: boolean | null
+          two_factor_enabled?: boolean | null
+          updated_at?: string | null
           user_id?: string
         }
         Relationships: []
