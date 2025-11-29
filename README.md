@@ -1,4 +1,4 @@
-# 🛡️ HERA SafeSpace
+# 🛡️ HERA SafeSpace ![Hera Safehaven Views](https://visitor-badge.laobi.icu/badge?page_id=lewiii254.hera-safehaven&left_color=blueviolet&right_color=black)
 
 <div align="center">
 
