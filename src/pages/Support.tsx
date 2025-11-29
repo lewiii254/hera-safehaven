@@ -16,13 +16,26 @@ import { MobileSupportNav } from "@/components/support/MobileSupportNav";
 import { EmergencyResourcesSection } from "@/components/support/EmergencyResourcesSection";
 import { AISupportSection } from "@/components/support/AISupportSection";
 import { LanguageSelector } from "@/components/LanguageSelector";
+import { FloatingActionMenu } from "@/components/FloatingActionMenu";
+import { DecoyScreen } from "@/components/DecoyScreen";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { toast } from "sonner";
 
 const Support = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("resources");
+  const [isChatOpen, setIsChatOpen] = useState(false);
+  const [showDecoy, setShowDecoy] = useState(false);
   const { t, dir } = useLanguage();
+
+  const handleSOSActivate = () => {
+    toast.warning("SOS Mode Activated!", {
+      description: "Showing decoy screen. Tap anywhere to return.",
+      duration: 3000,
+    });
+    setShowDecoy(true);
+  };
 
   const renderContent = () => {
     switch (activeTab) {
@@ -82,11 +95,15 @@ const Support = () => {
     }
   };
 
+  if (showDecoy) {
+    return <DecoyScreen onExit={() => setShowDecoy(false)} />;
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-muted/20" dir={dir}>
       <Navigation />
       
-      <main className="container mx-auto px-4 pt-20 pb-12">
+      <main className="container mx-auto px-4 pt-20 pb-24">
         {/* Language Selector */}
         <div className="flex justify-end mb-4">
           <LanguageSelector />
@@ -139,8 +156,19 @@ const Support = () => {
         </div>
       </main>
 
+      {/* Floating Action Menu */}
+      <FloatingActionMenu 
+        onSOSActivate={handleSOSActivate}
+        onChatOpen={() => setIsChatOpen(true)}
+        chatContext="support"
+      />
+
       {/* AI Chat Assistant */}
-      <AIChatAssistant context="support" />
+      <AIChatAssistant 
+        context="support" 
+        isOpen={isChatOpen}
+        onClose={() => setIsChatOpen(false)}
+      />
     </div>
   );
 };
