@@ -1,5 +1,6 @@
 import { Heart, FileText, Users, Phone, Shield, ClipboardList, AlertCircle, Building, Bot, Lock, MessageCircle, BookOpen } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface SupportSidebarProps {
   activeTab: string;
@@ -7,63 +8,67 @@ interface SupportSidebarProps {
   className?: string;
 }
 
-const menuItems = [
+const getMenuItems = (t: (key: string) => string) => [
   {
     id: "resources",
-    label: "Emergency Resources",
+    label: t("sidebar.emergency_resources"),
     icon: Phone,
-    description: "Crisis lines & help"
+    description: t("sidebar.crisis_help")
   },
   {
     id: "report",
-    label: "Report Incident",
+    label: t("sidebar.report_incident"),
     icon: ClipboardList,
-    description: "Document safely"
+    description: t("sidebar.document_safely")
   },
   {
     id: "contacts",
-    label: "Trusted Contacts",
+    label: t("sidebar.trusted_contacts"),
     icon: Users,
-    description: "Your safe people"
+    description: t("sidebar.safe_people")
   },
   {
     id: "risk",
-    label: "Risk Assessment",
+    label: t("sidebar.risk_assessment"),
     icon: AlertCircle,
-    description: "Check your safety"
+    description: t("sidebar.check_safety")
   },
   {
     id: "directory",
-    label: "Resource Directory",
+    label: t("sidebar.resource_directory"),
     icon: Building,
-    description: "Find local help"
+    description: t("sidebar.find_help")
   },
   {
     id: "safety-plan",
-    label: "Safety Plan",
+    label: t("sidebar.safety_plan"),
     icon: Shield,
-    description: "Your escape plan"
+    description: t("sidebar.escape_plan")
   },
   {
     id: "ai-support",
-    label: "HERA AI Support",
+    label: t("sidebar.ai_support"),
     icon: Bot,
-    description: "Chat with HERA"
+    description: t("sidebar.chat_hera")
   }
 ];
 
-const quickLinks = [
-  { icon: Lock, label: "Evidence Locker", path: "/evidence" },
-  { icon: MessageCircle, label: "Community Forum", path: "/forum" },
-  { icon: BookOpen, label: "Learn Safety", path: "/learn" }
+const getQuickLinks = (t: (key: string) => string) => [
+  { icon: Lock, label: t("sidebar.evidence_locker"), path: "/evidence" },
+  { icon: MessageCircle, label: t("sidebar.community_forum"), path: "/forum" },
+  { icon: BookOpen, label: t("sidebar.learn_safety"), path: "/learn" }
 ];
 
 export const SupportSidebar = ({ activeTab, onTabChange, className }: SupportSidebarProps) => {
+  const { t, dir } = useLanguage();
+  const menuItems = getMenuItems(t);
+  const quickLinks = getQuickLinks(t);
+
   return (
-    <div className={cn("space-y-6", className)}>
+    <div className={cn("space-y-6", className)} dir={dir}>
       {/* Main Navigation */}
       <div className="space-y-1">
-        <h3 className="text-sm font-semibold text-muted-foreground px-3 mb-3">Support Tools</h3>
+        <h3 className="text-sm font-semibold text-muted-foreground px-3 mb-3">{t("sidebar.support_tools")}</h3>
         {menuItems.map((item) => {
           const Icon = item.icon;
           const isActive = activeTab === item.id;
@@ -73,8 +78,9 @@ export const SupportSidebar = ({ activeTab, onTabChange, className }: SupportSid
               onClick={() => onTabChange(item.id)}
               className={cn(
                 "w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left transition-all",
+                dir === "rtl" && "text-right",
                 isActive
-                  ? "bg-primary/10 text-primary border-l-4 border-primary"
+                  ? "bg-primary/10 text-primary border-l-4 border-primary rtl:border-l-0 rtl:border-r-4"
                   : "hover:bg-muted text-foreground hover:text-primary"
               )}
             >
@@ -90,7 +96,7 @@ export const SupportSidebar = ({ activeTab, onTabChange, className }: SupportSid
 
       {/* Quick Links */}
       <div className="border-t pt-4">
-        <h3 className="text-sm font-semibold text-muted-foreground px-3 mb-3">Quick Access</h3>
+        <h3 className="text-sm font-semibold text-muted-foreground px-3 mb-3">{t("sidebar.quick_access")}</h3>
         <div className="space-y-1">
           {quickLinks.map((link) => {
             const Icon = link.icon;
@@ -111,4 +117,4 @@ export const SupportSidebar = ({ activeTab, onTabChange, className }: SupportSid
   );
 };
 
-export { menuItems };
+export { getMenuItems };

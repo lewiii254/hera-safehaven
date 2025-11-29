@@ -71,65 +71,83 @@ To provide accessible, secure, and culturally-aware digital tools that empower w
 
 ## 📸 App Screenshots
 
-### 🏠 Homepage - Your Digital Safety Companion
-<div align="center">
-<img src="https://github.com/user-attachments/assets/ccabb35c-25b3-4fa3-803b-985ebaa6dbc1" alt="HERA SafeSpace Homepage" width="100%">
-</div>
+> **📌 Screenshot Update Guide:** These screenshots represent the current UI. To capture fresh screenshots from your deployed app, visit each page and take a screenshot, then upload to GitHub Issues to get shareable URLs.
 
-> **Note:** Screenshot may show an earlier version. Current homepage features: Clean navigation with organized menu structure, four key statistics (AI Detection, 24/7 Support, Confidentiality, Africa-Focused), three pillars of protection, testimonials, and SOS emergency feature.
+### 🏠 Homepage - Your Digital Safety Companion
+
+**Current Features:**
+- Clean navigation bar with Home, Learn, AI Detector, Support, Community dropdown
+- Hero section with "HERA SafeSpace" branding and tagline
+- Call-to-action buttons: "Start Learning" and "Explore AI Protection"
+- Four key statistics cards: AI Powered Detection, 24/7 Safe Support, 100% Confidential, Africa-Focused
+- Three Pillars of Protection section with cards for AI Detector, Support Portal, and Literacy Hub
+- SOS emergency button (bottom right corner)
+- HERA AI chat assistant button
 
 ### 🤖 AI Digital Violence Detector
-<div align="center">
-<img src="https://github.com/user-attachments/assets/bfefdf8f-022f-41d8-a1dd-d91767f211aa" alt="AI Detector Page" width="100%">
-</div>
 
-Real-time AI protection featuring:
-- Dual-mode interface: "Detect Toxicity" and "Safe Rewrite" tabs
-- Instant text analysis for toxicity, threats, and harassment
-- Smart alerts with real-time detection indicators
-- Safe rewrite suggestions for potentially harmful content
-- Example buttons for quick testing (Threat, Harassment, Safe)
-- Detection of cyberbullying, threats, hate speech, and more
+**Current Features:**
+- Header with shield icon and "AI Digital Violence Detector" title
+- Three feature cards: Real-Time Detection, Smart Alerts, Safe Rewrite
+- Dual-mode tabs: "Detect Toxicity" and "Safe Rewrite"
+- Text input area for analysis
+- Example buttons: Threat, Harassment, Safe
+- "Analyze Text" button with send icon
+- "How It Works" and "What We Detect" sections below
+- Detection categories: Cyberbullying, Threats, Hate speech, and more
 
-### 💜 Survivor Support Portal
-<div align="center">
-<img src="https://github.com/user-attachments/assets/b4408d7f-272e-4888-a354-fa373d02a019" alt="Support Portal" width="100%">
-</div>
+### 💜 Survivor Support Portal (Multi-Language)
 
-> **Updated:** Now features an organized sidebar navigation with all support tools (Emergency Resources, Report Incident, Trusted Contacts, Risk Assessment, Resource Directory, Safety Plan, HERA AI Support) and Quick Access links. Mobile-responsive with sheet navigation.
+**Current Features:**
+- **Language Selector**: Switch between English 🇬🇧, Kiswahili 🇰🇪, Français 🇫🇷, and العربية 🇸🇦
+- **Organized Sidebar Navigation** (desktop):
+  - Support Tools: Emergency Resources, Report Incident, Trusted Contacts, Risk Assessment, Resource Directory, Safety Plan, HERA AI Support
+  - Quick Access: Evidence Locker, Community Forum, Learn Safety
+- **Mobile Navigation**: Sheet-based drawer that opens from dropdown button
+- **African Context Banner**: "Supporting Communities Across Africa"
+- **Emergency Resources Grid**: Kenya Resources 🇰🇪, International Crisis Lines, Mental Health Support, Legal Aid
+- **RTL Support**: Full right-to-left layout for Arabic language
 
 ### 💬 Community Forum
-<div align="center">
-<img src="https://github.com/user-attachments/assets/539b3d0f-09b5-4e2b-9dbd-92d570cef5a4" alt="Community Forum" width="100%">
-</div>
 
-Safe community space with:
-- Anonymous posting options for privacy
-- Supportive peer-to-peer connections
+**Current Features:**
+- Header with "Community Forum" title and "New Post" button
+- Subtitle: "Share experiences and support each other in a safe space"
+- "All Posts" section listing forum posts
+- Post detail panel: "Select a post to view details and comments"
+- Anonymous posting options
 - AI-moderated content for safety
-- Reaction and engagement system
 
 ### 🧭 Organized Navigation
-<div align="center">
-<img src="https://github.com/user-attachments/assets/6c094c32-ebaf-4179-8daf-cc4b16705b30" alt="Organized Navigation" width="100%">
-</div>
 
-Clean, intuitive navigation featuring:
-- **Primary Navigation**: Quick access to Home, Learn, AI Detector, and Support
-- **Community Dropdown**: Easy access to Forum and Private Messages
-- **Account Menu**: Profile, Evidence Locker, and Settings in one place
-- Streamlined interface that reduces overwhelm for users
+**Desktop Navigation:**
+- Logo: HERA SafeSpace (with shield icon)
+- Main links: Home, Learn, AI Detector, Support
+- Community dropdown: Forum, Private Messages
+- Account button: Login/Profile access
 
-### 📱 Mobile-Friendly Navigation
-<div align="center">
-<img src="https://github.com/user-attachments/assets/4498a73d-9f72-45aa-9039-4e16d4db40fb" alt="Mobile Navigation" width="50%">
-</div>
+**Mobile Navigation:**
+- Hamburger menu opening organized sections
+- Main, Community, and Account categories
+- Clear visual hierarchy with icons
 
-Mobile-optimized experience with:
-- Organized sections (Main, Community, Account)
-- Clear visual hierarchy
-- Easy-to-tap buttons
-- Responsive design for all screen sizes
+### 📚 Learning Hub
+
+**Current Features:**
+- Progress tracking with lesson completion
+- 9 comprehensive digital safety lessons
+- Interactive quizzes with instant feedback
+- Achievement badges system
+- Quick tips and resources tabs
+
+### 🔐 Authentication
+
+**Current Features:**
+- Clean login/signup interface
+- HERA SafeSpace branding
+- Email and password fields
+- Toggle between Login and Sign Up modes
+- "Your digital safety companion" tagline
 
 ---
 
@@ -149,6 +167,7 @@ Mobile-optimized experience with:
 | 💜 **Survivor-Centered Design** | Designed with and for survivors | Designed by developers alone |
 | 🤝 **Community Support** | Anonymous forum with AI moderation | No community features |
 | 📞 **Local Emergency Contacts** | Verified Kenya and Africa emergency numbers | International numbers only |
+| 🌍 **Multi-Language Support** | English, Swahili, French, Arabic with RTL support | English only |
 
 ### Key Benefits
 
@@ -160,10 +179,17 @@ Mobile-optimized experience with:
 6. **Evidence Documentation**: Securely store evidence for legal or support purposes
 7. **Real-Time Protection**: AI monitors and warns about threatening content
 8. **Quick Exit**: SOS button provides instant escape with decoy calculator screen
+9. **Multi-Language**: Support for English, Swahili, French, and Arabic (with RTL)
 
 ---
 
 ## ✨ Features
+
+### 🌍 Multi-Language Support (NEW)
+- **4 Languages**: English 🇬🇧, Kiswahili 🇰🇪, Français 🇫🇷, العربية 🇸🇦
+- **RTL Support**: Full right-to-left layout for Arabic language
+- **Persistent Selection**: Language preference saved locally
+- **Support Portal**: All support tools fully translated
 
 ### 🤖 AI-Powered Detection
 - **Real-time toxicity analysis** using advanced AI models

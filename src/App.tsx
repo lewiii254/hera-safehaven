@@ -19,6 +19,7 @@ import { useState } from "react";
 import { DecoyScreen } from "./components/DecoyScreen";
 import { SOSButton } from "./components/SOSButton";
 import OfflineIndicator from "./components/OfflineIndicator";
+import { LanguageProvider } from "./contexts/LanguageContext";
 
 const queryClient = new QueryClient();
 
@@ -27,6 +28,7 @@ const App = () => {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <LanguageProvider>
       <TooltipProvider>
         <Toaster />
         <Sonner />
@@ -50,6 +52,7 @@ const App = () => {
           <SOSButton onActivate={() => setSosActive(true)} />
         </BrowserRouter>
       </TooltipProvider>
+      </LanguageProvider>
     </QueryClientProvider>
   );
 };
