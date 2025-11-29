@@ -136,9 +136,7 @@ To provide accessible, secure, and culturally-aware digital tools that empower w
 - Hamburger menu opening organized sections
 - Main, Community, and Account categories
 - Clear visual hierarchy with icons
-<img width="540" height="1170" alt="image" src="https://github.com/user-attachments/assets/09d4dcd6-4090-42d3-a484-5b470435ba97" />
-<img width="540" height="1170" alt="image" src="https://github.com/user-attachments/assets/f6ce5ae6-75c5-4f32-b1bb-8130506c371b" />
-<img width="540" height="1170" alt="image" src="https://github.com/user-attachments/assets/54734059-3775-4d26-a5c1-05eb2a696de4" />
+
 
 ### 📚 Learning Hub
 
@@ -785,3 +783,15 @@ HERA SafeSpace directly contributes to the United Nations Sustainable Developmen
 [⬆ Back to Top](#️-hera-safespace)
 
 </div>
+
+## Screenshots 
+
+<img width="1355" height="724" alt="image" src="https://github.com/user-attachments/assets/07f3c43b-1ba9-4c43-bc85-fa15ff217be8" />
+
+<img width="1358" height="730" alt="image" src="https://github.com/user-attachments/assets/cf62c35c-50b4-4bfc-aebe-62f73b115024" />
+
+<img width="1366" height="619" alt="image" src="https://github.com/user-attachments/assets/0792ad1c-580d-4859-b4e7-aadbae68d105" />
+
+<img width="540" height="1170" alt="image" src="https://github.com/user-attachments/assets/09d4dcd6-4090-42d3-a484-5b470435ba97" />
+<img width="540" height="1170" alt="image" src="https://github.com/user-attachments/assets/f6ce5ae6-75c5-4f32-b1bb-8130506c371b" />
+<img width="540" height="1170" alt="image" src="https://github.com/user-attachments/assets/54734059-3775-4d26-a5c1-05eb2a696de4" />
