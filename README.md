@@ -276,6 +276,10 @@ To provide accessible, secure, and culturally-aware digital tools that empower w
 - **Activity tracking** over time
 - **Secure admin-only access** via `/admin` URL
 
+ <img width="1361" height="735" alt="image" src="https://github.com/user-attachments/assets/e90d516a-976b-4fb4-9a1a-96cd82ce2479" />
+<img width="1352" height="725" alt="image" src="https://github.com/user-attachments/assets/f2103e7a-c7f9-4c9d-88d9-bbbe2b691c91" />
+
+
 ### 📊 Reporting Dashboard (Admin)
 - **Platform activity charts** showing posts, evidence, and user trends
 - **Content moderation pie charts** by category
