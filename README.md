@@ -51,6 +51,8 @@
 ### 🌍 The Problem We are Solving
 
 **Gender-Based Violence (GBV) Statistics in Africa:**
+**About Gender-Based Violence (GBV)**
+Gender-Based Violence refers to harmful acts directed at an individual based on their gender. It includes physical, emotional, sexual, and economic abuse, and remains one of the most widespread human rights violations globally. GBV affects people of all genders, but disproportionately impacts women and girls. Raising awareness, promoting prevention, and supporting survivors are essential steps toward building safer and more equitable communities.
 - 1 in 3 women worldwide experience physical or sexual violence
 - In Kenya, 45% of women aged 15-49 have experienced physical violence
 - Only 40% of women who experience violence seek help
