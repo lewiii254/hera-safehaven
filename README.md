@@ -70,8 +70,7 @@ To provide accessible, secure, and culturally-aware digital tools that empower w
 ---
 
 ## 📸 App Screenshots
-
-> **📌 Screenshot Update Guide:** These screenshots represent the current UI. To capture fresh screenshots from your deployed app, visit each page and take a screenshot, then upload to GitHub Issues to get shareable URLs.
+<img width="1356" height="616" alt="image" src="https://github.com/user-attachments/assets/b9f6f277-1e47-457c-8957-61c07122fa5f" />
 
 ### 🏠 Homepage - Your Digital Safety Companion
 
