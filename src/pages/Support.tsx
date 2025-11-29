@@ -15,11 +15,14 @@ import { SupportSidebar } from "@/components/support/SupportSidebar";
 import { MobileSupportNav } from "@/components/support/MobileSupportNav";
 import { EmergencyResourcesSection } from "@/components/support/EmergencyResourcesSection";
 import { AISupportSection } from "@/components/support/AISupportSection";
+import { LanguageSelector } from "@/components/LanguageSelector";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const Support = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("resources");
+  const { t, dir } = useLanguage();
 
   const renderContent = () => {
     switch (activeTab) {
@@ -31,26 +34,26 @@ const Support = () => {
         return user ? (
           <TrustedContacts />
         ) : (
-          <Card className="p-8 md:p-12 text-center">
+          <Card className="p-8 md:p-12 text-center" dir={dir}>
             <UserCheck className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
-            <h3 className="text-lg font-semibold mb-2">Sign In Required</h3>
+            <h3 className="text-lg font-semibold mb-2">{t("auth.required")}</h3>
             <p className="text-muted-foreground mb-4 text-sm">
-              Please sign in to add and manage your trusted contacts.
+              {t("auth.contacts_message")}
             </p>
-            <Button onClick={() => navigate("/auth")}>Sign In to Continue</Button>
+            <Button onClick={() => navigate("/auth")}>{t("auth.signin")}</Button>
           </Card>
         );
       case "risk":
         return (
-          <Card className="p-4 md:p-6">
+          <Card className="p-4 md:p-6" dir={dir}>
             <div className="flex items-center gap-3 mb-6">
               <div className="p-2 bg-orange-500/10 rounded-lg">
                 <AlertCircle className="h-5 w-5 text-orange-500" />
               </div>
               <div>
-                <h3 className="font-semibold">Safety Risk Assessment</h3>
+                <h3 className="font-semibold">{t("risk.title")}</h3>
                 <p className="text-sm text-muted-foreground">
-                  Answer questions to understand your situation
+                  {t("risk.description")}
                 </p>
               </div>
             </div>
@@ -63,13 +66,13 @@ const Support = () => {
         return user ? (
           <SafetyPlanCreator />
         ) : (
-          <Card className="p-8 md:p-12 text-center">
+          <Card className="p-8 md:p-12 text-center" dir={dir}>
             <AlertTriangle className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
-            <h3 className="text-lg font-semibold mb-2">Sign In Required</h3>
+            <h3 className="text-lg font-semibold mb-2">{t("auth.required")}</h3>
             <p className="text-muted-foreground mb-4 text-sm">
-              Please sign in to create and save your personal safety plan.
+              {t("auth.safety_message")}
             </p>
-            <Button onClick={() => navigate("/auth")}>Sign In to Continue</Button>
+            <Button onClick={() => navigate("/auth")}>{t("auth.signin")}</Button>
           </Card>
         );
       case "ai-support":
@@ -80,20 +83,25 @@ const Support = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background to-muted/20">
+    <div className="min-h-screen bg-gradient-to-b from-background to-muted/20" dir={dir}>
       <Navigation />
       
       <main className="container mx-auto px-4 pt-20 pb-12">
+        {/* Language Selector */}
+        <div className="flex justify-end mb-4">
+          <LanguageSelector />
+        </div>
+
         {/* Header - Compact on mobile */}
         <div className="text-center mb-6 md:mb-8 animate-in fade-in slide-in-from-bottom duration-700">
           <div className="inline-flex items-center justify-center p-2 md:p-3 bg-accent/10 rounded-xl mb-3">
             <Heart className="h-6 w-6 md:h-8 md:w-8 text-accent" />
           </div>
           <h1 className="text-2xl md:text-4xl font-bold mb-2">
-            Survivor Support <span className="text-accent">Portal</span>
+            {t("support.title")} <span className="text-accent">{t("support.portal")}</span>
           </h1>
           <p className="text-sm md:text-base text-muted-foreground max-w-xl mx-auto">
-            A safe, confidential space for survivors. Access resources, create safety plans, and connect with support.
+            {t("support.description")}
           </p>
         </div>
 
@@ -104,9 +112,9 @@ const Support = () => {
               <Globe className="h-5 w-5 text-[hsl(45,100%,50%)]" />
             </div>
             <div className="min-w-0">
-              <h3 className="font-semibold text-sm">Supporting Communities Across Africa</h3>
+              <h3 className="font-semibold text-sm">{t("support.africa_banner")}</h3>
               <p className="text-xs text-muted-foreground hidden sm:block">
-                Built with understanding of African contexts, cultures, and community values.
+                {t("support.africa_description")}
               </p>
             </div>
           </div>
