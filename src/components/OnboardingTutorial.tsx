@@ -223,7 +223,10 @@ export const OnboardingTutorial = ({ isOpen, onClose, onComplete }: OnboardingTu
 // Hook to manage onboarding state
 export const useOnboarding = () => {
   const [showOnboarding, setShowOnboarding] = useState(false);
-  const [hasCompletedOnboarding, setHasCompletedOnboarding] = useState(true);
+  const [hasCompletedOnboarding, setHasCompletedOnboarding] = useState(() => {
+    // Initialize from localStorage to prevent flash
+    return localStorage.getItem(ONBOARDING_STORAGE_KEY) === "true";
+  });
 
   useEffect(() => {
     const completed = localStorage.getItem(ONBOARDING_STORAGE_KEY);
