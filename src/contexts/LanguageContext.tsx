@@ -110,6 +110,57 @@ const translations: Record<Language, Record<string, string>> = {
     "language.swahili": "Kiswahili",
     "language.french": "Français",
     "language.arabic": "العربية",
+    
+    // Onboarding Tutorial
+    "onboarding.step": "Step",
+    "onboarding.of": "of",
+    "onboarding.skip": "Skip Tutorial",
+    "onboarding.previous": "Previous",
+    "onboarding.next": "Next",
+    "onboarding.getStarted": "Get Started",
+    "onboarding.startTutorial": "Take a Tour",
+    
+    // Welcome Step
+    "onboarding.welcome.title": "Welcome to HERA SafeSpace",
+    "onboarding.welcome.description": "Your digital safety companion, designed to empower and protect women and girls across Africa.",
+    "onboarding.welcome.feature1": "100% confidential and encrypted",
+    "onboarding.welcome.feature2": "Built with survivor-centered design",
+    "onboarding.welcome.feature3": "Africa-focused resources and support",
+    
+    // AI Protection Step
+    "onboarding.ai.title": "AI-Powered Protection",
+    "onboarding.ai.description": "Our intelligent AI system helps keep you safe online with real-time content analysis.",
+    "onboarding.ai.feature1": "Detect toxic messages and threats instantly",
+    "onboarding.ai.feature2": "Get smart alerts about harmful content",
+    "onboarding.ai.feature3": "Rewrite aggressive messages safely",
+    
+    // Support Step
+    "onboarding.support.title": "Survivor Support Portal",
+    "onboarding.support.description": "Access comprehensive resources and connect with verified support services.",
+    "onboarding.support.feature1": "Emergency crisis lines and hotlines",
+    "onboarding.support.feature2": "Secure incident reporting tools",
+    "onboarding.support.feature3": "Trusted contacts management",
+    
+    // Safety Tools Step
+    "onboarding.safety.title": "Safety Planning Tools",
+    "onboarding.safety.description": "Create personalized safety plans and securely store important evidence.",
+    "onboarding.safety.feature1": "Evidence locker with military-grade encryption",
+    "onboarding.safety.feature2": "Risk assessment questionnaire",
+    "onboarding.safety.feature3": "Local resource directory",
+    
+    // Learning Step
+    "onboarding.learning.title": "Digital Literacy Hub",
+    "onboarding.learning.description": "Learn digital safety skills through interactive lessons and earn badges.",
+    "onboarding.learning.feature1": "9 comprehensive safety lessons",
+    "onboarding.learning.feature2": "Quizzes to reinforce learning",
+    "onboarding.learning.feature3": "Achievement badges system",
+    
+    // Community Step
+    "onboarding.community.title": "Safe Community",
+    "onboarding.community.description": "Connect with others in a supportive, AI-moderated community forum.",
+    "onboarding.community.feature1": "Anonymous posting options",
+    "onboarding.community.feature2": "Private encrypted messaging",
+    "onboarding.community.feature3": "Supportive peer network",
   },
   sw: {
     // Support Page - Swahili
@@ -184,6 +235,51 @@ const translations: Record<Language, Record<string, string>> = {
     "language.swahili": "Kiswahili",
     "language.french": "Français",
     "language.arabic": "العربية",
+    
+    // Onboarding Tutorial - Swahili
+    "onboarding.step": "Hatua",
+    "onboarding.of": "ya",
+    "onboarding.skip": "Ruka Mwongozo",
+    "onboarding.previous": "Nyuma",
+    "onboarding.next": "Mbele",
+    "onboarding.getStarted": "Anza Sasa",
+    "onboarding.startTutorial": "Tembelea",
+    
+    "onboarding.welcome.title": "Karibu HERA SafeSpace",
+    "onboarding.welcome.description": "Mwenzako wa usalama wa kidijitali, aliyebuniwa kuwezesha na kulinda wanawake na wasichana kote Afrika.",
+    "onboarding.welcome.feature1": "100% siri na iliyosimbwa",
+    "onboarding.welcome.feature2": "Imebuniwa kwa kuzingatia walionusurika",
+    "onboarding.welcome.feature3": "Rasilimali zinazolenga Afrika",
+    
+    "onboarding.ai.title": "Ulinzi wa AI",
+    "onboarding.ai.description": "Mfumo wetu wa akili bandia husaidia kukuweka salama mtandaoni na uchambuzi wa wakati halisi.",
+    "onboarding.ai.feature1": "Gundua ujumbe wenye sumu na vitisho papo hapo",
+    "onboarding.ai.feature2": "Pata tahadhari za akili kuhusu maudhui hatari",
+    "onboarding.ai.feature3": "Andika upya ujumbe wa uchokozi kwa usalama",
+    
+    "onboarding.support.title": "Lango la Msaada kwa Walionusurika",
+    "onboarding.support.description": "Pata rasilimali za kina na uunganishwe na huduma za msaada zilizothibitishwa.",
+    "onboarding.support.feature1": "Simu za dharura za msaada",
+    "onboarding.support.feature2": "Zana salama za kuripoti matukio",
+    "onboarding.support.feature3": "Usimamizi wa mawasiliano yanayoaminika",
+    
+    "onboarding.safety.title": "Zana za Kupanga Usalama",
+    "onboarding.safety.description": "Unda mipango ya usalama binafsi na uhifadhi ushahidi muhimu kwa usalama.",
+    "onboarding.safety.feature1": "Hifadhi ya ushahidi na usimbaji wa kijeshi",
+    "onboarding.safety.feature2": "Dodoso la tathmini ya hatari",
+    "onboarding.safety.feature3": "Orodha ya rasilimali za karibu",
+    
+    "onboarding.learning.title": "Kituo cha Ujuzi wa Kidijitali",
+    "onboarding.learning.description": "Jifunze ujuzi wa usalama wa kidijitali kupitia masomo shirikishi na upate beji.",
+    "onboarding.learning.feature1": "Masomo 9 ya kina ya usalama",
+    "onboarding.learning.feature2": "Maswali ya kuimarisha ujifunzaji",
+    "onboarding.learning.feature3": "Mfumo wa beji za mafanikio",
+    
+    "onboarding.community.title": "Jamii Salama",
+    "onboarding.community.description": "Ungana na wengine katika jukwaa la jamii linalosimamiwa na AI.",
+    "onboarding.community.feature1": "Chaguo za kuchapisha bila jina",
+    "onboarding.community.feature2": "Ujumbe wa faragha uliosimbwa",
+    "onboarding.community.feature3": "Mtandao wa wenzako wa kusaidia",
   },
   fr: {
     // Support Page - French
@@ -258,6 +354,51 @@ const translations: Record<Language, Record<string, string>> = {
     "language.swahili": "Kiswahili",
     "language.french": "Français",
     "language.arabic": "العربية",
+    
+    // Onboarding Tutorial - French
+    "onboarding.step": "Étape",
+    "onboarding.of": "sur",
+    "onboarding.skip": "Passer le Tutoriel",
+    "onboarding.previous": "Précédent",
+    "onboarding.next": "Suivant",
+    "onboarding.getStarted": "Commencer",
+    "onboarding.startTutorial": "Faire le Tour",
+    
+    "onboarding.welcome.title": "Bienvenue sur HERA SafeSpace",
+    "onboarding.welcome.description": "Votre compagnon de sécurité numérique, conçu pour autonomiser et protéger les femmes et les filles à travers l'Afrique.",
+    "onboarding.welcome.feature1": "100% confidentiel et crypté",
+    "onboarding.welcome.feature2": "Conception centrée sur les survivantes",
+    "onboarding.welcome.feature3": "Ressources et soutien axés sur l'Afrique",
+    
+    "onboarding.ai.title": "Protection Alimentée par l'IA",
+    "onboarding.ai.description": "Notre système IA intelligent vous protège en ligne avec une analyse de contenu en temps réel.",
+    "onboarding.ai.feature1": "Détectez instantanément les messages toxiques et les menaces",
+    "onboarding.ai.feature2": "Recevez des alertes intelligentes sur le contenu nuisible",
+    "onboarding.ai.feature3": "Réécrivez les messages agressifs en toute sécurité",
+    
+    "onboarding.support.title": "Portail de Soutien aux Survivantes",
+    "onboarding.support.description": "Accédez à des ressources complètes et connectez-vous à des services de soutien vérifiés.",
+    "onboarding.support.feature1": "Lignes de crise d'urgence",
+    "onboarding.support.feature2": "Outils de signalement d'incidents sécurisés",
+    "onboarding.support.feature3": "Gestion des contacts de confiance",
+    
+    "onboarding.safety.title": "Outils de Planification de Sécurité",
+    "onboarding.safety.description": "Créez des plans de sécurité personnalisés et stockez les preuves importantes en toute sécurité.",
+    "onboarding.safety.feature1": "Coffre de preuves avec cryptage militaire",
+    "onboarding.safety.feature2": "Questionnaire d'évaluation des risques",
+    "onboarding.safety.feature3": "Répertoire des ressources locales",
+    
+    "onboarding.learning.title": "Centre d'Alphabétisation Numérique",
+    "onboarding.learning.description": "Apprenez les compétences de sécurité numérique à travers des leçons interactives et gagnez des badges.",
+    "onboarding.learning.feature1": "9 leçons complètes sur la sécurité",
+    "onboarding.learning.feature2": "Quiz pour renforcer l'apprentissage",
+    "onboarding.learning.feature3": "Système de badges de réussite",
+    
+    "onboarding.community.title": "Communauté Sûre",
+    "onboarding.community.description": "Connectez-vous avec d'autres dans un forum communautaire modéré par IA.",
+    "onboarding.community.feature1": "Options de publication anonyme",
+    "onboarding.community.feature2": "Messagerie privée cryptée",
+    "onboarding.community.feature3": "Réseau de soutien entre pairs",
   },
   ar: {
     // Support Page - Arabic
@@ -332,6 +473,51 @@ const translations: Record<Language, Record<string, string>> = {
     "language.swahili": "Kiswahili",
     "language.french": "Français",
     "language.arabic": "العربية",
+    
+    // Onboarding Tutorial - Arabic
+    "onboarding.step": "الخطوة",
+    "onboarding.of": "من",
+    "onboarding.skip": "تخطي الجولة",
+    "onboarding.previous": "السابق",
+    "onboarding.next": "التالي",
+    "onboarding.getStarted": "ابدأ الآن",
+    "onboarding.startTutorial": "قم بجولة",
+    
+    "onboarding.welcome.title": "مرحباً بك في HERA SafeSpace",
+    "onboarding.welcome.description": "رفيقك في السلامة الرقمية، مصمم لتمكين وحماية النساء والفتيات في جميع أنحاء أفريقيا.",
+    "onboarding.welcome.feature1": "100% سري ومشفر",
+    "onboarding.welcome.feature2": "تصميم يركز على الناجيات",
+    "onboarding.welcome.feature3": "موارد ودعم يركز على أفريقيا",
+    
+    "onboarding.ai.title": "حماية مدعومة بالذكاء الاصطناعي",
+    "onboarding.ai.description": "يساعدك نظام الذكاء الاصطناعي الذكي على البقاء آمنة عبر الإنترنت مع تحليل المحتوى في الوقت الفعلي.",
+    "onboarding.ai.feature1": "اكتشف الرسائل السامة والتهديدات فوراً",
+    "onboarding.ai.feature2": "احصل على تنبيهات ذكية حول المحتوى الضار",
+    "onboarding.ai.feature3": "أعد كتابة الرسائل العدوانية بأمان",
+    
+    "onboarding.support.title": "بوابة دعم الناجيات",
+    "onboarding.support.description": "الوصول إلى موارد شاملة والتواصل مع خدمات الدعم الموثقة.",
+    "onboarding.support.feature1": "خطوط الأزمات والطوارئ",
+    "onboarding.support.feature2": "أدوات آمنة للإبلاغ عن الحوادث",
+    "onboarding.support.feature3": "إدارة جهات الاتصال الموثوقة",
+    
+    "onboarding.safety.title": "أدوات تخطيط السلامة",
+    "onboarding.safety.description": "أنشئ خطط سلامة شخصية وخزن الأدلة المهمة بشكل آمن.",
+    "onboarding.safety.feature1": "خزنة أدلة بتشفير عسكري",
+    "onboarding.safety.feature2": "استبيان تقييم المخاطر",
+    "onboarding.safety.feature3": "دليل الموارد المحلية",
+    
+    "onboarding.learning.title": "مركز محو الأمية الرقمية",
+    "onboarding.learning.description": "تعلم مهارات السلامة الرقمية من خلال دروس تفاعلية واحصل على شارات.",
+    "onboarding.learning.feature1": "9 دروس شاملة في السلامة",
+    "onboarding.learning.feature2": "اختبارات لتعزيز التعلم",
+    "onboarding.learning.feature3": "نظام شارات الإنجاز",
+    
+    "onboarding.community.title": "مجتمع آمن",
+    "onboarding.community.description": "تواصل مع الآخرين في منتدى مجتمعي يشرف عليه الذكاء الاصطناعي.",
+    "onboarding.community.feature1": "خيارات النشر المجهول",
+    "onboarding.community.feature2": "رسائل خاصة مشفرة",
+    "onboarding.community.feature3": "شبكة دعم الأقران",
   },
 };
 
