@@ -1,11 +1,16 @@
-import { ArrowRight, Shield, Brain, Heart, BookOpen, Sparkles, Lock, Users, MessageSquare, FileCheck, Star, Quote, Globe, Phone, AlertTriangle, ClipboardList, Building, Vibrate } from "lucide-react";
+import { ArrowRight, Shield, Brain, Heart, BookOpen, Sparkles, Lock, Users, MessageSquare, FileCheck, Star, Quote, Globe, Phone, AlertTriangle, ClipboardList, Building, Vibrate, HelpCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import Navigation from "@/components/Navigation";
+import { OnboardingTutorial, useOnboarding } from "@/components/OnboardingTutorial";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const Index = () => {
+  const { showOnboarding, startTutorial, closeTutorial } = useOnboarding();
+  const { t } = useLanguage();
+  
   const testimonials = [
     {
       name: "Sarah M.",
@@ -69,6 +74,17 @@ const Index = () => {
               </Button>
             </Link>
           </div>
+          
+          {/* Take a Tour Button */}
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            className="gap-2 text-muted-foreground hover:text-primary"
+            onClick={startTutorial}
+          >
+            <HelpCircle className="h-4 w-4" />
+            {t("onboarding.startTutorial")}
+          </Button>
         </div>
 
         {/* Stats */}
@@ -411,6 +427,12 @@ const Index = () => {
           </div>
         </div>
       </footer>
+      
+      {/* Onboarding Tutorial */}
+      <OnboardingTutorial 
+        isOpen={showOnboarding} 
+        onClose={closeTutorial}
+      />
     </div>
   );
 };
