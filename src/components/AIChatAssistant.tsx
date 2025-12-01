@@ -1,11 +1,13 @@
-import { useState, useRef, useEffect, forwardRef, useImperativeHandle } from "react";
-import { Send, X, Bot, User, Minimize2, Maximize2 } from "lucide-react";
+import { useState, useRef, useEffect, forwardRef, useImperativeHandle, useCallback } from "react";
+import { Send, X, Bot, User, Minimize2, Maximize2, Mic, MicOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
+import { useVoiceInput } from "@/hooks/useVoiceInput";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface Message {
   role: "user" | "assistant";
@@ -24,8 +26,19 @@ export interface AIChatAssistantRef {
   close: () => void;
 }
 
+const getLanguageCode = (lang: string): string => {
+  const langMap: Record<string, string> = {
+    en: "en-US",
+    sw: "sw-KE",
+    fr: "fr-FR",
+    ar: "ar-SA",
+  };
+  return langMap[lang] || "en-US";
+};
+
 const AIChatAssistant = forwardRef<AIChatAssistantRef, AIChatAssistantProps>(
   ({ context = "general", className, isOpen: controlledOpen, onClose }, ref) => {
+    const { language } = useLanguage();
     const [internalOpen, setInternalOpen] = useState(false);
     const [isMinimized, setIsMinimized] = useState(false);
     const [messages, setMessages] = useState<Message[]>([
@@ -70,6 +83,17 @@ const AIChatAssistant = forwardRef<AIChatAssistantRef, AIChatAssistantProps>(
         scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
       }
     }, [messages]);
+
+    // Voice input handler
+    const handleVoiceTranscript = useCallback((text: string) => {
+      setInput((prev) => prev + (prev ? " " : "") + text);
+      toast.success("Voice captured!");
+    }, []);
+
+    const { isListening, isSupported: isVoiceSupported, toggleListening } = useVoiceInput({
+      onTranscript: handleVoiceTranscript,
+      language: getLanguageCode(language),
+    });
 
     useEffect(() => {
       if (isOpen && inputRef.current) {
@@ -305,13 +329,29 @@ const AIChatAssistant = forwardRef<AIChatAssistantRef, AIChatAssistantProps>(
               <div className="flex gap-2">
                 <Input
                   ref={inputRef}
-                  placeholder="Type a message..."
+                  placeholder={isListening ? "Listening..." : "Type or speak..."}
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={handleKeyDown}
-                  disabled={isLoading}
+                  disabled={isLoading || isListening}
                   className="flex-1"
                 />
+                {isVoiceSupported && (
+                  <Button
+                    onClick={toggleListening}
+                    disabled={isLoading}
+                    size="icon"
+                    variant={isListening ? "destructive" : "outline"}
+                    className={isListening ? "animate-pulse" : ""}
+                    title={isListening ? "Stop listening" : "Start voice input"}
+                  >
+                    {isListening ? (
+                      <MicOff className="h-4 w-4" />
+                    ) : (
+                      <Mic className="h-4 w-4" />
+                    )}
+                  </Button>
+                )}
                 <Button
                   onClick={sendMessage}
                   disabled={!input.trim() || isLoading}
@@ -321,7 +361,10 @@ const AIChatAssistant = forwardRef<AIChatAssistantRef, AIChatAssistantProps>(
                 </Button>
               </div>
               <p className="text-xs text-muted-foreground mt-2 text-center">
-                Confidential • Secure • Here to help
+                {isVoiceSupported 
+                  ? "Confidential • Secure • Voice & Text"
+                  : "Confidential • Secure • Here to help"
+                }
               </p>
             </div>
           </>
