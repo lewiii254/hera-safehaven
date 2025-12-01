@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import Navigation from "@/components/Navigation";
 import { useAuth } from "@/hooks/useAuth";
 import SafetyPlanCreator from "@/components/SafetyPlanCreator";
-import AIChatAssistant from "@/components/AIChatAssistant";
 import IncidentReportForm from "@/components/IncidentReportForm";
 import TrustedContacts from "@/components/TrustedContacts";
 import RiskAssessment from "@/components/RiskAssessment";
@@ -25,7 +24,6 @@ const Support = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("resources");
-  const [isChatOpen, setIsChatOpen] = useState(false);
   const [showDecoy, setShowDecoy] = useState(false);
   const { t, dir } = useLanguage();
 
@@ -159,15 +157,7 @@ const Support = () => {
       {/* Floating Action Menu */}
       <FloatingActionMenu 
         onSOSActivate={handleSOSActivate}
-        onChatOpen={() => setIsChatOpen(true)}
         chatContext="support"
-      />
-
-      {/* AI Chat Assistant */}
-      <AIChatAssistant 
-        context="support" 
-        isOpen={isChatOpen}
-        onClose={() => setIsChatOpen(false)}
       />
     </div>
   );

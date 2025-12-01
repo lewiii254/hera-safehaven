@@ -15,6 +15,7 @@ import Messages from "./pages/Messages";
 import Settings from "./pages/Settings";
 import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
+import HeraChat from "./pages/HeraChat";
 import { useState } from "react";
 import { DecoyScreen } from "./components/DecoyScreen";
 import { SOSButton } from "./components/SOSButton";
@@ -47,6 +48,7 @@ const App = () => {
             <Route path="/settings" element={<Settings />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/hera-chat" element={<HeraChat />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
           <SOSButton onActivate={() => setSosActive(true)} />
