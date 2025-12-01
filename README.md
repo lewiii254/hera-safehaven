@@ -103,6 +103,7 @@ To provide accessible, secure, and culturally-aware digital tools that empower w
 
 **Current Features:**
 - **Language Selector**: Switch between English 🇬🇧, Kiswahili 🇰🇪, Français 🇫🇷, and العربية 🇸🇦
+- **Auto-Detection**: Automatically detects browser language preferences
 - **Organized Sidebar Navigation** (desktop):
   - Support Tools: Emergency Resources, Report Incident, Trusted Contacts, Risk Assessment, Resource Directory, Safety Plan, HERA AI Support
   - Quick Access: Evidence Locker, Community Forum, Learn Safety
@@ -110,6 +111,19 @@ To provide accessible, secure, and culturally-aware digital tools that empower w
 - **African Context Banner**: "Supporting Communities Across Africa"
 - **Emergency Resources Grid**: Kenya Resources 🇰🇪, International Crisis Lines, Mental Health Support, Legal Aid
 - **RTL Support**: Full right-to-left layout for Arabic language
+- **HERA AI Chat**: Intelligent AI companion with voice input support
+
+### 🤖 HERA AI Support Assistant (NEW)
+
+**Current Features:**
+- **AI-Powered Support**: Compassionate AI companion for survivors
+- **Voice Input**: Speak instead of type with Web Speech API
+- **Multi-Language Voice Recognition**: Supports English, Swahili, French, and Arabic
+- **Context-Aware Responses**: Different modes for Support, Detection, and General help
+- **Streaming Responses**: Real-time AI response streaming for natural conversation
+- **Trauma-Informed**: Gentle, non-judgmental responses designed with survivors in mind
+- **Crisis Detection**: Recognizes signs of crisis and directs to emergency services
+- **Confidential**: All conversations are private and secure
 
 <img width="1358" height="731" alt="image" src="https://github.com/user-attachments/assets/a90ad054-eea9-4465-aa25-e978a518aab0" />
 
@@ -192,11 +206,22 @@ To provide accessible, secure, and culturally-aware digital tools that empower w
 
 ## ✨ Features
 
-### 🌍 Multi-Language Support (NEW)
+### 🌍 Multi-Language Support
 - **4 Languages**: English 🇬🇧, Kiswahili 🇰🇪, Français 🇫🇷, العربية 🇸🇦
+- **Auto-Detection**: Automatically detects browser language preferences
 - **RTL Support**: Full right-to-left layout for Arabic language
 - **Persistent Selection**: Language preference saved locally
 - **Support Portal**: All support tools fully translated
+
+### 🤖 HERA AI Support Assistant (NEW)
+- **Intelligent AI Companion**: Compassionate AI assistant trained to support survivors
+- **Voice Input Support**: Speak instead of type using Web Speech API
+- **Multi-Language Recognition**: Voice input supports English, Swahili, French, and Arabic
+- **Context-Aware Modes**: Different personalities for Support, Detection, and General help
+- **Real-Time Streaming**: Natural conversation with streaming AI responses
+- **Trauma-Informed Design**: Gentle, validating responses that never question authenticity
+- **Crisis Recognition**: Detects emergencies and directs to appropriate services
+- **Culturally Sensitive**: Understanding of African contexts and traditions
 
 ### 🤖 AI-Powered Detection
 - **Real-time toxicity analysis** using advanced AI models
