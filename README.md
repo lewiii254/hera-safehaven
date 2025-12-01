@@ -68,6 +68,8 @@ To provide accessible, secure, and culturally-aware digital tools that empower w
 - **Connect** with support networks and verified resources
 - **Support** each other through anonymous community forums
 
+## [Pitch Deck Link](https://www.canva.com/design/DAG6EQuhB7Y/LhR-aOiZ6xXw_ceYiJ6DKg/view?utm_content=DAG6EQuhB7Y&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=heb0aa20ed1)
+## [Deployed Link](https://hera-safehaven.vercel.app)
 ---
 
 ## 📸 App Screenshots
