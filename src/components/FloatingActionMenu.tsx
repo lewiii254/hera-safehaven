@@ -1,21 +1,27 @@
 import { useState, useEffect, useCallback } from "react";
-import { AlertTriangle, Bot, X, Vibrate, Menu } from "lucide-react";
+import { AlertTriangle, Bot, Vibrate } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import { useNavigate } from "react-router-dom";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface FloatingActionMenuProps {
   onSOSActivate: () => void;
-  onChatOpen: () => void;
+  onChatOpen?: () => void;
   chatContext?: "support" | "general" | "detect";
 }
 
 export const FloatingActionMenu = ({ 
   onSOSActivate, 
-  onChatOpen,
   chatContext = "general"
 }: FloatingActionMenuProps) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
   const [pressing, setPressing] = useState(false);
   const [countdown, setCountdown] = useState<number | null>(null);
   const [shakeEnabled, setShakeEnabled] = useState(true);
@@ -133,8 +139,7 @@ export const FloatingActionMenu = ({
     setCountdown(null);
   };
 
-  const toggleShakeMode = (e: React.MouseEvent) => {
-    e.stopPropagation();
+  const toggleShakeMode = () => {
     setShakeEnabled(!shakeEnabled);
     toast.info(shakeEnabled ? "Shake-to-SOS disabled" : "Shake-to-SOS enabled", {
       description: shakeEnabled 
@@ -144,121 +149,108 @@ export const FloatingActionMenu = ({
   };
 
   const handleChatClick = () => {
-    setIsOpen(false);
-    onChatOpen();
+    navigate(`/hera-chat?context=${chatContext}`);
   };
 
   const getContextColor = () => {
     switch (chatContext) {
       case "support":
-        return "bg-accent hover:bg-accent/90";
+        return "bg-accent hover:bg-accent/90 text-accent-foreground";
       case "detect":
-        return "bg-secondary hover:bg-secondary/90";
+        return "bg-secondary hover:bg-secondary/90 text-secondary-foreground";
       default:
-        return "bg-primary hover:bg-primary/90";
+        return "bg-primary hover:bg-primary/90 text-primary-foreground";
     }
   };
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3">
-      {/* Expanded Menu Items */}
-      <div className={cn(
-        "flex flex-col items-end gap-3 transition-all duration-300",
-        isOpen ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"
-      )}>
-        {/* Shake Toggle */}
-        <div className="flex items-center gap-2">
-          <span className="text-xs bg-card/90 backdrop-blur px-2 py-1 rounded shadow-sm text-muted-foreground">
-            Shake SOS
-          </span>
-          <Button
-            variant="outline"
-            size="icon"
-            className={cn(
-              "h-10 w-10 rounded-full shadow-lg",
-              shakeEnabled ? "bg-primary/10 border-primary" : "bg-muted"
-            )}
-            onClick={toggleShakeMode}
-          >
-            <Vibrate className={cn("h-5 w-5", shakeEnabled ? "text-primary" : "text-muted-foreground")} />
-          </Button>
-        </div>
+    <TooltipProvider>
+      <div className="fixed bottom-6 right-6 z-50 flex items-center gap-3">
+        {/* Shake Toggle - Small */}
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              variant="outline"
+              size="icon"
+              className={cn(
+                "h-10 w-10 rounded-full shadow-lg bg-card",
+                shakeEnabled ? "border-primary" : "border-muted"
+              )}
+              onClick={toggleShakeMode}
+            >
+              <Vibrate className={cn("h-4 w-4", shakeEnabled ? "text-primary" : "text-muted-foreground")} />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent side="top">
+            <p>{shakeEnabled ? "Shake SOS: ON" : "Shake SOS: OFF"}</p>
+          </TooltipContent>
+        </Tooltip>
 
-        {/* Chat Button */}
-        <div className="flex items-center gap-2">
-          <span className="text-xs bg-card/90 backdrop-blur px-2 py-1 rounded shadow-sm text-muted-foreground">
-            Chat with HERA
-          </span>
-          <Button
-            size="icon"
-            className={cn(
-              "h-12 w-12 rounded-full shadow-lg text-white",
-              getContextColor()
-            )}
-            onClick={handleChatClick}
-          >
-            <Bot className="h-6 w-6" />
-          </Button>
-        </div>
+        {/* Chat Button - Medium */}
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              size="icon"
+              className={cn(
+                "h-12 w-12 rounded-full shadow-lg",
+                getContextColor()
+              )}
+              onClick={handleChatClick}
+            >
+              <Bot className="h-5 w-5" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent side="top">
+            <p>Chat with HERA AI</p>
+          </TooltipContent>
+        </Tooltip>
 
-        {/* SOS Button */}
-        <div className="flex items-center gap-2">
-          <span className="text-xs bg-card/90 backdrop-blur px-2 py-1 rounded shadow-sm text-destructive font-medium">
-            Emergency SOS
-          </span>
-          <Button
-            variant="destructive"
-            size="icon"
-            className={cn(
-              "h-14 w-14 rounded-full shadow-lg transition-all relative",
-              pressing ? "scale-110 animate-pulse" : "hover:scale-105"
-            )}
-            onMouseDown={handleSOSPressStart}
-            onMouseUp={handleSOSPressEnd}
-            onMouseLeave={handleSOSPressEnd}
-            onTouchStart={handleSOSPressStart}
-            onTouchEnd={handleSOSPressEnd}
-          >
-            {countdown !== null ? (
-              <span className="text-xl font-bold">{countdown}</span>
-            ) : (
-              <AlertTriangle className="h-7 w-7" />
-            )}
-            {pressing && (
-              <svg
-                className="absolute inset-0 w-full h-full -rotate-90"
-                viewBox="0 0 100 100"
-              >
-                <circle
-                  cx="50"
-                  cy="50"
-                  r="45"
-                  fill="none"
-                  stroke="white"
-                  strokeWidth="4"
-                  strokeDasharray="283"
-                  strokeDashoffset={countdown !== null ? (countdown / 2) * 283 : 283}
-                  className="transition-all duration-1000 ease-linear"
-                />
-              </svg>
-            )}
-          </Button>
-        </div>
+        {/* SOS Button - Large */}
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              variant="destructive"
+              size="icon"
+              className={cn(
+                "h-14 w-14 rounded-full shadow-xl transition-all relative",
+                pressing ? "scale-110 animate-pulse" : "hover:scale-105"
+              )}
+              onMouseDown={handleSOSPressStart}
+              onMouseUp={handleSOSPressEnd}
+              onMouseLeave={handleSOSPressEnd}
+              onTouchStart={handleSOSPressStart}
+              onTouchEnd={handleSOSPressEnd}
+            >
+              {countdown !== null ? (
+                <span className="text-xl font-bold">{countdown}</span>
+              ) : (
+                <AlertTriangle className="h-6 w-6" />
+              )}
+              {pressing && (
+                <svg
+                  className="absolute inset-0 w-full h-full -rotate-90"
+                  viewBox="0 0 100 100"
+                >
+                  <circle
+                    cx="50"
+                    cy="50"
+                    r="45"
+                    fill="none"
+                    stroke="white"
+                    strokeWidth="4"
+                    strokeDasharray="283"
+                    strokeDashoffset={countdown !== null ? (countdown / 2) * 283 : 283}
+                    className="transition-all duration-1000 ease-linear"
+                  />
+                </svg>
+              )}
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent side="top">
+            <p>Hold 2s for Emergency SOS</p>
+          </TooltipContent>
+        </Tooltip>
       </div>
-
-      {/* Main FAB Toggle */}
-      <Button
-        size="icon"
-        className={cn(
-          "h-14 w-14 rounded-full shadow-xl transition-all duration-300",
-          isOpen 
-            ? "bg-muted hover:bg-muted/80 text-foreground rotate-45" 
-            : "bg-primary hover:bg-primary/90 text-primary-foreground"
-        )}
-        onClick={() => setIsOpen(!isOpen)}
-      >
-        {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-      </Button>
-    </div>
+    </TooltipProvider>
   );
 };
